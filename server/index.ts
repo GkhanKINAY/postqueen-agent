@@ -289,7 +289,13 @@ async function handleDeviceToken(req: IncomingMessage, res: ServerResponse) {
 
 // --- Server ---
 const server = createServer(async (req, res) => {
-  const url = new URL(req.url || '/', SERVER_URL);
+  let url: URL;
+  try {
+    url = new URL(req.url || '/', SERVER_URL);
+  } catch {
+    json(res, 400, { error: 'invalid_url' });
+    return;
+  }
   const method = req.method?.toUpperCase();
 
   try {
@@ -333,6 +339,13 @@ async function start() {
     console.log(`OAuth callback URL (configure in Postiz): ${SERVER_URL}/device/callback`);
   });
 }
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled rejection:', err);
+});
 
 start().catch((err) => {
   console.error('Failed to start:', err);
