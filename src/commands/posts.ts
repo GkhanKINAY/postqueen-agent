@@ -124,6 +124,7 @@ export async function createPost(args: any) {
     // Build the proper post structure
     postData = {
       type: args.type || 'schedule', // 'schedule' or 'draft'
+      creationMethod: 'CLI',
       date: args.date, // Required date field
       shortLink: args.shortLink !== false,
       tags: [],
