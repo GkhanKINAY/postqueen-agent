@@ -1,9 +1,9 @@
-import { PostizAPI } from '../api';
+import { PostQueenAPI } from '../api';
 import { getConfig } from '../config';
 
 export async function listIntegrations(args: any) {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   try {
     const result = await api.listIntegrations(args?.group);
@@ -18,7 +18,7 @@ export async function listIntegrations(args: any) {
 
 export async function listGroups() {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   try {
     const result = await api.listGroups();
@@ -33,7 +33,7 @@ export async function listGroups() {
 
 export async function getIntegrationSettings(args: any) {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   if (!args.id) {
     console.error('❌ Integration ID is required');
@@ -53,7 +53,7 @@ export async function getIntegrationSettings(args: any) {
 
 export async function triggerIntegrationTool(args: any) {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   if (!args.id) {
     console.error('❌ Integration ID is required');

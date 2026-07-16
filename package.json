@@ -1,17 +1,16 @@
 {
-  "name": "postiz",
+  "name": "postqueen",
   "version": "2.0.15",
-  "description": "Postiz CLI - Command line interface for the Postiz social media scheduling API",
+  "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API (fork of Postiz CLI)",
   "main": "dist/index.js",
   "bin": {
-    "postiz": "./dist/index.js"
+    "postqueen": "./dist/index.js"
   },
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
     "start": "node ./dist/index.js",
-    "prepublishOnly": "pnpm run build",
-    "publish": "tsup && pnpm publish --access public --no-git-checks"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist",
@@ -21,7 +20,7 @@
     "LICENSE"
   ],
   "keywords": [
-    "postiz",
+    "postqueen",
     "cli",
     "social-media",
     "scheduling",
@@ -36,13 +35,13 @@
     "youtube",
     "reddit"
   ],
-  "author": "Nevo David",
+  "author": "PostQueen (fork of Postiz Agent by Nevo David)",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gitroomhq/postiz-agent.git"
+    "url": "https://github.com/GkhanKINAY/postqueen-agent.git"
   },
-  "homepage": "https://github.com/gitroomhq/postiz-agent#readme",
+  "homepage": "https://postqueen.ai",
   "bugs": {
     "url": "https://github.com/gitroomhq/postiz-agent/issues"
   },

@@ -1,7 +1,7 @@
-import { PostizConfig } from './api';
+import { PostQueenConfig } from './api';
 import { loadCredentials } from './commands/auth';
 
-export function getConfig(): PostizConfig {
+export function getConfig(): PostQueenConfig {
   // Check for stored OAuth credentials first
   const creds = loadCredentials();
   if (creds) {
@@ -12,14 +12,14 @@ export function getConfig(): PostizConfig {
   }
 
   // Fall back to environment variable
-  const apiKey = process.env.POSTIZ_API_KEY;
-  const apiUrl = process.env.POSTIZ_API_URL;
+  const apiKey = process.env.POSTQUEEN_API_KEY;
+  const apiUrl = process.env.POSTQUEEN_API_URL;
 
   if (!apiKey) {
     console.error('❌ Error: No authentication found.');
     console.error('Options:');
-    console.error('  1. OAuth2: postiz auth:login --client-id <id> --client-secret <secret>');
-    console.error('  2. API Key: export POSTIZ_API_KEY=your_api_key');
+    console.error('  1. OAuth2: postqueen auth:login --client-id <id> --client-secret <secret>');
+    console.error('  2. API Key: export POSTQUEEN_API_KEY=your_api_key');
     process.exit(1);
   }
 

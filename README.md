@@ -1,14 +1,16 @@
 ## Install as a skill
 
 ```bash
-npx skills add gitroomhq/postiz-agent
+npx skills add GkhanKINAY/postqueen-agent
 ```
 
-# Postiz CLI
+# PostQueen CLI
+
+> Fork of [Postiz Agent](https://github.com/gitroomhq/postiz-agent) (AGPL-3.0) by Nevo David / Gitroom, rebranded for [PostQueen](https://postqueen.ai). Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted Postiz-compatible instance.
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
 
-The Postiz CLI provides a command-line interface to the Postiz API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
+The PostQueen CLI provides a command-line interface to the PostQueen API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
 
 ---
 
@@ -17,9 +19,9 @@ The Postiz CLI provides a command-line interface to the Postiz API, enabling dev
 ### From npm (Recommended)
 
 ```bash
-npm install -g postiz
+npm install -g postqueen
 # or
-pnpm install -g postiz
+pnpm install -g postqueen
 ```
 
 ---
@@ -31,36 +33,36 @@ pnpm install -g postiz
 Authenticate using the device flow — no client ID or secret needed:
 
 ```bash
-postiz auth:login
+postqueen auth:login
 ```
 
 This will:
 1. Display a one-time code in your terminal
 2. Open your browser to authorize
-3. Automatically save credentials to `~/.postiz/credentials.json`
+3. Automatically save credentials to `~/.postqueen/credentials.json`
 
 ```bash
 # Check current auth status (verifies credentials are still valid)
-postiz auth:status
+postqueen auth:status
 
 # Remove stored credentials
-postiz auth:logout
+postqueen auth:logout
 ```
 
 #### Self-Hosting the Auth Server
 
-By default, `postiz auth:login` uses the hosted auth server at `cli-auth.postiz.com`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
+By default, `postqueen auth:login` uses the hosted auth server at `cli-auth.postqueen.ai`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
 
 ### Option 2: API Key
 
 ```bash
-export POSTIZ_API_KEY=your_api_key_here
+export POSTQUEEN_API_KEY=your_api_key_here
 ```
 
 **Optional:** Custom API endpoint
 
 ```bash
-export POSTIZ_API_URL=https://your-custom-api.com
+export POSTQUEEN_API_URL=https://your-custom-api.com
 ```
 
 > **Note:** OAuth2 credentials take priority over the API key when both are present.
@@ -73,30 +75,30 @@ export POSTIZ_API_URL=https://your-custom-api.com
 
 **List all connected integrations**
 ```bash
-postiz integrations:list
-postiz integrations:list --group "customer-id"
+postqueen integrations:list
+postqueen integrations:list --group "customer-id"
 ```
 
 Returns integration IDs, provider names, and metadata. Use `--group` to return only the channels assigned to a specific group (customer).
 
 **List all groups (customers)**
 ```bash
-postiz integrations:groups
+postqueen integrations:groups
 ```
 
 Returns all groups (customers) for your organization as `{id, name}`. Use a group's `id` with `integrations:list --group` to filter channels.
 
 **Get integration settings schema**
 ```bash
-postiz integrations:settings <integration-id>
+postqueen integrations:settings <integration-id>
 ```
 
 Returns character limits, required settings, and available tools for fetching dynamic data.
 
 **Trigger integration tools**
 ```bash
-postiz integrations:trigger <integration-id> <method-name>
-postiz integrations:trigger <integration-id> <method-name> -d '{"key":"value"}'
+postqueen integrations:trigger <integration-id> <method-name>
+postqueen integrations:trigger <integration-id> <method-name> -d '{"key":"value"}'
 ```
 
 Fetch dynamic data like Reddit flairs, YouTube playlists, LinkedIn companies, etc.
@@ -104,13 +106,13 @@ Fetch dynamic data like Reddit flairs, YouTube playlists, LinkedIn companies, et
 **Examples:**
 ```bash
 # Get Reddit flairs
-postiz integrations:trigger reddit-123 getFlairs -d '{"subreddit":"programming"}'
+postqueen integrations:trigger reddit-123 getFlairs -d '{"subreddit":"programming"}'
 
 # Get YouTube playlists
-postiz integrations:trigger youtube-456 getPlaylists
+postqueen integrations:trigger youtube-456 getPlaylists
 
 # Get LinkedIn companies
-postiz integrations:trigger linkedin-789 getCompanies
+postqueen integrations:trigger linkedin-789 getCompanies
 ```
 
 ---
@@ -119,22 +121,22 @@ postiz integrations:trigger linkedin-789 getCompanies
 
 **Simple scheduled post**
 ```bash
-postiz posts:create -c "Content" -s "2024-12-31T12:00:00Z" -i "integration-id"
+postqueen posts:create -c "Content" -s "2024-12-31T12:00:00Z" -i "integration-id"
 ```
 
 **Draft post**
 ```bash
-postiz posts:create -c "Content" -s "2024-12-31T12:00:00Z" -t draft -i "integration-id"
+postqueen posts:create -c "Content" -s "2024-12-31T12:00:00Z" -t draft -i "integration-id"
 ```
 
 **Post with media**
 ```bash
-postiz posts:create -c "Content" -m "img1.jpg,img2.jpg" -s "2024-12-31T12:00:00Z" -i "integration-id"
+postqueen posts:create -c "Content" -m "img1.jpg,img2.jpg" -s "2024-12-31T12:00:00Z" -i "integration-id"
 ```
 
 **Post with comments** (each comment can have its own media)
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" -m "main.jpg" \
   -c "First comment" -m "comment1.jpg" \
   -c "Second comment" -m "comment2.jpg,comment3.jpg" \
@@ -144,12 +146,12 @@ postiz posts:create \
 
 **Multi-platform post**
 ```bash
-postiz posts:create -c "Content" -s "2024-12-31T12:00:00Z" -i "twitter-id,linkedin-id,facebook-id"
+postqueen posts:create -c "Content" -s "2024-12-31T12:00:00Z" -i "twitter-id,linkedin-id,facebook-id"
 ```
 
 **Platform-specific settings**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Content" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"subreddit":[{"value":{"subreddit":"programming","title":"Post Title","type":"text"}}]}' \
@@ -158,7 +160,7 @@ postiz posts:create \
 
 **Complex post from JSON file**
 ```bash
-postiz posts:create --json post.json
+postqueen posts:create --json post.json
 ```
 
 **Options:**
@@ -178,22 +180,22 @@ postiz posts:create --json post.json
 
 **List posts**
 ```bash
-postiz posts:list
-postiz posts:list --startDate "2024-01-01T00:00:00Z" --endDate "2024-12-31T23:59:59Z"
-postiz posts:list --customer "customer-id"
+postqueen posts:list
+postqueen posts:list --startDate "2024-01-01T00:00:00Z" --endDate "2024-12-31T23:59:59Z"
+postqueen posts:list --customer "customer-id"
 ```
 
 Defaults to last 30 days to next 30 days if dates not specified.
 
 **Delete post**
 ```bash
-postiz posts:delete <post-id>
+postqueen posts:delete <post-id>
 ```
 
 **Change post status (draft ↔ schedule)**
 ```bash
-postiz posts:status <post-id> --status draft
-postiz posts:status <post-id> --status schedule
+postqueen posts:status <post-id> --status draft
+postqueen posts:status <post-id> --status schedule
 ```
 
 Move a scheduled post back to a draft, or promote a draft into the publishing queue. Switching to `draft` also terminates any workflow that's already running for the post, so it won't publish. Switching to `schedule` queues the post for publishing at its stored date.
@@ -204,16 +206,16 @@ Move a scheduled post back to a draft, or promote a draft into the publishing qu
 
 **Get platform analytics**
 ```bash
-postiz analytics:platform <integration-id>
-postiz analytics:platform <integration-id> -d 30
+postqueen analytics:platform <integration-id>
+postqueen analytics:platform <integration-id> -d 30
 ```
 
 Returns metrics like followers, impressions, and engagement over time for a specific integration/channel. The `-d` flag specifies the number of days to look back (default: 7).
 
 **Get post analytics**
 ```bash
-postiz analytics:post <post-id>
-postiz analytics:post <post-id> -d 30
+postqueen analytics:post <post-id>
+postqueen analytics:post <post-id> -d 30
 ```
 
 Returns metrics like likes, comments, shares, and impressions for a specific published post.
@@ -222,13 +224,13 @@ Returns metrics like likes, comments, shares, and impressions for a specific pub
 
 ```bash
 # 1. List available content from the provider
-postiz posts:missing <post-id>
+postqueen posts:missing <post-id>
 
 # 2. Connect the correct content to the post
-postiz posts:connect <post-id> --release-id "7321456789012345678"
+postqueen posts:connect <post-id> --release-id "7321456789012345678"
 
 # 3. Analytics will now work
-postiz analytics:post <post-id>
+postqueen analytics:post <post-id>
 ```
 
 ---
@@ -239,14 +241,14 @@ Some platforms (e.g. TikTok) don't return a post ID immediately after publishing
 
 **List available content from the provider**
 ```bash
-postiz posts:missing <post-id>
+postqueen posts:missing <post-id>
 ```
 
 Returns an array of `{id, url}` items representing recent content from the provider. Returns an empty array if the provider doesn't support this feature.
 
 **Connect a post to its published content**
 ```bash
-postiz posts:connect <post-id> --release-id "<content-id>"
+postqueen posts:connect <post-id> --release-id "<content-id>"
 ```
 
 ---
@@ -255,15 +257,15 @@ postiz posts:connect <post-id> --release-id "<content-id>"
 
 **Upload file and get URL**
 ```bash
-postiz upload <file-path>
+postqueen upload <file-path>
 ```
 
 **⚠️ IMPORTANT: Upload Files Before Posting**
 
-You **must** upload media files to Postiz before using them in posts. Many platforms (especially TikTok, Instagram, and YouTube) require verified/trusted URLs and will reject external links.
+You **must** upload media files to PostQueen before using them in posts. Many platforms (especially TikTok, Instagram, and YouTube) require verified/trusted URLs and will reject external links.
 
 **Workflow:**
-1. Upload your file using `postiz upload`
+1. Upload your file using `postqueen upload`
 2. Extract the returned URL
 3. Use that URL in your post's `-m` parameter
 
@@ -274,17 +276,17 @@ You **must** upload media files to Postiz before using them in posts. Many platf
 **Example:**
 ```bash
 # 1. Upload the file first
-RESULT=$(postiz upload video.mp4)
+RESULT=$(postqueen upload video.mp4)
 PATH=$(echo "$RESULT" | jq -r '.path')
 
-# 2. Use the Postiz URL in your post
-postiz posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$PATH" -i "tiktok-id"
+# 2. Use the PostQueen URL in your post
+postqueen posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$PATH" -i "tiktok-id"
 ```
 
 **Why this is required:**
 - **TikTok, Instagram, YouTube** only accept URLs from trusted domains
 - **Security:** Platforms verify media sources to prevent abuse
-- **Reliability:** Postiz ensures your media is always accessible
+- **Reliability:** PostQueen ensures your media is always accessible
 
 ---
 
@@ -293,10 +295,10 @@ postiz posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$PATH
 ### Reddit
 ```bash
 # Get available flairs
-postiz integrations:trigger reddit-id getFlairs -d '{"subreddit":"programming"}'
+postqueen integrations:trigger reddit-id getFlairs -d '{"subreddit":"programming"}'
 
 # Post with subreddit and flair
-postiz posts:create \
+postqueen posts:create \
   -c "Content" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"subreddit":[{"value":{"subreddit":"programming","title":"My Post","type":"text","is_flair_required":true,"flair":{"id":"flair-123","name":"Discussion"}}}]}' \
@@ -306,14 +308,14 @@ postiz posts:create \
 ### YouTube
 ```bash
 # Get playlists
-postiz integrations:trigger youtube-id getPlaylists
+postqueen integrations:trigger youtube-id getPlaylists
 
 # Upload video FIRST (required!)
-VIDEO=$(postiz upload video.mp4)
+VIDEO=$(postqueen upload video.mp4)
 VIDEO_URL=$(echo "$VIDEO" | jq -r '.path')
 
 # Post with uploaded video URL
-postiz posts:create \
+postqueen posts:create \
   -c "Video description" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"title":"Video Title","type":"public","tags":[{"value":"tech","label":"Tech"}],"playlistId":"playlist-id"}' \
@@ -324,11 +326,11 @@ postiz posts:create \
 ### TikTok
 ```bash
 # Upload video FIRST (TikTok only accepts verified URLs!)
-VIDEO=$(postiz upload video.mp4)
+VIDEO=$(postqueen upload video.mp4)
 VIDEO_URL=$(echo "$VIDEO" | jq -r '.path')
 
 # Post with uploaded video URL
-postiz posts:create \
+postqueen posts:create \
   -c "Video caption #fyp" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"privacy":"PUBLIC_TO_EVERYONE","duet":true,"stitch":true}' \
@@ -339,10 +341,10 @@ postiz posts:create \
 ### LinkedIn
 ```bash
 # Get companies you can post to
-postiz integrations:trigger linkedin-id getCompanies
+postqueen integrations:trigger linkedin-id getCompanies
 
 # Post as company
-postiz posts:create \
+postqueen posts:create \
   -c "Company announcement" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"companyId":"company-123"}' \
@@ -352,7 +354,7 @@ postiz posts:create \
 ### X (Twitter)
 ```bash
 # Create thread
-postiz posts:create \
+postqueen posts:create \
   -c "Thread 1/3 🧵" \
   -c "Thread 2/3" \
   -c "Thread 3/3" \
@@ -361,7 +363,7 @@ postiz posts:create \
   -i "twitter-id"
 
 # With reply settings
-postiz posts:create \
+postqueen posts:create \
   -c "Tweet content" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"who_can_reply_post":"everyone"}' \
@@ -371,11 +373,11 @@ postiz posts:create \
 ### Instagram
 ```bash
 # Upload image FIRST (Instagram requires verified URLs!)
-IMAGE=$(postiz upload image.jpg)
+IMAGE=$(postqueen upload image.jpg)
 IMAGE_URL=$(echo "$IMAGE" | jq -r '.path')
 
 # Regular post
-postiz posts:create \
+postqueen posts:create \
   -c "Caption #hashtag" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"post_type":"post"}' \
@@ -383,10 +385,10 @@ postiz posts:create \
   -i "instagram-id"
 
 # Story (upload first)
-STORY=$(postiz upload story.jpg)
+STORY=$(postqueen upload story.jpg)
 STORY_URL=$(echo "$STORY" | jq -r '.path')
 
-postiz posts:create \
+postqueen posts:create \
   -c "" \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"post_type":"story"}' \
@@ -415,7 +417,7 @@ This allows AI agents to adapt to different platforms without hardcoded knowledg
 For complex posts with multiple platforms and settings:
 
 ```bash
-postiz posts:create --json complex-post.json
+postqueen posts:create --json complex-post.json
 ```
 
 JSON structure:
@@ -453,7 +455,7 @@ JSON structure:
 Every command outputs JSON for easy parsing:
 
 ```bash
-INTEGRATIONS=$(postiz integrations:list | jq -r '.')
+INTEGRATIONS=$(postqueen integrations:list | jq -r '.')
 REDDIT_ID=$(echo "$INTEGRATIONS" | jq -r '.[] | select(.identifier=="reddit") | .id')
 ```
 
@@ -465,7 +467,7 @@ Comments are automatically converted to threads/replies based on platform:
 - **Instagram**: First comment
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   -c "Comment 1" \
   -c "Comment 2" \
@@ -479,11 +481,11 @@ postiz posts:create \
 ### Reddit Post with Flair
 ```bash
 #!/bin/bash
-REDDIT_ID=$(postiz integrations:list | jq -r '.[] | select(.identifier=="reddit") | .id')
-FLAIRS=$(postiz integrations:trigger "$REDDIT_ID" getFlairs -d '{"subreddit":"programming"}')
+REDDIT_ID=$(postqueen integrations:list | jq -r '.[] | select(.identifier=="reddit") | .id')
+FLAIRS=$(postqueen integrations:trigger "$REDDIT_ID" getFlairs -d '{"subreddit":"programming"}')
 FLAIR_ID=$(echo "$FLAIRS" | jq -r '.output[0].id')
 
-postiz posts:create \
+postqueen posts:create \
   -c "My post content" \
   -s "2024-12-31T12:00:00Z" \
   --settings "{\"subreddit\":[{\"value\":{\"subreddit\":\"programming\",\"title\":\"Post Title\",\"type\":\"text\",\"is_flair_required\":true,\"flair\":{\"id\":\"$FLAIR_ID\",\"name\":\"Discussion\"}}}]}" \
@@ -493,10 +495,10 @@ postiz posts:create \
 ### YouTube Video Upload
 ```bash
 #!/bin/bash
-VIDEO=$(postiz upload video.mp4)
+VIDEO=$(postqueen upload video.mp4)
 VIDEO_PATH=$(echo "$VIDEO" | jq -r '.path')
 
-postiz posts:create \
+postqueen posts:create \
   -c "Video description..." \
   -s "2024-12-31T12:00:00Z" \
   --settings '{"title":"My Video","type":"public","tags":[{"value":"tech","label":"Tech"}]}' \
@@ -507,7 +509,7 @@ postiz posts:create \
 ### Multi-Platform Campaign
 ```bash
 #!/bin/bash
-postiz posts:create \
+postqueen posts:create \
   -c "Same content everywhere" \
   -s "2024-12-31T12:00:00Z" \
   -m "image.jpg" \
@@ -521,7 +523,7 @@ DATES=("2024-02-14T09:00:00Z" "2024-02-15T09:00:00Z" "2024-02-16T09:00:00Z")
 CONTENT=("Monday motivation 💪" "Tuesday tips 💡" "Wednesday wisdom 🧠")
 
 for i in "${!DATES[@]}"; do
-  postiz posts:create \
+  postqueen posts:create \
     -c "${CONTENT[$i]}" \
     -s "${DATES[$i]}" \
     -i "twitter-id"
@@ -553,7 +555,7 @@ done
 
 ## API Endpoints
 
-The CLI interacts with these Postiz API endpoints:
+The CLI interacts with these PostQueen API endpoints:
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
@@ -576,11 +578,11 @@ The CLI interacts with these Postiz API endpoints:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `POSTIZ_API_KEY` | No* | - | Your Postiz API key |
-| `POSTIZ_API_URL` | No | `https://api.postiz.com` | Custom API endpoint |
-| `POSTIZ_AUTH_SERVER` | No | `https://cli-auth.postiz.com` | Custom auth server URL |
+| `POSTQUEEN_API_KEY` | No* | - | Your PostQueen API key |
+| `POSTQUEEN_API_URL` | No | `https://api.postqueen.ai` | Custom API endpoint |
+| `POSTQUEEN_AUTH_SERVER` | No | `https://cli-auth.postqueen.ai` | Custom auth server URL |
 
-*Either OAuth2 (via `postiz auth:login`) or `POSTIZ_API_KEY` is required.
+*Either OAuth2 (via `postqueen auth:login`) or `POSTQUEEN_API_KEY` is required.
 
 ---
 
@@ -595,7 +597,7 @@ The CLI provides clear error messages with exit codes:
 
 | Error | Solution |
 |-------|----------|
-| `Not authenticated` | Run `postiz auth:login` or set `POSTIZ_API_KEY` |
+| `Not authenticated` | Run `postqueen auth:login` or set `POSTQUEEN_API_KEY` |
 | `Integration not found` | Run `integrations:list` to get valid IDs |
 | `startDate/endDate required` | Use ISO 8601 format: `"2024-12-31T12:00:00Z"` |
 | `Invalid settings` | Check `integrations:settings` for required fields |
@@ -612,7 +614,7 @@ The CLI provides clear error messages with exit codes:
 ```
 src/
 ├── index.ts              # CLI entry point with yargs
-├── api.ts                # PostizAPI client class
+├── api.ts                # PostQueenAPI client class
 ├── config.ts             # Configuration (OAuth2 + API key)
 └── commands/
     ├── auth.ts           # OAuth2 authentication (login/logout/status)
@@ -654,52 +656,52 @@ Output in `dist/`:
 
 ```bash
 # Authentication
-postiz auth:login                                              # OAuth2 device flow
-postiz auth:status                                             # Check auth
-postiz auth:logout                                             # Remove credentials
-export POSTIZ_API_KEY=your_key                                 # Or use API key
+postqueen auth:login                                              # OAuth2 device flow
+postqueen auth:status                                             # Check auth
+postqueen auth:logout                                             # Remove credentials
+export POSTQUEEN_API_KEY=your_key                                 # Or use API key
 
 # Discovery
-postiz integrations:list                           # List integrations
-postiz integrations:list --group "<group-id>"      # List integrations in a group
-postiz integrations:groups                         # List groups (customers)
-postiz integrations:settings <id>                  # Get settings
-postiz integrations:trigger <id> <method> -d '{}'  # Fetch data
+postqueen integrations:list                           # List integrations
+postqueen integrations:list --group "<group-id>"      # List integrations in a group
+postqueen integrations:groups                         # List groups (customers)
+postqueen integrations:settings <id>                  # Get settings
+postqueen integrations:trigger <id> <method> -d '{}'  # Fetch data
 
 # Posting (date is required)
-postiz posts:create -c "text" -s "2024-12-31T12:00:00Z" -i "id"                    # Simple
-postiz posts:create -c "text" -s "2024-12-31T12:00:00Z" -t draft -i "id"          # Draft
-postiz posts:create -c "text" -m "img.jpg" -s "2024-12-31T12:00:00Z" -i "id"      # With media
-postiz posts:create -c "main" -c "comment" -s "2024-12-31T12:00:00Z" -i "id"      # With comment
-postiz posts:create -c "text" -s "2024-12-31T12:00:00Z" --settings '{}' -i "id"   # Platform-specific
-postiz posts:create --json file.json                                               # Complex
+postqueen posts:create -c "text" -s "2024-12-31T12:00:00Z" -i "id"                    # Simple
+postqueen posts:create -c "text" -s "2024-12-31T12:00:00Z" -t draft -i "id"          # Draft
+postqueen posts:create -c "text" -m "img.jpg" -s "2024-12-31T12:00:00Z" -i "id"      # With media
+postqueen posts:create -c "main" -c "comment" -s "2024-12-31T12:00:00Z" -i "id"      # With comment
+postqueen posts:create -c "text" -s "2024-12-31T12:00:00Z" --settings '{}' -i "id"   # Platform-specific
+postqueen posts:create --json file.json                                               # Complex
 
 # Management
-postiz posts:list                                  # List posts
-postiz posts:delete <id>                          # Delete post
-postiz posts:status <id> --status draft           # Move to draft (stops workflow)
-postiz posts:status <id> --status schedule        # Queue draft for publishing
-postiz upload <file>                              # Upload media
+postqueen posts:list                                  # List posts
+postqueen posts:delete <id>                          # Delete post
+postqueen posts:status <id> --status draft           # Move to draft (stops workflow)
+postqueen posts:status <id> --status schedule        # Queue draft for publishing
+postqueen upload <file>                              # Upload media
 
 # Analytics
-postiz analytics:platform <id>                    # Platform analytics (7 days)
-postiz analytics:platform <id> -d 30             # Platform analytics (30 days)
-postiz analytics:post <id>                        # Post analytics (7 days)
-postiz analytics:post <id> -d 30                 # Post analytics (30 days)
+postqueen analytics:platform <id>                    # Platform analytics (7 days)
+postqueen analytics:platform <id> -d 30             # Platform analytics (30 days)
+postqueen analytics:post <id>                        # Post analytics (7 days)
+postqueen analytics:post <id> -d 30                 # Post analytics (30 days)
 # If analytics:post returns {"missing": true}, resolve it:
-postiz posts:missing <id>                         # List provider content
-postiz posts:connect <id> --release-id "<rid>"    # Connect content to post
+postqueen posts:missing <id>                         # List provider content
+postqueen posts:connect <id> --release-id "<rid>"    # Connect content to post
 
 # Help
-postiz --help                                     # Show help
-postiz posts:create --help                        # Command help
+postqueen --help                                     # Show help
+postqueen posts:create --help                        # Command help
 ```
 
 ---
 
 ## Contributing
 
-This CLI is part of the [Postiz monorepo](https://github.com/gitroomhq/postiz-app).
+This CLI is part of the [PostQueen monorepo](https://github.com/gitroomhq/postqueen-app).
 
 To contribute:
 1. Fork the repository
@@ -718,10 +720,10 @@ AGPL-3.0
 
 ## Links
 
-- **Website:** [postiz.com](https://postiz.com)
-- **API Docs:** [docs.postiz.com](https://docs.postiz.com)
-- **GitHub:** [gitroomhq/postiz-app](https://github.com/gitroomhq/postiz-app)
-- **Issues:** [Report bugs](https://github.com/gitroomhq/postiz-app/issues)
+- **Website:** [postqueen.ai](https://postqueen.ai)
+- **API Docs:** [docs.postqueen.ai](https://docs.postqueen.ai)
+- **GitHub:** [gitroomhq/postqueen-app](https://github.com/gitroomhq/postqueen-app)
+- **Issues:** [Report bugs](https://github.com/gitroomhq/postqueen-app/issues)
 
 ---
 

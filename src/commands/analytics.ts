@@ -1,9 +1,9 @@
-import { PostizAPI } from '../api';
+import { PostQueenAPI } from '../api';
 import { getConfig } from '../config';
 
 export async function getAnalytics(args: any) {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   if (!args.id) {
     console.error('❌ Integration ID is required');
@@ -25,7 +25,7 @@ export async function getAnalytics(args: any) {
 
 export async function getPostAnalytics(args: any) {
   const config = getConfig();
-  const api = new PostizAPI(config);
+  const api = new PostQueenAPI(config);
 
   if (!args.id) {
     console.error('❌ Post ID is required');
