@@ -1,13 +1,13 @@
 # Provider-Specific Settings
 
-The Postiz CLI supports platform-specific settings for each integration. Different platforms have different options and requirements.
+The PostQueen CLI supports platform-specific settings for each integration. Different platforms have different options and requirements.
 
 ## How to Use Provider Settings
 
 ### Method 1: Command Line Flags
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Your content" \
   -p <provider-type> \
   --settings '<json-settings>' \
@@ -17,7 +17,7 @@ postiz posts:create \
 ### Method 2: JSON File
 
 ```bash
-postiz posts:create --json post-with-settings.json
+postqueen posts:create --json post-with-settings.json
 ```
 
 In the JSON file, specify settings per integration:
@@ -61,7 +61,7 @@ In the JSON file, specify settings per integration:
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Post content here" \
   -p reddit \
   --settings '{
@@ -89,7 +89,7 @@ postiz posts:create \
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Video description here" \
   -p youtube \
   --settings '{
@@ -117,7 +117,7 @@ postiz posts:create \
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Tweet content" \
   -p x \
   --settings '{
@@ -128,7 +128,7 @@ postiz posts:create \
 
 **With Community:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Community tweet" \
   -p x \
   --settings '{
@@ -146,7 +146,7 @@ postiz posts:create \
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "LinkedIn post" \
   -m "img1.jpg,img2.jpg,img3.jpg" \
   -p linkedin \
@@ -167,7 +167,7 @@ postiz posts:create \
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Instagram post" \
   -m "photo.jpg" \
   -p instagram \
@@ -180,7 +180,7 @@ postiz posts:create \
 
 **Story Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Story content" \
   -m "story-image.jpg" \
   -p instagram \
@@ -210,7 +210,7 @@ postiz posts:create \
 
 **Example:**
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "TikTok video description" \
   -m "video.mp4" \
   -p tiktok \
@@ -315,7 +315,7 @@ For complex settings, it's easier to use JSON files:
 ```
 
 ```bash
-postiz posts:create --json reddit-post.json
+postqueen posts:create --json reddit-post.json
 ```
 
 ### YouTube Example
@@ -352,7 +352,7 @@ postiz posts:create --json reddit-post.json
 ```
 
 ```bash
-postiz posts:create --json youtube-video.json
+postqueen posts:create --json youtube-video.json
 ```
 
 ### Multi-Platform with Different Settings
@@ -423,7 +423,7 @@ postiz posts:create --json youtube-video.json
 To find the correct provider type for your integration:
 
 ```bash
-postiz integrations:list
+postqueen integrations:list
 ```
 
 This will show the `provider` field for each integration, which corresponds to the `__type` in settings.

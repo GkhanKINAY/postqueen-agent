@@ -7,7 +7,7 @@ Some integrations require additional data (like IDs, tags, playlists, etc.) befo
 ### Step 1: List Integrations
 
 ```bash
-postiz integrations:list
+postqueen integrations:list
 ```
 
 Get your integration IDs.
@@ -15,7 +15,7 @@ Get your integration IDs.
 ### Step 2: Get Integration Settings
 
 ```bash
-postiz integrations:settings <integration-id>
+postqueen integrations:settings <integration-id>
 ```
 
 This returns:
@@ -28,7 +28,7 @@ This returns:
 If settings require IDs/data you don't have, use the tools:
 
 ```bash
-postiz integrations:trigger <integration-id> <method-name> -d '{"key":"value"}'
+postqueen integrations:trigger <integration-id> <method-name> -d '{"key":"value"}'
 ```
 
 ### Step 4: Create Post with Complete Settings
@@ -40,7 +40,7 @@ Use the data from Step 3 in your post settings.
 ### 1. Get Reddit Integration Settings
 
 ```bash
-postiz integrations:settings reddit-abc123
+postqueen integrations:settings reddit-abc123
 ```
 
 **Output:**
@@ -97,7 +97,7 @@ postiz integrations:settings reddit-abc123
 ### 2. Get Flairs for the Subreddit
 
 ```bash
-postiz integrations:trigger reddit-abc123 getFlairs -d '{"subreddit":"programming"}'
+postqueen integrations:trigger reddit-abc123 getFlairs -d '{"subreddit":"programming"}'
 ```
 
 **Output:**
@@ -119,7 +119,7 @@ postiz integrations:trigger reddit-abc123 getFlairs -d '{"subreddit":"programmin
 ### 3. Create Post with Flair ID
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Check out my project!" \
   -p reddit \
   --settings '{
@@ -145,7 +145,7 @@ postiz posts:create \
 ### 1. Get YouTube Settings
 
 ```bash
-postiz integrations:settings youtube-123
+postqueen integrations:settings youtube-123
 ```
 
 **Output includes tools:**
@@ -169,7 +169,7 @@ postiz integrations:settings youtube-123
 ### 2. Get Playlists
 
 ```bash
-postiz integrations:trigger youtube-123 getPlaylists
+postqueen integrations:trigger youtube-123 getPlaylists
 ```
 
 **Output:**
@@ -191,7 +191,7 @@ postiz integrations:trigger youtube-123 getPlaylists
 ### 3. Post to Specific Playlist
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Video description" \
   -p youtube \
   --settings '{
@@ -207,7 +207,7 @@ postiz posts:create \
 ### 1. Get LinkedIn Settings
 
 ```bash
-postiz integrations:settings linkedin-123
+postqueen integrations:settings linkedin-123
 ```
 
 **Output includes tools:**
@@ -226,7 +226,7 @@ postiz integrations:settings linkedin-123
 ### 2. Get Companies
 
 ```bash
-postiz integrations:trigger linkedin-123 getCompanies
+postqueen integrations:trigger linkedin-123 getCompanies
 ```
 
 **Output:**
@@ -248,7 +248,7 @@ postiz integrations:trigger linkedin-123 getCompanies
 ### 3. Post as Company
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Company announcement" \
   -p linkedin \
   --settings '{
@@ -283,10 +283,10 @@ postiz posts:create \
 
 ```bash
 # No parameters
-postiz integrations:trigger <integration-id> <methodName>
+postqueen integrations:trigger <integration-id> <methodName>
 
 # With parameters
-postiz integrations:trigger <integration-id> <methodName> -d '{"key":"value"}'
+postqueen integrations:trigger <integration-id> <methodName> -d '{"key":"value"}'
 ```
 
 ## Common Tool Methods
@@ -323,7 +323,7 @@ For AI agents, this enables dynamic discovery and usage:
 INTEGRATION_ID="your-integration-id"
 
 # 1. Get settings and tools
-SETTINGS=$(postiz integrations:settings "$INTEGRATION_ID")
+SETTINGS=$(postqueen integrations:settings "$INTEGRATION_ID")
 echo "$SETTINGS" | jq '.output.tools'
 
 # 2. Get tool method names
@@ -331,12 +331,12 @@ TOOLS=$(echo "$SETTINGS" | jq -r '.output.tools[]?.methodName')
 
 # 3. Call tools to get required data
 for METHOD in $TOOLS; do
-  RESULT=$(postiz integrations:trigger "$INTEGRATION_ID" "$METHOD" -d '{}')
+  RESULT=$(postqueen integrations:trigger "$INTEGRATION_ID" "$METHOD" -d '{}')
   echo "Tool $METHOD returned: $RESULT"
 done
 
 # 4. Create post with complete settings
-postiz posts:create \
+postqueen posts:create \
   -c "Your content" \
   --settings '{"key": "value"}' \
   -i "$INTEGRATION_ID"
@@ -347,21 +347,21 @@ postiz posts:create \
 ### Tool Not Found
 
 ```bash
-postiz integrations:trigger reddit-123 invalidMethod
+postqueen integrations:trigger reddit-123 invalidMethod
 # ❌ Failed to trigger tool: Tool not found
 ```
 
 ### Missing Required Data
 
 ```bash
-postiz integrations:trigger reddit-123 getFlairs
+postqueen integrations:trigger reddit-123 getFlairs
 # ❌ Missing required parameter: subreddit
 ```
 
 ### Integration Not Found
 
 ```bash
-postiz integrations:trigger invalid-id getFlairs
+postqueen integrations:trigger invalid-id getFlairs
 # ❌ Failed to trigger tool: Integration not found
 ```
 
@@ -377,18 +377,18 @@ postiz integrations:trigger invalid-id getFlairs
 
 ```bash
 #!/bin/bash
-export POSTIZ_API_KEY=your_key
+export POSTQUEEN_API_KEY=your_key
 INTEGRATION_ID="reddit-abc123"
 
 # 1. Get settings
 echo "📋 Getting settings..."
-SETTINGS=$(postiz integrations:settings $INTEGRATION_ID)
+SETTINGS=$(postqueen integrations:settings $INTEGRATION_ID)
 echo $SETTINGS | jq '.output.tools'
 
 # 2. Get flairs
 echo ""
 echo "🏷️  Getting flairs..."
-FLAIRS=$(postiz integrations:trigger $INTEGRATION_ID getFlairs -d '{"subreddit":"programming"}')
+FLAIRS=$(postqueen integrations:trigger $INTEGRATION_ID getFlairs -d '{"subreddit":"programming"}')
 FLAIR_ID=$(echo $FLAIRS | jq -r '.output[0].id')
 FLAIR_NAME=$(echo $FLAIRS | jq -r '.output[0].name')
 
@@ -397,7 +397,7 @@ echo "Selected flair: $FLAIR_NAME ($FLAIR_ID)"
 # 3. Create post
 echo ""
 echo "📝 Creating post..."
-postiz posts:create \
+postqueen posts:create \
   -c "My post content" \
   -p reddit \
   --settings "{

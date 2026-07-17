@@ -43,7 +43,7 @@
   },
   "homepage": "https://postqueen.ai",
   "bugs": {
-    "url": "https://github.com/gitroomhq/postiz-agent/issues"
+    "url": "https://github.com/GkhanKINAY/postqueen-agent/issues"
   },
   "engines": {
     "node": ">=18.0.0"

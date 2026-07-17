@@ -14,8 +14,8 @@ pnpm install -g postqueen
 ```
 
 npm release: https://www.npmjs.com/package/postqueen
-postqueen github: https://github.com/gitroomhq/postqueen-app
-postqueen cli github: https://github.com/gitroomhq/postqueen-app
+postqueen github: https://github.com/GkhanKINAY/postqueen-app
+postqueen cli github: https://github.com/GkhanKINAY/postqueen-app
 official website: https://postqueen.ai
 ---
 

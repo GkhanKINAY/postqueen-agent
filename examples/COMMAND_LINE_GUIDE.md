@@ -1,4 +1,4 @@
-# Postiz CLI - Command Line Guide
+# PostQueen CLI - Command Line Guide
 
 ## New Syntax: Multiple `-c` and `-m` Flags
 
@@ -7,7 +7,7 @@ The CLI now supports a much more intuitive syntax for creating posts with commen
 ## Basic Syntax
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "content" -m "media" \    # Can be repeated multiple times
   -c "content" -m "media" \    # Each pair = one post/comment
   -i "integration-id"
@@ -26,7 +26,7 @@ postiz posts:create \
 ### 1. Simple Post
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Hello World!" \
   -i "twitter-123"
 ```
@@ -34,7 +34,7 @@ postiz posts:create \
 ### 2. Post with Multiple Images
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Check out these photos!" \
   -m "photo1.jpg,photo2.jpg,photo3.jpg" \
   -i "twitter-123"
@@ -46,7 +46,7 @@ postiz posts:create \
 ### 3. Post with Comments, Each Having Their Own Media
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post 🚀" \
   -m "main-image1.jpg,main-image2.jpg" \
   -c "First comment 📸" \
@@ -64,7 +64,7 @@ postiz posts:create \
 ### 4. Comments Can Contain Semicolons! 🎉
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   -c "First comment; with a semicolon!" \
   -c "Second comment; with multiple; semicolons; works fine!" \
@@ -76,7 +76,7 @@ postiz posts:create \
 ### 5. Twitter Thread
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "🧵 Thread about X (1/5)" \
   -m "thread1.jpg" \
   -c "Key point 1 (2/5)" \
@@ -96,7 +96,7 @@ postiz posts:create \
 ### 6. Mix: Some with Media, Some Without
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Amazing sunset! 🌅" \
   -m "sunset.jpg" \
   -c "Taken at 6:30 PM" \
@@ -112,7 +112,7 @@ postiz posts:create \
 ### 7. Multi-Platform with Same Content
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Big announcement! 🎉" \
   -m "announcement.jpg" \
   -c "More details coming soon..." \
@@ -124,7 +124,7 @@ postiz posts:create \
 ### 8. Scheduled Post with Follow-ups
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Product launching today! 🚀" \
   -m "product-hero.jpg,product-features.jpg" \
   -c "Special launch offer: 50% off!" \
@@ -139,7 +139,7 @@ postiz posts:create \
 ### 9. Product Tutorial
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Tutorial: How to Use Feature X 📖" \
   -m "tutorial-intro.jpg" \
   -c "Step 1: Open the settings menu" \
@@ -168,7 +168,7 @@ postiz posts:create \
 ## How `-c` and `-m` Pair Together
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "First content"  -m "first-media.jpg" \     # Pair 1 → Main post
   -c "Second content" -m "second-media.jpg" \    # Pair 2 → Comment 1
   -c "Third content"  -m "third-media.jpg" \     # Pair 3 → Comment 2
@@ -186,7 +186,7 @@ postiz posts:create \
 Use `-d` or `--delay` to set the delay (in minutes) between comments:
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   -c "Comment 1" \
   -c "Comment 2" \
@@ -202,7 +202,7 @@ postiz posts:create \
 
 ```bash
 # Could only do simple comments without custom media
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   --comments "Comment 1;Comment 2;Comment 3" \
   --image "main-image.jpg" \
@@ -217,7 +217,7 @@ postiz posts:create \
 ### ✅ New Way (Flexible)
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" -m "main.jpg" \
   -c "Comment 1; with semicolon!" -m "comment1.jpg" \
   -c "Comment 2" -m "comment2.jpg" \
@@ -250,7 +250,7 @@ postiz posts:create \
 
 ```bash
 # Generate a thread command with multiple tweets
-postiz posts:create \
+postqueen posts:create \
   -c "Tweet 1/3" \
   -m "img1.jpg" \
   -c "Tweet 2/3" \
@@ -266,12 +266,12 @@ In bash, you may need to escape some characters:
 
 ```bash
 # Single quotes prevent interpolation
-postiz posts:create \
+postqueen posts:create \
   -c 'Message with $variables and "quotes"' \
   -i "twitter-123"
 
 # Or use backslashes
-postiz posts:create \
+postqueen posts:create \
   -c "Message with \$variables and \"quotes\"" \
   -i "twitter-123"
 ```
@@ -281,7 +281,7 @@ postiz posts:create \
 ### Missing Integration
 
 ```bash
-postiz posts:create -c "Post" -m "img.jpg"
+postqueen posts:create -c "Post" -m "img.jpg"
 # ❌ Error: --integrations is required when not using --json
 ```
 
@@ -290,7 +290,7 @@ postiz posts:create -c "Post" -m "img.jpg"
 ### No Content
 
 ```bash
-postiz posts:create -i "twitter-123"
+postqueen posts:create -i "twitter-123"
 # ❌ Error: Either --content or --json is required
 ```
 
@@ -300,7 +300,7 @@ postiz posts:create -i "twitter-123"
 
 ```bash
 # This is fine! Extra -m flags are ignored
-postiz posts:create \
+postqueen posts:create \
   -c "Post 1" -m "img1.jpg" \
   -c "Post 2" \
   -c "Post 3" -m "img3.jpg" \
@@ -317,9 +317,9 @@ postiz posts:create \
 ```bash
 #!/bin/bash
 
-export POSTIZ_API_KEY=your_key
+export POSTQUEEN_API_KEY=your_key
 
-postiz posts:create \
+postqueen posts:create \
   -c "🚀 Launching ProductX today!" \
   -m "https://cdn.example.com/hero.jpg,https://cdn.example.com/features.jpg" \
   -c "🎯 Key Features:\n• AI-powered\n• Cloud-native\n• Open source" \

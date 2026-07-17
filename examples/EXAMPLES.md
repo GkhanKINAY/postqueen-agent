@@ -1,10 +1,10 @@
-# Postiz CLI - Advanced Examples
+# PostQueen CLI - Advanced Examples
 
-This directory contains examples demonstrating the full capabilities of the Postiz CLI, including posts with comments and multiple media.
+This directory contains examples demonstrating the full capabilities of the PostQueen CLI, including posts with comments and multiple media.
 
 ## Understanding the Post Structure
 
-The Postiz API supports a rich post structure:
+The PostQueen API supports a rich post structure:
 
 ```typescript
 {
@@ -34,7 +34,7 @@ The Postiz API supports a rich post structure:
 ### Basic Post
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Hello World!" \
   -i "twitter-123"
 ```
@@ -42,7 +42,7 @@ postiz posts:create \
 ### Post with Multiple Images
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Check out these images!" \
   --image "https://example.com/img1.jpg,https://example.com/img2.jpg,https://example.com/img3.jpg" \
   -i "twitter-123"
@@ -51,7 +51,7 @@ postiz posts:create \
 ### Post with Comments (Simple)
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post content" \
   --comments "First comment;Second comment;Third comment" \
   -i "twitter-123"
@@ -60,7 +60,7 @@ postiz posts:create \
 ### Scheduled Post
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Future post" \
   -s "2024-12-31T12:00:00Z" \
   -i "twitter-123,linkedin-456"
@@ -75,7 +75,7 @@ For complex posts with comments that have their own media, use JSON files:
 **File:** `post-with-comments.json`
 
 ```bash
-postiz posts:create --json examples/post-with-comments.json
+postqueen posts:create --json examples/post-with-comments.json
 ```
 
 This creates:
@@ -88,7 +88,7 @@ This creates:
 **File:** `multi-platform-post.json`
 
 ```bash
-postiz posts:create --json examples/multi-platform-post.json
+postqueen posts:create --json examples/multi-platform-post.json
 ```
 
 This creates:
@@ -102,7 +102,7 @@ All scheduled for the same time with platform-specific content and media!
 **File:** `thread-post.json`
 
 ```bash
-postiz posts:create --json examples/thread-post.json
+postqueen posts:create --json examples/thread-post.json
 ```
 
 This creates a 5-part Twitter thread, with each tweet having its own image and a 2-second delay between tweets.
@@ -232,7 +232,7 @@ Live event updates with media:
 Before creating posts, get your integration IDs:
 
 ```bash
-postiz integrations:list
+postqueen integrations:list
 ```
 
 Output:
@@ -263,7 +263,7 @@ Use these IDs in your `integration.id` fields.
 
 for file in posts/*.json; do
   echo "Creating post from $file..."
-  postiz posts:create --json "$file"
+  postqueen posts:create --json "$file"
   sleep 2
 done
 ```
@@ -291,7 +291,7 @@ cat > thread.json << 'EOF'
 EOF
 
 # Post using the JSON file
-postiz posts:create --json thread.json
+postqueen posts:create --json thread.json
 ```
 
 ## Error Handling
@@ -299,7 +299,7 @@ postiz posts:create --json thread.json
 Common errors and solutions:
 
 1. **Invalid integration ID** - Run `integrations:list` to get valid IDs
-2. **Invalid image path** - Ensure images are accessible URLs or uploaded to Postiz first
+2. **Invalid image path** - Ensure images are accessible URLs or uploaded to PostQueen first
 3. **Missing required fields** - Check that `type`, `date`, `shortLink`, `tags`, and `posts` are all present
 4. **Invalid date format** - Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
 

@@ -1,18 +1,17 @@
 {
-  "name": "postiz",
-  "version": "2.0.12",
+  "name": "postqueen",
+  "version": "2.0.15",
   "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 28+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
   "author": {
-    "name": "Nevo David",
-    "email": "nevo@postiz.com",
-    "url": "https://github.com/nevo-david"
+    "name": "PostQueen",
+    "url": "https://github.com/GkhanKINAY"
   },
-  "homepage": "https://docs.postiz.com/public-api/introduction",
-  "repository": "https://github.com/gitroomhq/postiz-agent",
+  "homepage": "https://postqueen.ai",
+  "repository": "https://github.com/GkhanKINAY/postqueen-agent",
   "license": "AGPL-3.0",
   "skills": ["./"],
   "keywords": [
-    "postiz",
+    "postqueen",
     "social-media",
     "scheduling",
     "automation",

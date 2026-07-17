@@ -10,7 +10,7 @@
       },
       "value": [
         {
-          "content": "🧵 Thread: How to use Postiz CLI for automated social media posting (1/5)",
+          "content": "🧵 Thread: How to use PostQueen CLI for automated social media posting (1/5)",
           "image": [
             {
               "id": "tutorial1",
@@ -19,7 +19,7 @@
           ]
         },
         {
-          "content": "Step 1: Install the CLI and set your API key\n\nexport POSTIZ_API_KEY=your_key\npnpm install -g postiz (2/5)",
+          "content": "Step 1: Install the CLI and set your API key\n\nexport POSTQUEEN_API_KEY=your_key\npnpm install -g postqueen (2/5)",
           "image": [
             {
               "id": "tutorial2",
@@ -29,7 +29,7 @@
           "delay": 2000
         },
         {
-          "content": "Step 2: List your connected integrations to get their IDs\n\npostiz integrations:list (3/5)",
+          "content": "Step 2: List your connected integrations to get their IDs\n\npostqueen integrations:list (3/5)",
           "image": [
             {
               "id": "tutorial3",
@@ -39,7 +39,7 @@
           "delay": 2000
         },
         {
-          "content": "Step 3: Create your first post\n\npostiz posts:create -c \"Hello World!\" -i \"twitter-123\" (4/5)",
+          "content": "Step 3: Create your first post\n\npostqueen posts:create -c \"Hello World!\" -i \"twitter-123\" (4/5)",
           "image": [
             {
               "id": "tutorial4",

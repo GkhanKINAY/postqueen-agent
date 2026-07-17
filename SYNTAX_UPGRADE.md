@@ -1,4 +1,4 @@
-# Postiz CLI - Improved Syntax! 🎉
+# PostQueen CLI - Improved Syntax! 🎉
 
 ## What Changed
 
@@ -9,7 +9,7 @@ The CLI now supports a **much better** command-line syntax for creating posts wi
 Instead of using semicolon-separated strings (which break when you need semicolons in your content), you can now use multiple `-c` and `-m` flags:
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "main post content" -m "media1.png,media2.png" \
   -c "first comment" -m "media3.png" \
   -c "second comment; with semicolon!" -m "media4.png,media5.png" \
@@ -21,7 +21,7 @@ postiz posts:create \
 ### ❌ Old Approach (Problematic)
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   --comments "Comment 1;Comment 2;Comment 3" \
   -i "twitter-123"
@@ -36,7 +36,7 @@ postiz posts:create \
 ### ✅ New Approach (Better!)
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" -m "main.jpg" \
   -c "Comment 1; with semicolon!" -m "comment1.jpg" \
   -c "Comment 2" -m "comment2.jpg" \
@@ -57,7 +57,7 @@ postiz posts:create \
 The CLI pairs `-c` and `-m` flags in order:
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Content 1" -m "media-for-content-1.jpg" \    # Pair 1
   -c "Content 2" -m "media-for-content-2.jpg" \    # Pair 2
   -c "Content 3" -m "media-for-content-3.jpg" \    # Pair 3
@@ -72,7 +72,7 @@ postiz posts:create \
 ### Media is Optional
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Post with media" -m "image.jpg" \
   -c "Comment without media" \
   -c "Another comment" \
@@ -87,7 +87,7 @@ Result:
 ### Multiple Media per Post/Comment
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" -m "img1.jpg,img2.jpg,img3.jpg" \
   -c "Comment" -m "img4.jpg,img5.jpg" \
   -i "twitter-123"
@@ -102,7 +102,7 @@ Result:
 ### Example 1: Product Launch
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "🚀 Launching ProductX today!" \
   -m "hero.jpg,features.jpg" \
   -c "⭐ Key features you'll love..." \
@@ -115,7 +115,7 @@ postiz posts:create \
 ### Example 2: Twitter Thread
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "🧵 Thread: How to X (1/5)" -m "intro.jpg" \
   -c "Step 1: ... (2/5)" -m "step1.jpg" \
   -c "Step 2: ... (3/5)" -m "step2.jpg" \
@@ -128,7 +128,7 @@ postiz posts:create \
 ### Example 3: Tutorial with Screenshots
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Tutorial: Feature X 📖" \
   -m "tutorial-cover.jpg" \
   -c "1. Open settings" \
@@ -143,7 +143,7 @@ postiz posts:create \
 ### Example 4: Content with Special Characters
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post about programming" \
   -c "First tip: Use const; avoid var" \
   -c "Second tip: Functions should do one thing; keep it simple" \
@@ -170,7 +170,7 @@ postiz posts:create \
 Use `-d` to control the delay between comments:
 
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main" \
   -c "Comment 1" \
   -c "Comment 2" \
@@ -200,7 +200,7 @@ postiz posts:create \
 
 ```bash
 # Build a multi-post command with media
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   -m "img1.jpg,img2.jpg" \
   -c "Comment; with semicolon!" \
@@ -215,7 +215,7 @@ If you have existing scripts using the old syntax:
 
 ### Before:
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" \
   --comments "Comment 1;Comment 2" \
   --image "main-image.jpg" \
@@ -224,7 +224,7 @@ postiz posts:create \
 
 ### After:
 ```bash
-postiz posts:create \
+postqueen posts:create \
   -c "Main post" -m "main-image.jpg" \
   -c "Comment 1" \
   -c "Comment 2" \

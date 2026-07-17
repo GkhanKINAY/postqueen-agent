@@ -1,8 +1,8 @@
-# Postiz CLI - Project Structure
+# PostQueen CLI - Project Structure
 
 ## Overview
 
-The Postiz CLI is a complete command-line interface package for interacting with the Postiz social media scheduling API. It's designed for developers and AI agents to automate social media posting.
+The PostQueen CLI is a complete command-line interface package for interacting with the PostQueen social media scheduling API. It's designed for developers and AI agents to automate social media posting.
 
 ## Directory Structure
 
@@ -10,7 +10,7 @@ The Postiz CLI is a complete command-line interface package for interacting with
 apps/cli/
 ├── src/                          # Source code
 │   ├── index.ts                  # Main CLI entry point
-│   ├── api.ts                    # API client for Postiz API
+│   ├── api.ts                    # API client for PostQueen API
 │   ├── config.ts                 # Configuration and environment handling
 │   └── commands/                 # Command implementations
 │       ├── posts.ts              # Posts management commands
@@ -49,8 +49,8 @@ apps/cli/
 - Contains help text and usage examples
 
 #### `src/api.ts`
-- API client class `PostizAPI`
-- Handles all HTTP requests to the Postiz API
+- API client class `PostQueenAPI`
+- Handles all HTTP requests to the PostQueen API
 - Methods for:
   - Creating posts
   - Listing posts
@@ -77,14 +77,14 @@ apps/cli/
 
 #### `src/commands/upload.ts`
 - Media upload functionality
-- `uploadFile()` - Upload images to Postiz
+- `uploadFile()` - Upload images to PostQueen
 
 ### Configuration Files
 
 #### `package.json`
-- Package name: `postiz`
+- Package name: `postqueen`
 - Version: `1.0.0`
-- Executable bin: `postiz` → `dist/index.js`
+- Executable bin: `postqueen` → `dist/index.js`
 - Scripts: `dev`, `build`, `start`, `publish`
 - Repository and metadata information
 
@@ -213,8 +213,8 @@ Output to console
 
 | Variable | Required | Default | Usage |
 |----------|----------|---------|-------|
-| `POSTIZ_API_KEY` | ✅ Yes | - | Authentication token |
-| `POSTIZ_API_URL` | ❌ No | `https://api.postiz.com` | Custom API endpoint |
+| `POSTQUEEN_API_KEY` | ✅ Yes | - | Authentication token |
+| `POSTQUEEN_API_URL` | ❌ No | `https://api.postqueen.ai` | Custom API endpoint |
 
 ## Dependencies
 
@@ -245,7 +245,7 @@ Output to console
    - Uses shared dependencies from root
    - No duplicate packages
 
-### With Postiz API
+### With PostQueen API
 
 1. **Endpoints Used**
    - `POST /public/v1/posts` - Create post
@@ -295,7 +295,7 @@ node dist/index.js --help
 node dist/index.js posts:list
 
 # Test with API key (requires valid key)
-POSTIZ_API_KEY=test node dist/index.js integrations:list
+POSTQUEEN_API_KEY=test node dist/index.js integrations:list
 ```
 
 ### Automated Testing (Future)
@@ -313,7 +313,7 @@ POSTIZ_API_KEY=test node dist/index.js integrations:list
 
 2. **Features**
    - Interactive mode
-   - Config file support (~/.postizrc)
+   - Config file support (~/.postqueenrc)
    - Output formatting (JSON, table, CSV)
    - Verbose/debug mode
    - Batch operations from file
@@ -326,6 +326,6 @@ POSTIZ_API_KEY=test node dist/index.js integrations:list
 
 ## Support
 
-- **Issues:** https://github.com/gitroomhq/postiz-app/issues
+- **Issues:** https://github.com/GkhanKINAY/postqueen-app/issues
 - **Docs:** See README.md, SKILL.md, QUICK_START.md
-- **Website:** https://postiz.com
+- **Website:** https://postqueen.ai

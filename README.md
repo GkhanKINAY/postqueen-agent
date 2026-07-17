@@ -701,7 +701,7 @@ postqueen posts:create --help                        # Command help
 
 ## Contributing
 
-This CLI is part of the [PostQueen monorepo](https://github.com/gitroomhq/postqueen-app).
+This CLI is part of the [PostQueen monorepo](https://github.com/GkhanKINAY/postqueen-app).
 
 To contribute:
 1. Fork the repository
@@ -722,8 +722,8 @@ AGPL-3.0
 
 - **Website:** [postqueen.ai](https://postqueen.ai)
 - **API Docs:** [docs.postqueen.ai](https://docs.postqueen.ai)
-- **GitHub:** [gitroomhq/postqueen-app](https://github.com/gitroomhq/postqueen-app)
-- **Issues:** [Report bugs](https://github.com/gitroomhq/postqueen-app/issues)
+- **GitHub:** [GkhanKINAY/postqueen-app](https://github.com/GkhanKINAY/postqueen-app)
+- **Issues:** [Report bugs](https://github.com/GkhanKINAY/postqueen-app/issues)
 
 ---
 

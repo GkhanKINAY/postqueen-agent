@@ -6,15 +6,23 @@ import pg from 'pg';
 
 // --- Configuration ---
 const PORT = parseInt(process.env.PORT || '3111', 10);
-const CLIENT_ID = process.env.POSTIZ_OAUTH_CLIENT_ID!;
-const CLIENT_SECRET = process.env.POSTIZ_OAUTH_CLIENT_SECRET!;
-const FRONTEND_URL = process.env.POSTIZ_FRONTEND_URL || 'https://platform.postiz.com';
-const API_URL = process.env.POSTIZ_API_URL || 'https://api.postiz.com';
+const CLIENT_ID = (process.env.POSTQUEEN_OAUTH_CLIENT_ID ||
+  process.env.POSTIZ_OAUTH_CLIENT_ID)!;
+const CLIENT_SECRET = (process.env.POSTQUEEN_OAUTH_CLIENT_SECRET ||
+  process.env.POSTIZ_OAUTH_CLIENT_SECRET)!;
+const FRONTEND_URL =
+  process.env.POSTQUEEN_FRONTEND_URL ||
+  process.env.POSTIZ_FRONTEND_URL ||
+  'https://platform.postqueen.ai';
+const API_URL =
+  process.env.POSTQUEEN_API_URL ||
+  process.env.POSTIZ_API_URL ||
+  'https://api.postqueen.ai';
 const SERVER_URL = process.env.SERVER_URL || `http://localhost:${PORT}`;
 const DATABASE_URL = process.env.DATABASE_URL!;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
-  console.error('POSTIZ_OAUTH_CLIENT_ID and POSTIZ_OAUTH_CLIENT_SECRET are required');
+  console.error('POSTQUEEN_OAUTH_CLIENT_ID and POSTQUEEN_OAUTH_CLIENT_SECRET are required');
   process.exit(1);
 }
 
@@ -78,7 +86,7 @@ function json(res: ServerResponse, status: number, data: unknown) {
 
 function html(res: ServerResponse, status: number, body: string) {
   res.writeHead(status, { 'Content-Type': 'text/html' });
-  res.end(`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Postiz CLI Auth</title>
+  res.end(`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PostQueen CLI Auth</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;color:#fff}.card{background:#141414;border:1px solid #262626;border-radius:12px;padding:48px;max-width:480px;text-align:center}h2{margin-bottom:16px;font-size:24px}p{color:#a0a0a0;margin-bottom:24px;line-height:1.5}.code{font-family:monospace;font-size:36px;font-weight:bold;letter-spacing:4px;background:#1a1a2e;border:1px solid #333;border-radius:8px;padding:16px 32px;display:inline-block;margin:16px 0;color:#7c3aed}.btn{display:inline-block;background:#7c3aed;color:#fff;text-decoration:none;padding:12px 32px;border-radius:8px;font-size:16px;font-weight:500;border:none;cursor:pointer}.btn:hover{background:#6d28d9}.success{color:#22c55e}.error{color:#ef4444}</style></head><body><div class="card">${body}</div></body></html>`);
 }
 
@@ -127,7 +135,7 @@ function handleVerifyPage(req: IncomingMessage, res: ServerResponse) {
   const prefilled = escapeHtml(url.searchParams.get('code') || '');
 
   html(res, 200, `
-    <h2>Postiz CLI Authorization</h2>
+    <h2>PostQueen CLI Authorization</h2>
     <p>Enter the code shown in your terminal:</p>
     <form method="POST" action="/device/verify">
       <input type="text" name="user_code" value="${prefilled}" placeholder="XXXX-XXXX"
@@ -165,14 +173,14 @@ async function handleVerifySubmit(req: IncomingMessage, res: ServerResponse) {
 
   const deviceCode = result.rows[0].device_code;
 
-  // Redirect to Postiz OAuth with device_code in state so we can match on callback
+  // Redirect to PostQueen OAuth with device_code in state so we can match on callback
   const authorizeUrl = `${FRONTEND_URL}/oauth/authorize?client_id=${encodeURIComponent(CLIENT_ID)}&response_type=code&state=${encodeURIComponent(deviceCode)}`;
 
   res.writeHead(302, { Location: authorizeUrl });
   res.end();
 }
 
-// GET /device/callback — Postiz redirects here after OAuth authorization
+// GET /device/callback — PostQueen redirects here after OAuth authorization
 async function handleOAuthCallback(req: IncomingMessage, res: ServerResponse) {
   const url = new URL(req.url || '/', SERVER_URL);
   const code = url.searchParams.get('code');
@@ -335,8 +343,8 @@ async function start() {
   }, 10 * 60 * 1000);
 
   server.listen(PORT, () => {
-    console.log(`Postiz CLI auth server running on ${SERVER_URL}`);
-    console.log(`OAuth callback URL (configure in Postiz): ${SERVER_URL}/device/callback`);
+    console.log(`PostQueen CLI auth server running on ${SERVER_URL}`);
+    console.log(`OAuth callback URL (configure in PostQueen): ${SERVER_URL}/device/callback`);
   });
 }
 
