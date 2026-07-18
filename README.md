@@ -6,7 +6,7 @@ npx skills add GkhanKINAY/postqueen-agent
 
 # PostQueen CLI
 
-> Fork of [Postiz Agent](https://github.com/gitroomhq/postiz-agent) (AGPL-3.0) by Nevo David / Gitroom, rebranded for [PostQueen](https://postqueen.ai). Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted Postiz-compatible instance.
+> Fork of [Postiz Agent](https://github.com/gitroomhq/postiz-agent) (AGPL-3.0) by Nevo David / Gitroom, rebranded for [PostQueen](https://postqueen.ai). Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted PostQueen-compatible instance.
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
 
@@ -539,7 +539,7 @@ done
 
 **Deep-Dive Guides:**
 - **[HOW_TO_RUN.md](./HOW_TO_RUN.md)** - Installation and setup methods
-- **[COMMAND_LINE_GUIDE.md](./COMMAND_LINE_GUIDE.md)** - Complete command syntax reference
+- **[COMMAND_LINE_GUIDE.md](./examples/COMMAND_LINE_GUIDE.md)** - Complete command syntax reference
 - **[PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md)** - All platform settings schemas
 - **[INTEGRATION_TOOLS_WORKFLOW.md](./INTEGRATION_TOOLS_WORKFLOW.md)** - Tools workflow guide
 - **[INTEGRATION_SETTINGS_DISCOVERY.md](./INTEGRATION_SETTINGS_DISCOVERY.md)** - Settings discovery

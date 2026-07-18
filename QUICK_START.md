@@ -6,7 +6,7 @@
 
 ```bash
 # Navigate to the monorepo root
-cd /path/to/gitroom
+cd /path/to/postqueen-app
 
 # Install dependencies
 pnpm install
@@ -31,7 +31,7 @@ pnpm link --global
 postqueen --help
 ```
 
-### From npm (Coming Soon)
+### From npm (Recommended)
 
 ```bash
 # Once published
