@@ -36,7 +36,7 @@ CLI                        Auth Server                    PostQueen
 | `POSTQUEEN_OAUTH_CLIENT_SECRET` | Yes | -                             | OAuth app client secret from PostQueen |
 | `PORT` | No | `3111`                        | Server port |
 | `SERVER_URL` | No | `http://localhost:{PORT}`     | Public URL of this server (used for generating links) |
-| `POSTQUEEN_FRONTEND_URL` | No | `https://platform.postqueen.ai` | PostQueen frontend URL for OAuth redirects |
+| `POSTQUEEN_FRONTEND_URL` | No | `https://app.postqueen.ai` | PostQueen frontend URL for OAuth redirects |
 | `POSTQUEEN_API_URL` | No | `https://api.postqueen.ai`      | PostQueen API URL for token exchange |
 
 ## Setup

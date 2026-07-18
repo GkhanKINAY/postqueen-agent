@@ -13,7 +13,7 @@ const CLIENT_SECRET = (process.env.POSTQUEEN_OAUTH_CLIENT_SECRET ||
 const FRONTEND_URL =
   process.env.POSTQUEEN_FRONTEND_URL ||
   process.env.POSTIZ_FRONTEND_URL ||
-  'https://platform.postqueen.ai';
+  'https://app.postqueen.ai';
 const API_URL =
   process.env.POSTQUEEN_API_URL ||
   process.env.POSTIZ_API_URL ||
