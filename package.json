@@ -1,7 +1,7 @@
 {
   "name": "postqueen",
   "version": "2.0.15",
-  "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API (fork of Postiz CLI)",
+  "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API",
   "main": "dist/index.js",
   "bin": {
     "postqueen": "./dist/index.js"
@@ -35,7 +35,7 @@
     "youtube",
     "reddit"
   ],
-  "author": "PostQueen (fork of Postiz Agent by Nevo David)",
+  "author": "PostQueen",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",

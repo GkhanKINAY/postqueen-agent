@@ -6,7 +6,7 @@ npx skills add GkhanKINAY/postqueen-agent
 
 # PostQueen CLI
 
-> Fork of [Postiz Agent](https://github.com/gitroomhq/postiz-agent) (AGPL-3.0) by Nevo David / Gitroom, rebranded for [PostQueen](https://postqueen.ai). Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted PostQueen-compatible instance.
+> Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted PostQueen instance. Thanks to Nevo David and the Postiz contributors for the foundation this builds on.
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
 
