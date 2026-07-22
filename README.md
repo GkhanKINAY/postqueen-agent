@@ -948,6 +948,10 @@ To contribute:
 
 ---
 
+## 💜 Thank you, Postiz
+
+PostQueen exists because **Nevo David open-sourced [Postiz](https://github.com/gitroomhq/postiz-app) under AGPL-3.0**. We believe agentic AI will be part of everyday life from 2030 on, and Postiz gave us the perfect open foundation to build our own agentic social media assistant on top of, in our own direction, not as a paywalled clone. Thank you, Nevo and the Postiz contributors. 🙏💜
+
 ## License
 
 AGPL-3.0
