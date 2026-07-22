@@ -15,7 +15,7 @@
   <a href="https://postqueen.ai">Website</a> ·
   <a href="https://app.postqueen.ai">App</a> ·
   <a href="https://api.postqueen.ai/docs">API Reference</a> ·
-  <a href="https://github.com/GkhanKINAY/postqueen-docs">Docs</a>
+  <a href="https://docs.postqueen.ai">Docs</a>
 </p>
 
 <p align="center">
@@ -781,7 +781,7 @@ AGPL-3.0
 - **Website:** [postqueen.ai](https://postqueen.ai)
 - **App:** [app.postqueen.ai](https://app.postqueen.ai)
 - **API Reference:** [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
-- **Docs:** [GkhanKINAY/postqueen-docs](https://github.com/GkhanKINAY/postqueen-docs)
+- **Docs:** [docs.postqueen.ai](https://docs.postqueen.ai)
 - **npm:** [postqueen](https://www.npmjs.com/package/postqueen)
 - **GitHub:** [GkhanKINAY/postqueen-app](https://github.com/GkhanKINAY/postqueen-app)
 - **Issues:** [Report bugs](https://github.com/GkhanKINAY/postqueen-app/issues)
