@@ -1,21 +1,25 @@
 <p align="center">
   <a href="https://postqueen.ai">
-    <img src="https://postqueen.ai/icon.svg" width="76" alt="PostQueen" />
+    <img src=".github/assets/header.svg" width="820" alt="PostQueen: the AI agent CLI for social scheduling" />
   </a>
 </p>
 
-<h1 align="center">PostQueen CLI</h1>
-
 <p align="center">
   <strong>Command-line and AI-agent access to the PostQueen API.</strong><br />
-  Schedule, manage, and analyze posts across 30+ social networks — straight from your terminal or an AI agent.
+  Schedule, manage, and analyze posts across 30+ social networks, straight from your terminal or an AI agent.
+</p>
+
+<p align="center">
+  <strong>🆕 NEW:</strong> drive PostQueen from <b>Claude&nbsp;Code, ChatGPT, Cursor, OpenClaw, Hermes</b> or <b>Codex</b>, over the built-in <a href="https://postqueen.ai/mcp">MCP server</a> or this <a href="https://www.npmjs.com/package/postqueen">Agent CLI</a>.
 </p>
 
 <p align="center">
   <a href="https://postqueen.ai">Website</a> ·
-  <a href="https://app.postqueen.ai">App</a> ·
+  <a href="https://postqueen.ai/pricing">Pricing</a> ·
+  <a href="https://app.postqueen.ai/auth">Start free</a> ·
+  <a href="https://docs.postqueen.ai">Docs</a> ·
   <a href="https://api.postqueen.ai/docs">API Reference</a> ·
-  <a href="https://docs.postqueen.ai">Docs</a>
+  <a href="https://www.npmjs.com/package/postqueen">npm</a>
 </p>
 
 <p align="center">
@@ -25,16 +29,75 @@
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/postqueen" alt="Node version"></a>
 </p>
 
+<p align="center">
+  <img src=".github/assets/channels.svg" width="760" alt="Supported social networks" />
+</p>
+
 ---
 
-> Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). By default the CLI talks to the hosted PostQueen API at `https://api.postqueen.ai`; set the `POSTQUEEN_API_URL` environment variable to target any self-hosted PostQueen instance. The only URL-related flag is `--auth-server` (on `auth:login`), which points the OAuth2 device flow at a self-hosted auth server. Thanks to Nevo David and the Postiz contributors for the foundation this builds on.
+> Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). By default the CLI talks to the hosted PostQueen API at `https://api.postqueen.ai`. Set the `POSTQUEEN_API_URL` environment variable to target any self-hosted PostQueen instance. The only URL-related flag is `--auth-server` (on `auth:login`), which points the OAuth2 device flow at a self-hosted auth server.
 
-**Social media automation CLI for AI agents** - Schedule posts across 30+ platforms programmatically.
+## What is the PostQueen CLI?
 
-The PostQueen CLI provides a command-line interface to the PostQueen API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
+The PostQueen CLI is a command-line interface to the PostQueen API. It lets developers and AI agents automate social media posting, manage content, and handle media uploads across networks like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more. Every command outputs JSON, so it drops cleanly into scripts, cron jobs, and agent tool-calls.
+
+> PostQueen is a fork of [Postiz](https://github.com/gitroomhq/postiz-app) (AGPL-3.0). Huge thanks to Nevo David and the Postiz contributors for the foundation this project builds on.
+
+## 💬 Just talk to your AI
+
+You don't need to write a line of code to get started. Connect PostQueen to the AI assistant you already use, then ask in plain English:
+
+> *"Write a launch post about our new feature, generate a matching image, and schedule it for Friday at 9am on X, LinkedIn and Instagram."*
+
+> *"Turn this blog post into a week of posts, one a day, tailored for each channel."*
+
+> *"What should we post today? Draft three options and queue the best one for tomorrow morning."*
+
+> *"Upload this video and schedule it to TikTok, YouTube and Instagram with a caption for each."*
+
+Your assistant drafts, designs, and schedules; **every post lands in your PostQueen queue where you can review, edit or delete it before it goes live**. Nothing publishes behind your back.
+
+It works with the tools you already talk to, over the built-in **MCP server** or this **Agent CLI**:
+
+<p align="center">
+  <a href="https://postqueen.ai/claude-code"><b>Claude Code</b></a> ·
+  <a href="https://postqueen.ai/chatgpt"><b>ChatGPT</b></a> ·
+  <a href="https://postqueen.ai/cursor"><b>Cursor</b></a> ·
+  <a href="https://postqueen.ai/openclaw"><b>OpenClaw</b></a> ·
+  <a href="https://postqueen.ai/hermes-agent"><b>Hermes</b></a> ·
+  <a href="https://postqueen.ai/codex"><b>Codex</b></a>
+</p>
+
+**Connect in one minute:** grab your API key at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal), then point your assistant at PostQueen:
+
+```bash
+# Claude Code (or any MCP client)
+claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API_KEY>
+
+# ...or install the CLI as a skill for terminal agents
+npx skills add GkhanKINAY/postqueen-agent
+export POSTQUEEN_API_KEY=<YOUR_API_KEY>
+```
+
+### Agentic scheduling
+
+Because every action is a plain CLI command (and a public API call), you can point *your own* agent at PostQueen and let it plan, draft, and schedule on a recurring basis. A simple heartbeat job (a cron entry, a CI schedule, or an always-on agent loop) can wake up on a timer, decide what to post, upload any media, and queue it, all through the same commands documented below. A common pattern is a job that watches a folder of drafts and auto-schedules anything new it finds.
+
+Every command prints JSON, so it composes cleanly in scripts and cron:
+
+```bash
+# e.g. a morning cron job that queues today's post to X
+ID=$(postqueen integrations:list | jq -r '.[] | select(.identifier=="twitter") | .id')
+postqueen posts:create -c "Good morning ☀️ Today's tip: ..." -s "2026-01-01T09:00:00Z" -i "$ID"
+```
+
+Everything an agent needs is here: discover channels with `integrations:list`, upload media with `upload`, create and manage posts with `posts:*`, and read results with `analytics:*`. Nothing publishes without a scheduled post in your queue, so you stay in control.
+
+---
 
 ## Table of Contents
 
+- [Just talk to your AI](#-just-talk-to-your-ai)
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Commands](#commands)
@@ -102,6 +165,8 @@ postqueen auth:logout
 By default, `postqueen auth:login` uses the hosted auth server at `cli-auth.postqueen.ai`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
 
 ### Option 2: API Key
+
+Grab your key at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal), then export it:
 
 ```bash
 export POSTQUEEN_API_KEY=your_api_key_here
@@ -804,6 +869,6 @@ AGPL-3.0
 | Pinterest | getBoards, getBoardSections | - |
 | Discord | getChannels | - |
 | Slack | getChannels | - |
-| And 18+ more... | | |
+| And 20+ more... | | |
 
 **See [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) for complete documentation.**
