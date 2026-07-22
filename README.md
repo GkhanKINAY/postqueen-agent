@@ -1,24 +1,30 @@
 <p align="center">
   <a href="https://postqueen.ai">
-    <img src=".github/assets/header.svg" width="820" alt="PostQueen: the AI agent CLI for social scheduling" />
+    <img src=".github/assets/header.svg" width="840" alt="PostQueen: the AI agent CLI for social scheduling" />
   </a>
 </p>
 
-<p align="center">
-  <strong>Command-line and AI-agent access to the PostQueen API.</strong><br />
-  Schedule, manage, and analyze posts across 30+ social networks, straight from your terminal or an AI agent.
-</p>
+<h3 align="center">🆕&nbsp; NEW: drive PostQueen from Claude&nbsp;Code, ChatGPT, Cursor, OpenClaw, Hermes or Codex, over the built-in <a href="https://postqueen.ai/mcp">MCP server</a> or this <a href="https://www.npmjs.com/package/postqueen">Agent CLI</a>.</h3>
+
+<br/>
+
+<div align="center">
+  <h2>The queen of your posts 👑</h2>
+  <p>
+    From your terminal, or the AI agent you already talk to, she writes, designs and schedules across 30+ networks.<br/>
+    You just approve, and <strong>nothing goes out without your say-so</strong>.
+  </p>
+  <p><em>An open-source alternative to Buffer, Hootsuite, Sprout Social and Later.</em></p>
+</div>
+
+<br/>
 
 <p align="center">
-  <strong>🆕 NEW:</strong> drive PostQueen from <b>Claude&nbsp;Code, ChatGPT, Cursor, OpenClaw, Hermes</b> or <b>Codex</b>, over the built-in <a href="https://postqueen.ai/mcp">MCP server</a> or this <a href="https://www.npmjs.com/package/postqueen">Agent CLI</a>.
-</p>
-
-<p align="center">
-  <a href="https://postqueen.ai">Website</a> ·
-  <a href="https://postqueen.ai/pricing">Pricing</a> ·
-  <a href="https://app.postqueen.ai/auth">Start free</a> ·
-  <a href="https://docs.postqueen.ai">Docs</a> ·
-  <a href="https://api.postqueen.ai/docs">API Reference</a> ·
+  <a href="https://postqueen.ai">Website</a> &nbsp;·&nbsp;
+  <a href="https://postqueen.ai/pricing">Pricing</a> &nbsp;·&nbsp;
+  <a href="https://app.postqueen.ai/auth">Start free</a> &nbsp;·&nbsp;
+  <a href="https://docs.postqueen.ai">Docs</a> &nbsp;·&nbsp;
+  <a href="https://api.postqueen.ai/docs">API Reference</a> &nbsp;·&nbsp;
   <a href="https://www.npmjs.com/package/postqueen">npm</a>
 </p>
 
@@ -29,9 +35,19 @@
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/postqueen" alt="Node version"></a>
 </p>
 
+<br/>
+
 <p align="center">
-  <img src=".github/assets/channels.svg" width="760" alt="Supported social networks" />
+  <img src=".github/assets/channels.svg" width="780" alt="Supported social networks" />
 </p>
+
+<p align="center">
+  <a href="https://docs.postqueen.ai"><strong>Explore the docs »</strong></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://postqueen.ai/pricing"><strong>Start a 7-day free trial »</strong></a>
+</p>
+
+<br/>
 
 ---
 
@@ -45,43 +61,85 @@ The PostQueen CLI is a command-line interface to the PostQueen API. It lets deve
 
 ## 💬 Just talk to your AI
 
-You don't need to write a line of code to get started. Connect PostQueen to the AI assistant you already use, then ask in plain English:
+You don't need to write a line of code. Connect PostQueen to the AI assistant you already use, then just ask:
 
-> *"Write a launch post about our new feature, generate a matching image, and schedule it for Friday at 9am on X, LinkedIn and Instagram."*
+> *"Post about our launch on X and LinkedIn tomorrow morning."*
 
-> *"Turn this blog post into a week of posts, one a day, tailored for each channel."*
+> *"Turn this blog post into a week of posts, one a day."*
 
-> *"What should we post today? Draft three options and queue the best one for tomorrow morning."*
+> *"Make an image for this post and schedule it for Friday at 9am."*
 
-> *"Upload this video and schedule it to TikTok, YouTube and Instagram with a caption for each."*
+> *"Upload this video and post it to TikTok, YouTube and Instagram."*
 
-Your assistant drafts, designs, and schedules; **every post lands in your PostQueen queue where you can review, edit or delete it before it goes live**. Nothing publishes behind your back.
+Your assistant writes it, designs it, and drops it into your **PostQueen queue**, where you review and approve before anything goes live. Nothing publishes behind your back.
 
 It works with the tools you already talk to, over the built-in **MCP server** or this **Agent CLI**:
 
 <p align="center">
-  <a href="https://postqueen.ai/claude-code"><b>Claude Code</b></a> ·
-  <a href="https://postqueen.ai/chatgpt"><b>ChatGPT</b></a> ·
-  <a href="https://postqueen.ai/cursor"><b>Cursor</b></a> ·
-  <a href="https://postqueen.ai/openclaw"><b>OpenClaw</b></a> ·
-  <a href="https://postqueen.ai/hermes-agent"><b>Hermes</b></a> ·
+  <a href="https://postqueen.ai/claude-code"><b>Claude Code</b></a> &nbsp;·&nbsp;
+  <a href="https://postqueen.ai/chatgpt"><b>ChatGPT</b></a> &nbsp;·&nbsp;
+  <a href="https://postqueen.ai/cursor"><b>Cursor</b></a> &nbsp;·&nbsp;
+  <a href="https://postqueen.ai/openclaw"><b>OpenClaw</b></a> &nbsp;·&nbsp;
+  <a href="https://postqueen.ai/hermes-agent"><b>Hermes</b></a> &nbsp;·&nbsp;
   <a href="https://postqueen.ai/codex"><b>Codex</b></a>
 </p>
 
-**Connect in one minute:** grab your API key at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal), then point your assistant at PostQueen:
+> 🔑 **First, grab your API key** at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal). You will use it in every option below.
+
+---
+
+## 🔌 Connect over MCP
+
+The [Model Context Protocol](https://modelcontextprotocol.io) lets AI assistants call tools. PostQueen ships a hosted MCP server, so any MCP client can draft, schedule and manage posts as if it were built in.
+
+**One-line connect (Claude Code or any CLI client):**
 
 ```bash
-# Claude Code (or any MCP client)
 claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API_KEY>
-
-# ...or install the CLI as a skill for terminal agents
-npx skills add GkhanKINAY/postqueen-agent
-export POSTQUEEN_API_KEY=<YOUR_API_KEY>
 ```
 
-### Agentic scheduling
+**Config-file clients (Claude Desktop, Cursor, and others):**
 
-Because every action is a plain CLI command (and a public API call), you can point *your own* agent at PostQueen and let it plan, draft, and schedule on a recurring basis. A simple heartbeat job (a cron entry, a CI schedule, or an always-on agent loop) can wake up on a timer, decide what to post, upload any media, and queue it, all through the same commands documented below. A common pattern is a job that watches a folder of drafts and auto-schedules anything new it finds.
+```json
+{
+  "mcpServers": {
+    "postqueen": {
+      "url": "https://api.postqueen.ai/mcp/<YOUR_API_KEY>"
+    }
+  }
+}
+```
+
+**ChatGPT:** Settings → Connectors → add a custom connector pointing at `https://api.postqueen.ai/mcp/<YOUR_API_KEY>`.
+
+Works with **Claude Code, ChatGPT, Cursor, OpenClaw, Hermes, Codex** and any other MCP client (Gemini CLI, Aider, Cline, Warp, or your own). Full guide: [postqueen.ai/mcp](https://postqueen.ai/mcp).
+
+---
+
+## ⌨️ Agent CLI
+
+Prefer the terminal, or building an agent that runs commands? The `postqueen` CLI drives everything and returns clean JSON, so any model-agnostic agent can use it.
+
+```bash
+npm i -g postqueen
+postqueen auth:login          # opens a browser device flow
+postqueen integrations:list   # your connected channels
+postqueen posts:create -c "Hello from PostQueen" -s "2026-01-01T09:00:00Z" -i <integration-id>
+```
+
+Or skip the browser login and pass an API key directly:
+
+```bash
+export POSTQUEEN_API_KEY=<YOUR_API_KEY>   # grab it at app.postqueen.ai/settings
+```
+
+Install the CLI as a skill for terminal agents with `npx skills add GkhanKINAY/postqueen-agent`. The full command reference lives further down this page.
+
+---
+
+## 🤖 Build your own agent (agentic scheduling)
+
+Because every action is a plain CLI command (and a public API call), you can point **your own** agent at PostQueen and let it plan, draft and schedule on its own, on a recurring schedule if you like. A simple heartbeat job (a cron entry, a CI schedule, or an always-on agent loop) can wake up on a timer, decide what to post, upload any media, and queue it, all through the same commands documented below. A human stays in the loop the whole time: **nothing publishes until it is approved**.
 
 Every command prints JSON, so it composes cleanly in scripts and cron:
 
@@ -91,29 +149,7 @@ ID=$(postqueen integrations:list | jq -r '.[] | select(.identifier=="twitter") |
 postqueen posts:create -c "Good morning ☀️ Today's tip: ..." -s "2026-01-01T09:00:00Z" -i "$ID"
 ```
 
-Everything an agent needs is here: discover channels with `integrations:list`, upload media with `upload`, create and manage posts with `posts:*`, and read results with `analytics:*`. Nothing publishes without a scheduled post in your queue, so you stay in control.
-
----
-
-## Table of Contents
-
-- [Just talk to your AI](#-just-talk-to-your-ai)
-- [Installation](#installation)
-- [Authentication](#authentication)
-- [Commands](#commands)
-- [Platform-Specific Features](#platform-specific-features)
-- [Features for AI Agents](#features-for-ai-agents)
-- [Common Workflows](#common-workflows)
-- [Documentation](#documentation)
-- [API Endpoints](#api-endpoints)
-- [Environment Variables](#environment-variables)
-- [Error Handling](#error-handling)
-- [Development](#development)
-- [Quick Reference](#quick-reference)
-- [Contributing](#contributing)
-- [License](#license)
-- [Links](#links)
-- [Supported Platforms](#supported-platforms)
+Everything an agent needs is here: discover channels with `integrations:list`, upload media with `upload`, create and manage posts with `posts:*`, and read results with `analytics:*`. Start from the [Agent CLI](https://postqueen.ai/agent) or [MCP](https://postqueen.ai/mcp) guides.
 
 ---
 
@@ -141,7 +177,7 @@ npx skills add GkhanKINAY/postqueen-agent
 
 ### Option 1: OAuth2 (Recommended)
 
-Authenticate using the device flow — no client ID or secret needed:
+Authenticate using the device flow: no client ID or secret needed:
 
 ```bash
 postqueen auth:login
@@ -277,15 +313,15 @@ postqueen posts:create --json post.json
 ```
 
 **Options:**
-- `-c, --content` - Post/comment content (use multiple times for posts with comments)
-- `-s, --date` - Schedule date in ISO 8601 format (REQUIRED)
-- `-t, --type` - Post type: "schedule" or "draft" (default: "schedule")
-- `-m, --media` - Comma-separated media URLs for corresponding `-c`
-- `-i, --integrations` - Comma-separated integration IDs (required)
-- `-d, --delay` - Delay between comments in minutes (default: 0)
-- `--settings` - Platform-specific settings as JSON string
-- `-j, --json` - Path to JSON file with full post structure
-- `--shortLink` - Use short links (default: true)
+- `-c, --content`: Post/comment content (use multiple times for posts with comments)
+- `-s, --date`: Schedule date in ISO 8601 format (REQUIRED)
+- `-t, --type`: Post type: "schedule" or "draft" (default: "schedule")
+- `-m, --media`: Comma-separated media URLs for corresponding `-c`
+- `-i, --integrations`: Comma-separated integration IDs (required)
+- `-d, --delay`: Delay between comments in minutes (default: 0)
+- `--settings`: Platform-specific settings as JSON string
+- `-j, --json`: Path to JSON file with full post structure
+- `--shortLink`: Use short links (default: true)
 
 ---
 
@@ -518,11 +554,11 @@ postqueen posts:create \
 ### Discovery Workflow
 The CLI enables dynamic discovery of integration capabilities:
 
-1. **List integrations** - Get available social media accounts
-2. **Get settings** - Retrieve character limits, required fields, and available tools
-3. **Trigger tools** - Fetch dynamic data (flairs, playlists, boards, etc.)
-4. **Create posts** - Use discovered data in posts
-5. **Analyze** - Get post analytics; if `{"missing": true}` is returned, resolve with `posts:missing` + `posts:connect`
+1. **List integrations**: Get available social media accounts
+2. **Get settings**: Retrieve character limits, required fields, and available tools
+3. **Trigger tools**: Fetch dynamic data (flairs, playlists, boards, etc.)
+4. **Create posts**: Use discovered data in posts
+5. **Analyze**: Get post analytics; if `{"missing": true}` is returned, resolve with `posts:missing` + `posts:connect`
 
 This allows AI agents to adapt to different platforms without hardcoded knowledge.
 
@@ -648,30 +684,30 @@ done
 ## Documentation
 
 **For AI Agents:**
-- **[SKILL.md](./SKILL.md)** - Complete skill reference with patterns and examples
+- **[SKILL.md](./SKILL.md)**: Complete skill reference with patterns and examples
 
 **Deep-Dive Guides:**
-- **[HOW_TO_RUN.md](./HOW_TO_RUN.md)** - Installation and setup methods
-- **[COMMAND_LINE_GUIDE.md](./examples/COMMAND_LINE_GUIDE.md)** - Complete command syntax reference
-- **[PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md)** - All platform settings schemas
-- **[INTEGRATION_TOOLS_WORKFLOW.md](./INTEGRATION_TOOLS_WORKFLOW.md)** - Tools workflow guide
-- **[INTEGRATION_SETTINGS_DISCOVERY.md](./INTEGRATION_SETTINGS_DISCOVERY.md)** - Settings discovery
-- **[SUPPORTED_FILE_TYPES.md](./SUPPORTED_FILE_TYPES.md)** - Media format reference
-- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Code architecture
-- **[PUBLISHING.md](./PUBLISHING.md)** - npm publishing guide
+- **[HOW_TO_RUN.md](./HOW_TO_RUN.md)**: Installation and setup methods
+- **[COMMAND_LINE_GUIDE.md](./examples/COMMAND_LINE_GUIDE.md)**: Complete command syntax reference
+- **[PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md)**: All platform settings schemas
+- **[INTEGRATION_TOOLS_WORKFLOW.md](./INTEGRATION_TOOLS_WORKFLOW.md)**: Tools workflow guide
+- **[INTEGRATION_SETTINGS_DISCOVERY.md](./INTEGRATION_SETTINGS_DISCOVERY.md)**: Settings discovery
+- **[SUPPORTED_FILE_TYPES.md](./SUPPORTED_FILE_TYPES.md)**: Media format reference
+- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**: Code architecture
+- **[PUBLISHING.md](./PUBLISHING.md)**: npm publishing guide
 
 **Examples:**
-- **[examples/EXAMPLES.md](./examples/EXAMPLES.md)** - Comprehensive examples
-- **[examples/](./examples/)** - Ready-to-use scripts and JSON files
+- **[examples/EXAMPLES.md](./examples/EXAMPLES.md)**: Comprehensive examples
+- **[examples/](./examples/)**: Ready-to-use scripts and JSON files
 
 ### Other ways to use the PostQueen API
 
 The CLI is one of several ways to reach the same public API:
 
-- **MCP server** — point any MCP client at `https://api.postqueen.ai/mcp/<API_KEY>`
-- **NodeJS SDK** — [`@postqueen/node`](https://www.npmjs.com/package/@postqueen/node)
-- **n8n node** — [`n8n-nodes-postqueen`](https://www.npmjs.com/package/n8n-nodes-postqueen)
-- **REST reference** — [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
+- **MCP server**: point any MCP client at `https://api.postqueen.ai/mcp/<API_KEY>`
+- **NodeJS SDK**: [`@postqueen/node`](https://www.npmjs.com/package/@postqueen/node)
+- **n8n node**: [`n8n-nodes-postqueen`](https://www.npmjs.com/package/n8n-nodes-postqueen)
+- **REST reference**: [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
 
 ---
 
@@ -770,8 +806,8 @@ pnpm run build
 ```
 
 Output in `dist/`:
-- `index.js` - Bundled executable with shebang
-- `index.js.map` - Source map
+- `index.js`: Bundled executable with shebang
+- `index.js.map`: Source map
 
 ---
 
@@ -819,6 +855,18 @@ postqueen posts:connect <id> --release-id "<rid>"    # Connect content to post
 postqueen --help                                     # Show help
 postqueen posts:create --help                        # Command help
 ```
+
+---
+
+## ❤️ Community & Support
+
+We would love to hear from you, whether you hit a bug, have an idea, or just want to say hi:
+
+- 🐛 **Found a bug or have a feature idea?** [Open an issue](https://github.com/GkhanKINAY/postqueen-agent/issues).
+- 💌 **Need a hand?** Email **support@postqueen.ai**.
+- 📚 **Getting started?** The [docs](https://docs.postqueen.ai) walk you through everything.
+
+If PostQueen saves you time, a ⭐ on the repo genuinely helps other people find it.
 
 ---
 
