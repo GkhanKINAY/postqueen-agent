@@ -279,6 +279,6 @@ postqueen posts:delete --help
 ## Links
 
 - [PostQueen Website](https://postqueen.ai)
-- [API Documentation](https://postqueen.ai/api-docs)
+- [API Documentation](https://api.postqueen.ai/docs)
 - [GitHub Repository](https://github.com/GkhanKINAY/postqueen-app)
 - [Report Issues](https://github.com/GkhanKINAY/postqueen-app/issues)
