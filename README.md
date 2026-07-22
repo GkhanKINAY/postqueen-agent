@@ -1,16 +1,56 @@
-## Install as a skill
+<p align="center">
+  <a href="https://postqueen.ai">
+    <img src="https://postqueen.ai/icon.svg" width="76" alt="PostQueen" />
+  </a>
+</p>
 
-```bash
-npx skills add GkhanKINAY/postqueen-agent
-```
+<h1 align="center">PostQueen CLI</h1>
 
-# PostQueen CLI
+<p align="center">
+  <strong>Command-line and AI-agent access to the PostQueen API.</strong><br />
+  Schedule, manage, and analyze posts across 28+ social networks — straight from your terminal or an AI agent.
+</p>
 
-> Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). Defaults point to PostQueen endpoints (not live yet); use `POSTQUEEN_API_URL` (or `--api-url`) to target any self-hosted PostQueen instance. Thanks to Nevo David and the Postiz contributors for the foundation this builds on.
+<p align="center">
+  <a href="https://postqueen.ai">Website</a> ·
+  <a href="https://app.postqueen.ai">App</a> ·
+  <a href="https://api.postqueen.ai/docs">API Reference</a> ·
+  <a href="https://github.com/GkhanKINAY/postqueen-docs">Docs</a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/dm/postqueen" alt="npm downloads"></a>
+  <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/postqueen" alt="Node version"></a>
+</p>
+
+---
+
+> Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). By default the CLI talks to the hosted PostQueen API at `https://api.postqueen.ai`; set the `POSTQUEEN_API_URL` environment variable to target any self-hosted PostQueen instance. The only URL-related flag is `--auth-server` (on `auth:login`), which points the OAuth2 device flow at a self-hosted auth server. Thanks to Nevo David and the Postiz contributors for the foundation this builds on.
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
 
 The PostQueen CLI provides a command-line interface to the PostQueen API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Authentication](#authentication)
+- [Commands](#commands)
+- [Platform-Specific Features](#platform-specific-features)
+- [Features for AI Agents](#features-for-ai-agents)
+- [Common Workflows](#common-workflows)
+- [Documentation](#documentation)
+- [API Endpoints](#api-endpoints)
+- [Environment Variables](#environment-variables)
+- [Error Handling](#error-handling)
+- [Development](#development)
+- [Quick Reference](#quick-reference)
+- [Contributing](#contributing)
+- [License](#license)
+- [Links](#links)
+- [Supported Platforms](#supported-platforms)
 
 ---
 
@@ -22,6 +62,14 @@ The PostQueen CLI provides a command-line interface to the PostQueen API, enabli
 npm install -g postqueen
 # or
 pnpm install -g postqueen
+```
+
+### Install as a skill
+
+Register the CLI as a skill for coding agents that support the `skills` registry:
+
+```bash
+npx skills add GkhanKINAY/postqueen-agent
 ```
 
 ---
@@ -551,6 +599,15 @@ done
 - **[examples/EXAMPLES.md](./examples/EXAMPLES.md)** - Comprehensive examples
 - **[examples/](./examples/)** - Ready-to-use scripts and JSON files
 
+### Other ways to use the PostQueen API
+
+The CLI is one of several ways to reach the same public API:
+
+- **MCP server** — point any MCP client at `https://api.postqueen.ai/mcp/<API_KEY>`
+- **NodeJS SDK** — [`@postqueen/node`](https://www.npmjs.com/package/@postqueen/node)
+- **n8n node** — [`n8n-nodes-postqueen`](https://www.npmjs.com/package/n8n-nodes-postqueen)
+- **REST reference** — [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
+
 ---
 
 ## API Endpoints
@@ -562,6 +619,7 @@ The CLI interacts with these PostQueen API endpoints:
 | `/public/v1/posts` | POST | Create a post |
 | `/public/v1/posts` | GET | List posts |
 | `/public/v1/posts/:id` | DELETE | Delete a post |
+| `/public/v1/posts/:id/status` | PUT | Change post status (draft ↔ schedule) |
 | `/public/v1/posts/:id/missing` | GET | Get missing content from provider |
 | `/public/v1/posts/:id/release-id` | PUT | Update release ID for a post |
 | `/public/v1/integrations` | GET | List integrations (optional `?group=` filter) |
@@ -721,7 +779,10 @@ AGPL-3.0
 ## Links
 
 - **Website:** [postqueen.ai](https://postqueen.ai)
-- **API Docs:** [docs.postqueen.ai](https://docs.postqueen.ai)
+- **App:** [app.postqueen.ai](https://app.postqueen.ai)
+- **API Reference:** [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
+- **Docs:** [GkhanKINAY/postqueen-docs](https://github.com/GkhanKINAY/postqueen-docs)
+- **npm:** [postqueen](https://www.npmjs.com/package/postqueen)
 - **GitHub:** [GkhanKINAY/postqueen-app](https://github.com/GkhanKINAY/postqueen-app)
 - **Issues:** [Report bugs](https://github.com/GkhanKINAY/postqueen-app/issues)
 
