@@ -18,7 +18,7 @@ export function getConfig(): PostQueenConfig {
   if (!apiKey) {
     console.error('❌ Error: No authentication found.');
     console.error('Options:');
-    console.error('  1. OAuth2: postqueen auth:login --client-id <id> --client-secret <secret>');
+    console.error('  1. Log in: run "postqueen auth:login" (opens a browser device flow)');
     console.error('  2. API Key: export POSTQUEEN_API_KEY=your_api_key');
     process.exit(1);
   }
