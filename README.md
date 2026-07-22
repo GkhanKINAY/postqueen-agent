@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>Command-line and AI-agent access to the PostQueen API.</strong><br />
-  Schedule, manage, and analyze posts across 28+ social networks — straight from your terminal or an AI agent.
+  Schedule, manage, and analyze posts across 30+ social networks — straight from your terminal or an AI agent.
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 > Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). By default the CLI talks to the hosted PostQueen API at `https://api.postqueen.ai`; set the `POSTQUEEN_API_URL` environment variable to target any self-hosted PostQueen instance. The only URL-related flag is `--auth-server` (on `auth:login`), which points the OAuth2 device flow at a self-hosted auth server. Thanks to Nevo David and the Postiz contributors for the foundation this builds on.
 
-**Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
+**Social media automation CLI for AI agents** - Schedule posts across 30+ platforms programmatically.
 
 The PostQueen CLI provides a command-line interface to the PostQueen API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
 
@@ -325,10 +325,10 @@ You **must** upload media files to PostQueen before using them in posts. Many pl
 ```bash
 # 1. Upload the file first
 RESULT=$(postqueen upload video.mp4)
-PATH=$(echo "$RESULT" | jq -r '.path')
+FILE_PATH=$(echo "$RESULT" | jq -r '.path')
 
 # 2. Use the PostQueen URL in your post
-postqueen posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$PATH" -i "tiktok-id"
+postqueen posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$FILE_PATH" -i "tiktok-id"
 ```
 
 **Why this is required:**
@@ -444,7 +444,7 @@ postqueen posts:create \
   -i "instagram-id"
 ```
 
-**See [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) for all 28+ platforms.**
+**See [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) for all 30+ platforms.**
 
 ---
 
@@ -790,7 +790,7 @@ AGPL-3.0
 
 ## Supported Platforms
 
-28+ platforms including:
+30+ platforms including:
 
 | Platform | Integration Tools | Settings |
 |----------|------------------|----------|
