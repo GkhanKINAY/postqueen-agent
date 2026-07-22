@@ -76,7 +76,7 @@ The fundamental pattern for using PostQueen CLI:
 ```bash
 # 1. Authenticate
 postqueen auth:status
-# If not authenticated: postqueen auth:login --client-id <id> --client-secret <secret>
+# If not authenticated: postqueen auth:login   # opens a browser device flow
 
 # 2. Discover
 postqueen integrations:list
