@@ -5,7 +5,7 @@
 </p>
 
 <h3 align="center">
-  <a href="https://postqueen.ai/agent">🆕 NEW: meet the PostQueen Agent, run your social media from Claude Code, ChatGPT or OpenClaw »</a>
+  <a href="https://postqueen.ai/agent">🆕 NEW: meet the PostQueen Agent, run your social media from Claude Code, ChatGPT, OpenClaw or Hermes »</a>
 </h3>
 
 <br/>
@@ -72,7 +72,7 @@ Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp;
 
 ---
 
-## 📱 From any chat app
+## <img src=".github/assets/icon-openclaw.svg" height="26" alt="" /> From any chat app 📱
 
 <p align="center">
   <img src=".github/assets/chat-openclaw.svg" width="620" alt="Chatting with OpenClaw on WhatsApp: it schedules posts through PostQueen" />
