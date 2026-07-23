@@ -1,7 +1,7 @@
 {
   "name": "postqueen",
-  "version": "2.0.16",
-  "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API",
+  "version": "2.0.17",
+  "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API (fork of Postiz CLI)",
   "main": "dist/index.js",
   "bin": {
     "postqueen": "./dist/index.js"
