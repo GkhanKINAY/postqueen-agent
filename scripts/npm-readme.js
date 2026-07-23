@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 /**
- * Swaps the npm-facing README in at pack time.
+ * Swaps the npm-facing README in around a publish.
  *
  * npm always ships the tarball's README.md and offers no way to point it at a
- * different file, so `prepack` moves the GitHub README aside and copies
- * NPM_README.md over it, and `postpack` puts the original back.
+ * different file. Worse, the readme npm stores in the registry metadata (what
+ * npmjs.com renders) is read from the working directory, not from the tarball —
+ * so a prepack/postpack swap ships a correct tarball with a stale package page.
+ * README.md has to already be swapped when `npm publish` starts and stay swapped
+ * until it finishes, which is what scripts/publish-npm.sh does.
  *
  * If a run is interrupted and README.md is left holding the npm copy, restore it
  * with: git checkout -- README.md
@@ -33,7 +36,16 @@ if (mode === 'swap') {
   if (fs.existsSync(backup)) {
     fs.renameSync(backup, readme);
   }
+} else if (mode === 'check') {
+  // Guard against a bare `npm publish`, which would ship the GitHub README.
+  if (fs.readFileSync(readme, 'utf8') !== fs.readFileSync(npmReadme, 'utf8')) {
+    console.error(
+      'npm-readme: README.md is not the npm copy.\n' +
+        'Publish with: npm run publish:npm -- --otp=<code>'
+    );
+    process.exit(1);
+  }
 } else {
-  console.error('usage: node scripts/npm-readme.js swap|restore');
+  console.error('usage: node scripts/npm-readme.js swap|restore|check');
   process.exit(1);
 }

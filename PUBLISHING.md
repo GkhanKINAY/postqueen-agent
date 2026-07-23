@@ -20,11 +20,22 @@ postqueen --help
 
 ## The README npm shows
 
-npm publishes whatever `README.md` is in the tarball, and it cannot be pointed at another file. So
-the npm-facing README lives in **`NPM_README.md`** and `scripts/npm-readme.js` swaps it in:
+npm publishes whatever `README.md` is in the tarball, and it cannot be pointed at another file. The
+npm-facing README therefore lives in **`NPM_README.md`**, and publishing goes through:
 
-- `prepack` moves `README.md` to `.readme-github.bak` and copies `NPM_README.md` over it
-- `postpack` moves the original back
+```bash
+npm run publish:npm -- --otp=123456
+```
+
+That script swaps `NPM_README.md` in as `README.md` (backing the original up to
+`.readme-github.bak`), runs `npm publish --access public`, and restores the GitHub README afterwards
+— even if the publish fails.
+
+**Do not publish with a bare `npm publish`.** A `prepack` hook is not enough: the readme npm stores
+in the registry metadata — the text npmjs.com renders on the package page — is read from the working
+directory, not from the tarball. Swapping during pack ships a correct tarball behind a stale package
+page. `prepublishOnly` runs `node scripts/npm-readme.js check` and aborts if `README.md` is not the
+npm copy.
 
 Edit `NPM_README.md` for what npm users read, and `README.md` for what GitHub visitors read. After a
 publish, `git status` must be clean — if `README.md` still holds the npm copy (an interrupted run),
