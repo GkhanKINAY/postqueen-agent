@@ -79,7 +79,7 @@ Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp;
 ## <img src=".github/assets/icon-openclaw.svg" height="26" alt="" /> From any chat app 📱
 
 <p align="center">
-  <img src=".github/assets/chat-openclaw.svg" width="620" alt="Chatting with OpenClaw: it generates the visual with PostQueen and schedules the posts" />
+  <img src=".github/assets/chat-openclaw.svg" width="620" alt="A voice note to OpenClaw: PostQueen generates the visual and schedules the posts" />
 </p>
 
 Message OpenClaw from WhatsApp, Telegram, Slack or Discord and it drives PostQueen for you: it finds your connected accounts, uploads the media and schedules the posts while you get on with your day. Everything lands on your calendar first, where you can edit or delete it, and you can ask for drafts if you want to sign off on each post yourself.
