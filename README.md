@@ -62,6 +62,10 @@ postqueen posts:create \
 
 Every command reads flags and prints JSON, so any assistant that can run shell commands can now run your social media.
 
+<p align="center">
+  <img src=".github/assets/terminal-claude.svg" width="620" alt="Claude Code in a terminal: you ask in plain words, it runs the postqueen CLI and schedules the posts" />
+</p>
+
 <br/>
 
 <p align="center">
