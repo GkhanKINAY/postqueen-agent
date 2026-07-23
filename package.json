@@ -1,6 +1,6 @@
 {
   "name": "postqueen",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "PostQueen CLI - Command line interface for the PostQueen social media scheduling API",
   "main": "dist/index.js",
   "bin": {
