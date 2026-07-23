@@ -36,3 +36,6 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Backup written by scripts/npm-readme.js while packing
+.readme-github.bak

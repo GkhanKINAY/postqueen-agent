@@ -18,6 +18,21 @@ pnpm install -g postqueen
 postqueen --help
 ```
 
+## The README npm shows
+
+npm publishes whatever `README.md` is in the tarball, and it cannot be pointed at another file. So
+the npm-facing README lives in **`NPM_README.md`** and `scripts/npm-readme.js` swaps it in:
+
+- `prepack` moves `README.md` to `.readme-github.bak` and copies `NPM_README.md` over it
+- `postpack` moves the original back
+
+Edit `NPM_README.md` for what npm users read, and `README.md` for what GitHub visitors read. After a
+publish, `git status` must be clean — if `README.md` still holds the npm copy (an interrupted run),
+restore it with `git checkout -- README.md`.
+
+npm never updates the README of an already-published version, so **bump the version and republish**
+after any README change.
+
 ## Publishing with a Different Package Name
 
 If you want to publish as a different npm package name (e.g., "agent-postqueen"):
