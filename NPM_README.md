@@ -35,7 +35,14 @@ npx skills add GkhanKINAY/postqueen-agent
 
 Pick either option. When both are present, OAuth2 credentials win.
 
-**OAuth2 device flow (recommended)** — no client ID or secret needed:
+**API key (quickest)** — grab it at [app.postqueen.ai/settings](https://app.postqueen.ai/settings)
+(Developers → Public API → Reveal):
+
+```bash
+export POSTQUEEN_API_KEY=your_api_key_here
+```
+
+**OAuth2 device flow** — no client ID or secret needed:
 
 ```bash
 postqueen auth:login     # prints a one-time code and opens your browser
@@ -43,14 +50,9 @@ postqueen auth:status    # check that stored credentials are still valid
 postqueen auth:logout    # remove them
 ```
 
-Credentials land in `~/.postqueen/credentials.json`.
-
-**API key** — grab it at [app.postqueen.ai/settings](https://app.postqueen.ai/settings)
-(Developers → Public API → Reveal):
-
-```bash
-export POSTQUEEN_API_KEY=your_api_key_here
-```
+Credentials land in `~/.postqueen/credentials.json`. The device flow needs an auth
+server (`POSTQUEEN_AUTH_SERVER`, default `cli-auth.postqueen.ai`); you can self-host
+it — see `server/SERVER.md` in the repo. If it is unreachable, use an API key instead.
 
 ## Quick start
 

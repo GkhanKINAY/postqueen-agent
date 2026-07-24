@@ -155,7 +155,21 @@ npx skills add GkhanKINAY/postqueen-agent
 
 ## Authentication
 
-### Option 1: OAuth2 (Recommended)
+### Option 1: API Key (quickest)
+
+Grab your key at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal), then export it:
+
+```bash
+export POSTQUEEN_API_KEY=your_api_key_here
+```
+
+**Optional:** Custom API endpoint
+
+```bash
+export POSTQUEEN_API_URL=https://your-custom-api.com
+```
+
+### Option 2: OAuth2 device flow
 
 Authenticate using the device flow: no client ID or secret needed:
 
@@ -176,23 +190,7 @@ postqueen auth:status
 postqueen auth:logout
 ```
 
-#### Self-Hosting the Auth Server
-
-By default, `postqueen auth:login` uses the hosted auth server at `cli-auth.postqueen.ai`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
-
-### Option 2: API Key
-
-Grab your key at **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (Developers → Public API → Reveal), then export it:
-
-```bash
-export POSTQUEEN_API_KEY=your_api_key_here
-```
-
-**Optional:** Custom API endpoint
-
-```bash
-export POSTQUEEN_API_URL=https://your-custom-api.com
-```
+The device flow needs an auth server. By default it points at `cli-auth.postqueen.ai`; you can run your own with the guide in [`server/SERVER.md`](./server/SERVER.md) and point the CLI at it via `POSTQUEEN_AUTH_SERVER`. If the auth server is unreachable, use an API key instead — every command works the same either way.
 
 > **Note:** OAuth2 credentials take priority over the API key when both are present.
 
@@ -769,6 +767,53 @@ The CLI provides clear error messages with exit codes:
 | `Tool not found` | Check available tools in `integrations:settings` output |
 | `Upload failed` | Verify file exists and format is supported |
 | `analytics:post` returns `{"missing": true}` | Run `posts:missing <id>` then `posts:connect <id> --release-id "<rid>"` |
+
+---
+
+## Quick Reference
+
+```bash
+# Authentication
+export POSTQUEEN_API_KEY=your_key                                 # API key (quickest)
+postqueen auth:login                                              # Or OAuth2 device flow
+postqueen auth:status                                             # Check auth
+postqueen auth:logout                                             # Remove credentials
+
+# Discovery
+postqueen integrations:list                           # List integrations
+postqueen integrations:list --group "<group-id>"      # List integrations in a group
+postqueen integrations:groups                         # List groups (customers)
+postqueen integrations:settings <id>                  # Get settings
+postqueen integrations:trigger <id> <method> -d '{}'  # Fetch data
+
+# Posting (date is required)
+postqueen posts:create -c "text" -s "2026-12-31T12:00:00Z" -i "id"                    # Simple
+postqueen posts:create -c "text" -s "2026-12-31T12:00:00Z" -t draft -i "id"           # Draft
+postqueen posts:create -c "text" -m "img.jpg" -s "2026-12-31T12:00:00Z" -i "id"       # With media
+postqueen posts:create -c "main" -c "comment" -s "2026-12-31T12:00:00Z" -i "id"       # With comment
+postqueen posts:create -c "text" -s "2026-12-31T12:00:00Z" --settings '{}' -i "id"    # Platform-specific
+postqueen posts:create --json file.json                                               # Complex
+
+# Management
+postqueen posts:list                                  # List posts
+postqueen posts:delete <id>                           # Delete post
+postqueen posts:status <id> --status draft            # Move to draft (stops workflow)
+postqueen posts:status <id> --status schedule         # Queue draft for publishing
+postqueen upload <file>                               # Upload media
+
+# Analytics
+postqueen analytics:platform <id>                     # Platform analytics (7 days)
+postqueen analytics:platform <id> -d 30               # Platform analytics (30 days)
+postqueen analytics:post <id>                         # Post analytics (7 days)
+postqueen analytics:post <id> -d 30                   # Post analytics (30 days)
+# If analytics:post returns {"missing": true}, resolve it:
+postqueen posts:missing <id>                          # List provider content
+postqueen posts:connect <id> --release-id "<rid>"     # Connect content to post
+
+# Help
+postqueen --help                                      # Show help
+postqueen posts:create --help                         # Command help
+```
 
 ---
 
