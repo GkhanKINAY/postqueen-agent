@@ -1,6 +1,6 @@
 {
   "name": "postqueen",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "PostQueen CLI: schedule and publish social media posts to 30+ networks from your terminal, your scripts or any AI agent. Every command returns clean JSON.",
   "main": "dist/index.js",
   "bin": {
