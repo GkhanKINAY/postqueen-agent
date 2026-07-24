@@ -79,7 +79,7 @@ Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp;
 ## From any chat app 📱
 
 <p align="center">
-  <img src=".github/assets/chat-agent.svg?v=1" width="620" alt="A voice note to your AI agent: PostQueen generates the visual and schedules the posts" />
+  <img src=".github/assets/chat-agent.svg?v=2" width="620" alt="Just talk to her: one voice note and PostQueen generates the visual and schedules the posts" />
 </p>
 
 Message [OpenClaw](https://postqueen.ai/openclaw) from WhatsApp, Telegram, Slack or Discord, or talk to the [Claude app](https://postqueen.ai/mcp) or [ChatGPT](https://postqueen.ai/chatgpt) with the PostQueen connector — whichever agent you use drives PostQueen for you: it finds your connected accounts, uploads the media and schedules the posts while you get on with your day. Everything lands on your calendar first, where you can edit or delete it, and you can ask for drafts if you want to sign off on each post yourself.
