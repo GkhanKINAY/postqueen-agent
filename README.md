@@ -37,7 +37,17 @@
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/postqueen" alt="Node version"></a>
 </p>
 
----
+<br/>
+
+<p align="center">
+  <img src=".github/assets/channels/instagram.svg" height="44" alt="Instagram" /> <img src=".github/assets/channels/youtube.svg" height="44" alt="YouTube" /> <img src=".github/assets/channels/google-business.svg" height="44" alt="Google Business Profile" /> <img src=".github/assets/channels/dribbble.svg" height="44" alt="Dribbble" /> <img src=".github/assets/channels/linkedin.svg" height="44" alt="LinkedIn" /> <img src=".github/assets/channels/reddit.svg" height="44" alt="Reddit" /> <img src=".github/assets/channels/tiktok.svg" height="44" alt="TikTok" /> <img src=".github/assets/channels/facebook.svg" height="44" alt="Facebook" /> <img src=".github/assets/channels/pinterest.svg" height="44" alt="Pinterest" /> <img src=".github/assets/channels/threads.svg" height="44" alt="Threads" /> <img src=".github/assets/channels/x.svg" height="44" alt="X" /> <img src=".github/assets/channels/slack.svg" height="44" alt="Slack" /> <img src=".github/assets/channels/discord.svg" height="44" alt="Discord" /> <img src=".github/assets/channels/mastodon.svg" height="44" alt="Mastodon" /> <img src=".github/assets/channels/bluesky.svg" height="44" alt="Bluesky" /> <img src=".github/assets/channels/lemmy.svg" height="44" alt="Lemmy" /> <img src=".github/assets/channels/warpcast.svg" height="44" alt="Farcaster" /> <img src=".github/assets/channels/telegram.svg" height="44" alt="Telegram" /> <img src=".github/assets/channels/nostr.svg" height="44" alt="Nostr" /> <img src=".github/assets/channels/vk.svg" height="44" alt="VK" /> <img src=".github/assets/channels/devto.svg" height="44" alt="Dev.to" /> <img src=".github/assets/channels/medium.svg" height="44" alt="Medium" /> <img src=".github/assets/channels/hashnode.svg" height="44" alt="Hashnode" /> <img src=".github/assets/channels/wordpress.svg" height="44" alt="WordPress" /> <img src=".github/assets/channels/whop.svg" height="44" alt="Whop" /> <img src=".github/assets/channels/kick.svg" height="44" alt="Kick" /> <img src=".github/assets/channels/mewe.svg" height="44" alt="MeWe" /> <img src=".github/assets/channels/twitch.svg" height="44" alt="Twitch" /> <img src=".github/assets/channels/listmonk.svg" height="44" alt="Listmonk" /> <img src=".github/assets/channels/skool.svg" height="44" alt="Skool" />
+</p>
+
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## ⚡ Quickstart
 
@@ -74,7 +84,11 @@ Every command reads flags and prints JSON, so any assistant that can run shell c
 
 Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp; [Codex »](https://postqueen.ai/codex) &nbsp;·&nbsp; [Cursor »](https://postqueen.ai/cursor) &nbsp;·&nbsp; [ChatGPT »](https://postqueen.ai/chatgpt) &nbsp;·&nbsp; [OpenClaw »](https://postqueen.ai/openclaw) &nbsp;·&nbsp; [Hermes »](https://postqueen.ai/hermes-agent)
 
----
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## From any chat app 📱
 
@@ -84,7 +98,11 @@ Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp;
 
 Message [OpenClaw](https://postqueen.ai/openclaw) or [Hermes](https://postqueen.ai/hermes-agent) from WhatsApp, Telegram, Slack or Discord, or talk to the [Claude app](https://postqueen.ai/mcp) or [ChatGPT](https://postqueen.ai/chatgpt) with the PostQueen connector — whichever agent you use drives PostQueen for you: it finds your connected accounts, uploads the media and schedules the posts while you get on with your day. Everything lands on your calendar first, where you can edit or delete it, and you can ask for drafts if you want to sign off on each post yourself.
 
----
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## 🔑 Get your API key
 
@@ -541,7 +559,11 @@ postqueen posts:create \
 
 **See [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) for all 30+ platforms.**
 
----
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## Built for AI agents
 
@@ -719,6 +741,10 @@ The CLI is one of several ways to reach the same public API:
 
 The CLI interacts with these PostQueen API endpoints:
 
+<p align="center">
+  <img src=".github/assets/api-client.svg" width="620" alt="An API client calling POST /public/v1/posts and getting two scheduled posts back" />
+</p>
+
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
 | `/public/v1/posts` | POST | Create a post |
@@ -883,7 +909,11 @@ To contribute:
 
 If PostQueen saves you time, a ⭐ on the repo genuinely helps other people find it.
 
----
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## 👑 The PostQueen ecosystem
 
