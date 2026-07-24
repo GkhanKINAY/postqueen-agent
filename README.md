@@ -86,6 +86,38 @@
 
 ---
 
+## 💬 Just talk to her
+
+Message her like a colleague from wherever you already type or talk: WhatsApp or Telegram, the Claude app on your phone, your terminal through Claude Code, ChatGPT through MCP. Say what you want posted, and consider it handled.
+
+<p align="center">
+  <img src=".github/assets/pill-claude-code.svg" height="46" alt="Claude Code" /> <img src=".github/assets/pill-chatgpt.svg" height="46" alt="ChatGPT" /> <img src=".github/assets/pill-openclaw.svg" height="46" alt="OpenClaw" /> <img src=".github/assets/pill-codex.svg" height="46" alt="Codex" /> <img src=".github/assets/pill-cursor.svg" height="46" alt="Cursor" /> <img src=".github/assets/pill-gemini-cli.svg" height="46" alt="Gemini CLI" /> <img src=".github/assets/pill-hermes.svg" height="46" alt="Hermes" /> <img src=".github/assets/pill-warp.svg" height="46" alt="Warp" /> <img src=".github/assets/pill-cline.svg" height="46" alt="Cline" /> <img src=".github/assets/pill-windsurf.svg" height="46" alt="Windsurf" /> <img src=".github/assets/pill-aider.svg" height="46" alt="Aider" />
+</p>
+
+<p align="center">
+  <img src=".github/assets/chat-agent.svg?v=4" width="620" alt="Just talk to her: one voice note and PostQueen generates the visual and schedules the posts" />
+</p>
+
+That first message is a voice note, and that is the point: if your assistant supports voice, you can say it out loud. Voice note in, posts out.
+
+Try saying:
+
+> *"Plan a month of content for our coffee shop and fill the calendar."*
+
+> *"Take this photo of today's special and put it on Instagram at lunchtime."*
+
+> *"We just hit 10k followers, write a warm thank-you post for all our channels."*
+
+> *"Turn my latest YouTube video into posts for X, LinkedIn and Threads."*
+
+**You get the final word.** Everything lands on your calendar first: read it, tweak it, or delete it before it goes out. Prefer to approve every post? Ask for drafts, and nothing publishes until you schedule it yourself.
+
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
+
 ## ⚡ Quickstart
 
 Install the skill, set your key, post. That is the whole loop:
@@ -115,11 +147,9 @@ Every command reads flags and prints JSON, so any assistant that can run shell c
 
 <br/>
 
-<p align="center">
-  <img src=".github/assets/pill-claude-code.svg" height="46" alt="Claude Code" /> <img src=".github/assets/pill-chatgpt.svg" height="46" alt="ChatGPT" /> <img src=".github/assets/pill-openclaw.svg" height="46" alt="OpenClaw" /> <img src=".github/assets/pill-codex.svg" height="46" alt="Codex" /> <img src=".github/assets/pill-cursor.svg" height="46" alt="Cursor" /> <img src=".github/assets/pill-gemini-cli.svg" height="46" alt="Gemini CLI" /> <img src=".github/assets/pill-hermes.svg" height="46" alt="Hermes" /> <img src=".github/assets/pill-warp.svg" height="46" alt="Warp" /> <img src=".github/assets/pill-cline.svg" height="46" alt="Cline" /> <img src=".github/assets/pill-windsurf.svg" height="46" alt="Windsurf" /> <img src=".github/assets/pill-aider.svg" height="46" alt="Aider" />
-</p>
+Pick your agent — each card opens its guide:
 
-Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp; [Codex »](https://postqueen.ai/codex) &nbsp;·&nbsp; [Cursor »](https://postqueen.ai/cursor) &nbsp;·&nbsp; [ChatGPT »](https://postqueen.ai/chatgpt) &nbsp;·&nbsp; [OpenClaw »](https://postqueen.ai/openclaw) &nbsp;·&nbsp; [Hermes »](https://postqueen.ai/hermes-agent)
+<a href="https://postqueen.ai/claude-code"><img src=".github/assets/agent-claude-code.svg" width="410" alt="Claude Code: install the PostQueen skill; it plans, schedules and verifies right from your repo — set-up guide" /></a> <a href="https://postqueen.ai/codex"><img src=".github/assets/agent-codex.svg" width="410" alt="Codex: give it the CLI and it drafts and schedules between tasks — set-up guide" /></a> <a href="https://postqueen.ai/cursor"><img src=".github/assets/agent-cursor.svg" width="410" alt="Cursor: drive your socials from the editor's agent, over MCP or the CLI — set-up guide" /></a> <a href="https://postqueen.ai/agent"><img src=".github/assets/agent-gemini-cli.svg" width="410" alt="Gemini CLI: runs every postqueen command with clean JSON output — set-up guide" /></a> <a href="https://postqueen.ai/hermes-agent"><img src=".github/assets/agent-hermes.svg" width="410" alt="Hermes: the autonomous agent runs multi-step plans over the postqueen CLI — set-up guide" /></a> <a href="https://postqueen.ai/agent"><img src=".github/assets/agent-warp.svg" width="410" alt="Warp: the agentic terminal runs her CLI like any other command — set-up guide" /></a> <a href="https://postqueen.ai/agent"><img src=".github/assets/agent-cline.svg" width="410" alt="Cline: point it at the skill and let it work your calendar — agent guide" /></a> <a href="https://postqueen.ai/agent"><img src=".github/assets/agent-windsurf.svg" width="410" alt="Windsurf: Cascade can schedule your week while you code — agent guide" /></a> <a href="https://postqueen.ai/agent"><img src=".github/assets/agent-aider.svg" width="410" alt="Aider: pair-program your social pipeline with the postqueen CLI — set-up guide" /></a> <a href="https://github.com/GkhanKINAY/postqueen-agent"><img src=".github/assets/agent-scripts.svg" width="410" alt="Your own agents: custom agents, cron or CI — the CLI returns clean JSON for anything — CLI reference" /></a>
 
 <br/>
 
@@ -206,11 +236,48 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 
 Full guides: [postqueen.ai/mcp](https://postqueen.ai/mcp) and [docs.postqueen.ai/mcp/setup](https://docs.postqueen.ai/mcp/setup).
 
-Same connector, no terminal — add it once and it follows you to iOS and Android:
-
-<a href="https://postqueen.ai/mcp"><img src=".github/assets/app-claude.svg" width="410" alt="Claude app: add the MCP connector on claude.ai; it syncs to iOS and Android — set-up guide" /></a> <a href="https://postqueen.ai/chatgpt"><img src=".github/assets/app-chatgpt.svg" width="410" alt="ChatGPT: add the connector once and it manages your calendar wherever you sign in — set-up guide" /></a>
 
 ---
+
+## <img src=".github/assets/icon-chatgpt.svg" height="26" alt="" /> From ChatGPT
+
+One link, no install. Add PostQueen as a connector and ask ChatGPT to draft and schedule your week:
+
+<p align="center">
+  <img src=".github/assets/chat-chatgpt.svg?v=8" width="620" alt="ChatGPT with the PostQueen connector: it generates two post images and schedules them to Instagram and X" />
+</p>
+
+```text
+Settings → Connectors → add:  https://api.postqueen.ai/mcp/<YOUR_API_KEY>
+```
+
+Set-up guide: [ChatGPT »](https://postqueen.ai/chatgpt)
+
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
+
+## <img src=".github/assets/icon-claude.svg" height="26" alt="" /> From Claude
+
+The same one-link connector works on claude.ai — and it follows you into the Claude apps on iOS, Android and desktop. Ask Claude to plan and schedule your week:
+
+<p align="center">
+  <img src=".github/assets/chat-claude.svg" width="620" alt="Claude with the PostQueen connector: it plans a five-post launch week and schedules every post to X and LinkedIn" />
+</p>
+
+```text
+claude.ai → Settings → Connectors → add:  https://api.postqueen.ai/mcp/<YOUR_API_KEY>
+```
+
+Set-up guide: [Claude »](https://postqueen.ai/mcp)
+
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
 
 ## Installation
 
@@ -767,6 +834,20 @@ done
 
 ---
 
+## 🌙 An agent that works while you sleep
+
+Agents like **Hermes** and **OpenClaw** can run on a schedule, not just on demand. A small recurring job wakes up every morning, checks yesterday's numbers with `analytics:platform`, and drafts today's post before you have had coffee. Every PostQueen action is a CLI command or an MCP call with clean JSON output, so any agent that can run a command can run your social media.
+
+<p align="center">
+  <img src=".github/assets/nightshift.svg" width="620" alt="At 4 AM the agent wakes up, checks yesterday's numbers and drafts today's post; it waits on your calendar for 9 AM" />
+</p>
+
+**Any other agent works too:** Gemini CLI, Aider, Cline, Warp, Windsurf, or your own scripts. Start from the [Agent guide](https://postqueen.ai/agent) or the [MCP guide](https://postqueen.ai/mcp), and see the full command reference in [postqueen-agent](https://github.com/GkhanKINAY/postqueen-agent).
+
+<br/>
+
+---
+
 ## Documentation
 
 **Hosted guide:**
@@ -1026,6 +1107,19 @@ Write once, be everywhere. PostQueen publishes to **30+ networks** out of the bo
 | **Creator and business** | Google Business Profile, Whop, Skool, Dribbble |
 
 LinkedIn and Instagram each support both personal and page posting. New connectors ship regularly: see the full list with per-network guides at [postqueen.ai/channels](https://postqueen.ai/channels).
+
+<br/>
+
+---
+
+## 🛡️ Compliance
+
+- PostQueen is an open-source, self-hostable social media scheduler that supports X, LinkedIn, Instagram, Bluesky, Mastodon, Discord and 30+ more.
+- The hosted service uses official, platform-approved OAuth flows.
+- PostQueen does not automate or scrape content from social media platforms.
+- PostQueen does not collect, store, or proxy API keys or access tokens from users.
+- PostQueen never asks users to paste social-platform credentials into the hosted product.
+- Users always authenticate directly with each platform (X, LinkedIn, Discord, and so on), which keeps every platform's compliance and your data privacy intact.
 
 <br/>
 
