@@ -2,7 +2,7 @@
 name: postqueen
 description: PostQueen is a tool to schedule social media and chat posts to 30+ channels X, LinkedIn, LinkedIn Page, Reddit, Instagram, Facebook Page, Threads, YouTube, Google My Business, TikTok, Pinterest, Dribbble, Discord, Slack, Kick, Twitch, Mastodon, Bluesky, Lemmy, Farcaster, Telegram, Nostr, VK, Medium, Dev.to, Hashnode, WordPress, ListMonk, MeWe, Whop, Skool, Moltbook, Tumblr
 homepage: https://docs.postqueen.ai/public-api/introduction
-metadata: {"openclaw":{"emoji":"🌎","requires":{"bins":[],"env":["POSTQUEEN_API_URL"]}}}
+metadata: {"openclaw":{"emoji":"🌎","requires":{"bins":["postqueen"],"env":["POSTQUEEN_API_KEY"]}}}
 ---
 
 ## Install PostQueen if it doesn't exist
@@ -15,7 +15,7 @@ pnpm install -g postqueen
 
 npm release: https://www.npmjs.com/package/postqueen
 postqueen github: https://github.com/GkhanKINAY/postqueen-app
-postqueen cli github: https://github.com/GkhanKINAY/postqueen-app
+postqueen cli github: https://github.com/GkhanKINAY/postqueen-agent
 official website: https://postqueen.ai
 ---
 
@@ -23,7 +23,7 @@ official website: https://postqueen.ai
 | Property | Value |
 |----------|-------|
 | **name** | postqueen |
-| **description** | Social media automation CLI for scheduling posts across 28+ platforms |
+| **description** | Social media automation CLI for scheduling posts across 30+ platforms |
 | **allowed-tools** | Bash(postqueen:*) |
 
 ---
@@ -704,8 +704,8 @@ postqueen posts:create \
 
 **Deep-dive documentation:**
 - [HOW_TO_RUN.md](./HOW_TO_RUN.md) - Installation and setup methods
-- [COMMAND_LINE_GUIDE.md](./COMMAND_LINE_GUIDE.md) - Complete command syntax reference
-- [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) - All 28+ platform settings schemas
+- [COMMAND_LINE_GUIDE.md](./examples/COMMAND_LINE_GUIDE.md) - Complete command syntax reference
+- [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md) - All 30+ platform settings schemas
 - [INTEGRATION_TOOLS_WORKFLOW.md](./INTEGRATION_TOOLS_WORKFLOW.md) - Complete tools workflow guide
 - [INTEGRATION_SETTINGS_DISCOVERY.md](./INTEGRATION_SETTINGS_DISCOVERY.md) - Settings discovery workflow
 - [SUPPORTED_FILE_TYPES.md](./SUPPORTED_FILE_TYPES.md) - All supported media formats

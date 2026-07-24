@@ -4,13 +4,13 @@
     "name": "PostQueen"
   },
   "metadata": {
-    "description": "PostQueen social media automation skill for scheduling posts across 28+ platforms",
+    "description": "PostQueen social media automation skill for scheduling posts across 30+ platforms",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "postqueen",
-      "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 28+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
+      "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 30+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
       "source": "./",
       "strict": false,
       "skills": [
