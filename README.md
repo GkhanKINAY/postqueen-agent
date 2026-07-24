@@ -11,11 +11,23 @@
 <br/>
 
 <p align="center">
-  <strong>Give your AI hands.</strong>
+  <strong>Stop doing social media yourself.</strong>
 </p>
 
 <p align="center">
-  The <code>postqueen</code> CLI and agent skill: your assistant (Claude Code, OpenClaw, ChatGPT, Codex, Cursor, Gemini CLI or any MCP client) plans, schedules and manages posts on 30+ networks through clean JSON commands.
+  PostQueen is an AI employee for your social media. Tell her what to share, in one sentence. She writes the copy, designs the visual and schedules it on every channel you have. You just review the calendar.
+</p>
+
+<p align="center">
+  <strong>This repo is her hands</strong> — the <code>postqueen</code> CLI and agent skill that let Claude Code, ChatGPT, OpenClaw, Hermes, Codex, Cursor or any MCP client run your channels end to end.
+</p>
+
+<p align="center">
+  <strong>Free for 7 days in the cloud. Forever free on your own server.</strong>
+</p>
+
+<p align="center">
+  <a href="https://postqueen.ai"><img src=".github/assets/cta-cloud.svg" height="44" alt="Start free for 7 days" /></a>&nbsp;&nbsp;<a href="https://github.com/GkhanKINAY/postqueen-docker-compose"><img src=".github/assets/cta-selfhost.svg" height="44" alt="Self-host it free" /></a>
 </p>
 
 <br/>
@@ -41,6 +53,14 @@
 
 <p align="center">
   <img src=".github/assets/channels/instagram.svg" height="44" alt="Instagram" /> <img src=".github/assets/channels/youtube.svg" height="44" alt="YouTube" /> <img src=".github/assets/channels/google-business.svg" height="44" alt="Google Business Profile" /> <img src=".github/assets/channels/dribbble.svg" height="44" alt="Dribbble" /> <img src=".github/assets/channels/linkedin.svg" height="44" alt="LinkedIn" /> <img src=".github/assets/channels/reddit.svg" height="44" alt="Reddit" /> <img src=".github/assets/channels/tiktok.svg" height="44" alt="TikTok" /> <img src=".github/assets/channels/facebook.svg" height="44" alt="Facebook" /> <img src=".github/assets/channels/pinterest.svg" height="44" alt="Pinterest" /> <img src=".github/assets/channels/threads.svg" height="44" alt="Threads" /> <img src=".github/assets/channels/x.svg" height="44" alt="X" /> <img src=".github/assets/channels/slack.svg" height="44" alt="Slack" /> <img src=".github/assets/channels/discord.svg" height="44" alt="Discord" /> <img src=".github/assets/channels/mastodon.svg" height="44" alt="Mastodon" /> <img src=".github/assets/channels/bluesky.svg" height="44" alt="Bluesky" /> <img src=".github/assets/channels/lemmy.svg" height="44" alt="Lemmy" /> <img src=".github/assets/channels/warpcast.svg" height="44" alt="Farcaster" /> <img src=".github/assets/channels/telegram.svg" height="44" alt="Telegram" /> <img src=".github/assets/channels/nostr.svg" height="44" alt="Nostr" /> <img src=".github/assets/channels/vk.svg" height="44" alt="VK" /> <img src=".github/assets/channels/devto.svg" height="44" alt="Dev.to" /> <img src=".github/assets/channels/medium.svg" height="44" alt="Medium" /> <img src=".github/assets/channels/hashnode.svg" height="44" alt="Hashnode" /> <img src=".github/assets/channels/wordpress.svg" height="44" alt="WordPress" /> <img src=".github/assets/channels/whop.svg" height="44" alt="Whop" /> <img src=".github/assets/channels/kick.svg" height="44" alt="Kick" /> <img src=".github/assets/channels/mewe.svg" height="44" alt="MeWe" /> <img src=".github/assets/channels/twitch.svg" height="44" alt="Twitch" /> <img src=".github/assets/channels/listmonk.svg" height="44" alt="Listmonk" /> <img src=".github/assets/channels/skool.svg" height="44" alt="Skool" />
+</p>
+
+<br/>
+
+<h3 align="center">Schedule and generate posts with AI</h3>
+
+<p align="center">
+  <img src=".github/assets/calendar.svg" width="660" alt="The PostQueen calendar: a week of posts across your channels, with AI generation and drag to reschedule" />
 </p>
 
 <br/>
@@ -98,6 +118,10 @@ Set-up guides: [Claude Code »](https://postqueen.ai/claude-code) &nbsp;·&nbsp;
 
 Message [OpenClaw](https://postqueen.ai/openclaw) or [Hermes](https://postqueen.ai/hermes-agent) from WhatsApp, Telegram, Slack or Discord, or talk to the [Claude app](https://postqueen.ai/mcp) or [ChatGPT](https://postqueen.ai/chatgpt) with the PostQueen connector — whichever agent you use drives PostQueen for you: it finds your connected accounts, uploads the media and schedules the posts while you get on with your day. Everything lands on your calendar first, where you can edit or delete it, and you can ask for drafts if you want to sign off on each post yourself.
 
+The two open agents everyone runs right now are both PostQueen-native:
+
+<a href="https://postqueen.ai/openclaw"><img src=".github/assets/spotlight-openclaw.svg" width="410" alt="OpenClaw: runs on your machine; message her from WhatsApp, Telegram, Slack or Discord — set-up guide" /></a> <a href="https://postqueen.ai/hermes-agent"><img src=".github/assets/spotlight-hermes.svg" width="410" alt="Hermes: the self-improving autonomous agent; one brief becomes a planned, verified week — set-up guide" /></a>
+
 <br/>
 
 <p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
@@ -146,6 +170,10 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 **ChatGPT:** Settings → Connectors → add a custom connector pointing at `https://api.postqueen.ai/mcp/<YOUR_API_KEY>`.
 
 Full guides: [postqueen.ai/mcp](https://postqueen.ai/mcp) and [docs.postqueen.ai/mcp/setup](https://docs.postqueen.ai/mcp/setup).
+
+Same connector, no terminal — add it once and it follows you to iOS and Android:
+
+<a href="https://postqueen.ai/mcp"><img src=".github/assets/app-claude.svg" width="410" alt="Claude app: add the MCP connector on claude.ai; it syncs to iOS and Android — set-up guide" /></a> <a href="https://postqueen.ai/chatgpt"><img src=".github/assets/app-chatgpt.svg" width="410" alt="ChatGPT: add the connector once and it manages your calendar wherever you sign in — set-up guide" /></a>
 
 ---
 
@@ -908,6 +936,26 @@ To contribute:
 - 📚 **Getting started?** The [docs](https://docs.postqueen.ai) walk you through everything.
 
 If PostQueen saves you time, a ⭐ on the repo genuinely helps other people find it.
+
+<br/>
+
+<p align="center"><img src=".github/assets/divider.svg" width="840" alt="" /></p>
+
+<br/>
+
+## 🌐 Publish everywhere
+
+One command, 30+ networks:
+
+| Category | Networks |
+| --- | --- |
+| **Major social** | X, LinkedIn, Instagram, Facebook, TikTok, YouTube, Threads, Pinterest, Reddit, Bluesky |
+| **Community and chat** | Discord, Slack, Telegram, Mastodon, Twitch, Kick, MeWe, VK |
+| **Publishing and blogs** | WordPress, Medium, Dev.to, Hashnode, Tumblr, Listmonk, Moltbook |
+| **Web3 and decentralized** | Nostr, Farcaster, Lemmy |
+| **Creator and business** | Google Business Profile, Whop, Skool, Dribbble |
+
+LinkedIn and Instagram each support both personal and page posting. New connectors ship regularly: see the full list with per-network guides at [postqueen.ai/channels](https://postqueen.ai/channels).
 
 <br/>
 
