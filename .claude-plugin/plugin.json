@@ -1,7 +1,7 @@
 {
   "name": "postqueen",
   "version": "2.0.15",
-  "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 28+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
+  "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 30+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
   "author": {
     "name": "PostQueen",
     "url": "https://github.com/GkhanKINAY"

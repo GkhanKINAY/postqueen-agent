@@ -1,6 +1,6 @@
 ---
 name: postqueen
-description: PostQueen is a tool to schedule social media and chat posts to 28+ channels X, LinkedIn, LinkedIn Page, Reddit, Instagram, Facebook Page, Threads, YouTube, Google My Business, TikTok, Pinterest, Dribbble, Discord, Slack, Kick, Twitch, Mastodon, Bluesky, Lemmy, Farcaster, Telegram, Nostr, VK, Medium, Dev.to, Hashnode, WordPress, ListMonk
+description: PostQueen is a tool to schedule social media and chat posts to 30+ channels X, LinkedIn, LinkedIn Page, Reddit, Instagram, Facebook Page, Threads, YouTube, Google My Business, TikTok, Pinterest, Dribbble, Discord, Slack, Kick, Twitch, Mastodon, Bluesky, Lemmy, Farcaster, Telegram, Nostr, VK, Medium, Dev.to, Hashnode, WordPress, ListMonk, MeWe, Whop, Skool, Moltbook, Tumblr
 homepage: https://docs.postqueen.ai/public-api/introduction
 metadata: {"openclaw":{"emoji":"🌎","requires":{"bins":[],"env":["POSTQUEEN_API_URL"]}}}
 ---

@@ -13,10 +13,10 @@
 
 # PostQueen CLI
 
-Command-line interface to the [PostQueen](https://postqueen.ai) API. It lets developers and AI agents
-schedule posts, manage content and upload media across X/Twitter, LinkedIn, Instagram, Facebook,
-TikTok, YouTube, Reddit, Bluesky, Mastodon, Discord and 30+ more networks. Every command outputs
-JSON, so it drops cleanly into scripts, cron jobs and agent tool-calls.
+Command-line interface to the [PostQueen](https://postqueen.ai) API: tell her what to post and when,
+from a script, a cron job or an AI agent, and she publishes it to 30+ networks, from X and
+LinkedIn to TikTok and YouTube. Every command outputs JSON, so it drops cleanly into scripts and
+agent tool-calls.
 
 ## Install
 
@@ -33,16 +33,16 @@ npx skills add GkhanKINAY/postqueen-agent
 
 ## Authenticate
 
-Pick either option. When both are present, OAuth2 credentials win.
+Pick either option; if both are present, the OAuth2 credentials take priority.
 
-**API key (quickest)** — grab it at [app.postqueen.ai/settings](https://app.postqueen.ai/settings)
+**API key (quickest)**: grab it at [app.postqueen.ai/settings](https://app.postqueen.ai/settings)
 (Developers → Public API → Reveal):
 
 ```bash
 export POSTQUEEN_API_KEY=your_api_key_here
 ```
 
-**OAuth2 device flow** — no client ID or secret needed:
+**OAuth2 device flow**: no client ID or secret needed:
 
 ```bash
 postqueen auth:login     # prints a one-time code and opens your browser
@@ -52,7 +52,7 @@ postqueen auth:logout    # remove them
 
 Credentials land in `~/.postqueen/credentials.json`. The device flow needs an auth
 server (`POSTQUEEN_AUTH_SERVER`, default `cli-auth.postqueen.ai`); you can self-host
-it — see `server/SERVER.md` in the repo. If it is unreachable, use an API key instead.
+it with the guide in `server/SERVER.md`. If it is unreachable, use an API key instead.
 
 ## Quick start
 
@@ -60,7 +60,7 @@ it — see `server/SERVER.md` in the repo. If it is unreachable, use an API key 
 # 1. Find the channels you can post to
 postqueen integrations:list
 
-# 2. Upload media first — most platforms only accept URLs they trust
+# 2. Upload media first: most platforms only accept URLs they trust
 MEDIA=$(postqueen upload ./launch.png | jq -r '.path')
 
 # 3. Schedule the post (--date is required, ISO 8601)
@@ -145,8 +145,8 @@ the same.
 
 ## Use it from an AI agent
 
-Every command prints JSON on stdout and exits `0` on success, `1` on error — no parsing tricks
-needed. A typical agent loop is `integrations:list` → `integrations:settings` →
+Every command prints JSON on stdout and exits `0` on success and `1` on error, so there is
+nothing to parse around. A typical agent loop is `integrations:list` → `integrations:settings` →
 `integrations:trigger` (for flairs, playlists, companies) → `upload` → `posts:create`.
 
 Prefer tool-calls over a shell? PostQueen also ships a hosted MCP server:
@@ -178,5 +178,5 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 ## License
 
 [AGPL-3.0](https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE). PostQueen is a fork of
-[Postiz](https://github.com/gitroomhq/postiz-app) by Nevo David / Gitroom — thank you to the Postiz
+[Postiz](https://github.com/gitroomhq/postiz-app) by Nevo David / Gitroom. Thank you to the Postiz
 contributors for the foundation this builds on.
