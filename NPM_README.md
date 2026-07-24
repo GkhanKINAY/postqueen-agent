@@ -159,7 +159,7 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 
 | Error | Fix |
 | --- | --- |
-| `Not authenticated` | Run `postqueen auth:login` or set `POSTQUEEN_API_KEY` |
+| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or run `postqueen auth:login`) |
 | `Integration not found` | Run `integrations:list` for valid channel IDs |
 | `--date is required` | Pass ISO 8601: `-s "2026-08-01T09:00:00Z"` |
 | `Invalid settings` | Check `integrations:settings <id>` for the required fields |

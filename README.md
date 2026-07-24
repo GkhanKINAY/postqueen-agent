@@ -232,10 +232,7 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 }
 ```
 
-**ChatGPT:** Settings → Connectors → add a custom connector pointing at `https://api.postqueen.ai/mcp/<YOUR_API_KEY>`.
-
 Full guides: [postqueen.ai/mcp](https://postqueen.ai/mcp) and [docs.postqueen.ai/mcp/setup](https://docs.postqueen.ai/mcp/setup).
-
 
 ---
 
@@ -930,7 +927,7 @@ The CLI provides clear error messages with exit codes:
 
 | Error | Solution |
 |-------|----------|
-| `Not authenticated` | Run `postqueen auth:login` or set `POSTQUEEN_API_KEY` |
+| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or run `postqueen auth:login`) |
 | `Integration not found` | Run `integrations:list` to get valid IDs |
 | `startDate/endDate required` | Use ISO 8601 format: `"2026-12-31T12:00:00Z"` |
 | `Invalid settings` | Check `integrations:settings` for required fields |
@@ -1130,6 +1127,7 @@ LinkedIn and Instagram each support both personal and page posting. New connecto
 - 🐛 **Found a bug or have an idea?** [Open an issue](https://github.com/GkhanKINAY/postqueen-agent/issues).
 - 💌 **Need a hand?** Email **support@postqueen.ai**.
 - 📚 **Getting started?** The [docs](https://docs.postqueen.ai) walk you through everything.
+- 🤝 **Want to contribute?** Start with the [contribution guide](https://github.com/GkhanKINAY/postqueen-app/blob/main/CONTRIBUTING.md); security reports go to [SECURITY.md](https://github.com/GkhanKINAY/postqueen-app/blob/main/SECURITY.md).
 
 If PostQueen saves you time, a ⭐ on the repo genuinely helps other people find it.
 
