@@ -6,18 +6,11 @@ import pg from 'pg';
 
 // --- Configuration ---
 const PORT = parseInt(process.env.PORT || '3111', 10);
-const CLIENT_ID = (process.env.POSTQUEEN_OAUTH_CLIENT_ID ||
-  process.env.POSTIZ_OAUTH_CLIENT_ID)!;
-const CLIENT_SECRET = (process.env.POSTQUEEN_OAUTH_CLIENT_SECRET ||
-  process.env.POSTIZ_OAUTH_CLIENT_SECRET)!;
+const CLIENT_ID = process.env.POSTQUEEN_OAUTH_CLIENT_ID!;
+const CLIENT_SECRET = process.env.POSTQUEEN_OAUTH_CLIENT_SECRET!;
 const FRONTEND_URL =
-  process.env.POSTQUEEN_FRONTEND_URL ||
-  process.env.POSTIZ_FRONTEND_URL ||
-  'https://app.postqueen.ai';
-const API_URL =
-  process.env.POSTQUEEN_API_URL ||
-  process.env.POSTIZ_API_URL ||
-  'https://api.postqueen.ai';
+  process.env.POSTQUEEN_FRONTEND_URL || 'https://app.postqueen.ai';
+const API_URL = process.env.POSTQUEEN_API_URL || 'https://api.postqueen.ai';
 const SERVER_URL = process.env.SERVER_URL || `http://localhost:${PORT}`;
 const DATABASE_URL = process.env.DATABASE_URL!;
 
