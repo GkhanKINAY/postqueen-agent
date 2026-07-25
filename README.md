@@ -190,7 +190,7 @@ Two open-source agents already speak PostQueen natively. **OpenClaw** lives on y
 
 ## 🔑 Get your API key
 
-You need an API key for the CLI, the skill and the MCP server. It takes a minute:
+You need an API key for the CLI, the skill and MCP. It takes a minute:
 
 1. Open **[app.postqueen.ai/settings](https://app.postqueen.ai/settings)** (or your own self-hosted instance).
 2. Go to **Developers → Public API**.
@@ -207,7 +207,7 @@ Keep it secret: it grants full access to your account. You can revoke or rotate 
 
 ## 🔌 Or connect over MCP
 
-Prefer tool calls over shell commands? PostQueen ships a hosted MCP server with **10 tools**, so any MCP client can list channels, upload media and schedule posts without installing anything.
+Prefer tool calls over shell commands? PostQueen speaks MCP at one URL she hosts, so any MCP client gets **11 tools** to list channels, upload media and schedule posts without installing anything.
 
 **One line (Claude Code or any CLI client):**
 
@@ -866,7 +866,7 @@ She does not clock out when you do. Agents like **Hermes** and **OpenClaw** can 
 
 The CLI is one of several ways to reach the same public API:
 
-- **MCP server**: point any MCP client at `https://api.postqueen.ai/mcp/<API_KEY>`
+- **MCP**: point any MCP client at `https://api.postqueen.ai/mcp/<API_KEY>`
 - **NodeJS SDK**: [`@postqueen/node`](https://www.npmjs.com/package/@postqueen/node)
 - **n8n node**: [`n8n-nodes-postqueen`](https://www.npmjs.com/package/n8n-nodes-postqueen)
 - **REST reference**: [api.postqueen.ai/docs](https://api.postqueen.ai/docs)
@@ -1076,7 +1076,7 @@ docker compose up -d          # then open http://localhost:4007
 
 You will need Docker and about 4 GB of RAM. To connect real social accounts you will also need a public HTTPS domain behind a reverse proxy: the networks send their OAuth callbacks there. The stack ships the app and its backing services: PostgreSQL, Redis and Temporal.
 
-Full walkthrough: [self-host guide](https://docs.postqueen.ai/installation/docker-compose) &nbsp;·&nbsp; Kubernetes: [postqueen-helmchart](https://github.com/GkhanKINAY/postqueen-helmchart) &nbsp;·&nbsp; every setting: [configuration reference](https://docs.postqueen.ai/configuration/reference)
+Full walkthrough: [deploy to a server](https://docs.postqueen.ai/installation/production) &nbsp;·&nbsp; just looking: [try it locally](https://docs.postqueen.ai/installation/quickstart-local) &nbsp;·&nbsp; Kubernetes: [postqueen-helmchart](https://github.com/GkhanKINAY/postqueen-helmchart) &nbsp;·&nbsp; every setting: [configuration reference](https://docs.postqueen.ai/configuration/reference)
 
 <br/>
 
