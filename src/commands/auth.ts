@@ -57,6 +57,18 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// PostQueen Cloud does not run an auth server behind the default URL, so a
+// failure to start the flow almost always means "use an API key". Say that,
+// instead of printing whatever page the host answered with.
+function explainNoAuthServer(authServer: string, detail: string): never {
+  console.error(`❌ No auth server is answering at ${authServer} (${detail}).\n`);
+  console.error('   On PostQueen Cloud, authenticate with an API key instead:');
+  console.error('     export POSTQUEEN_API_KEY=your_key   # Settings → API Keys\n');
+  console.error('   Self-hosting? Run the auth server in server/ and point the CLI at it');
+  console.error('   with --auth-server or POSTQUEEN_AUTH_SERVER.');
+  process.exit(1);
+}
+
 export async function authLogin(argv: any) {
   const authServer = argv.authServer || process.env.POSTQUEEN_AUTH_SERVER || DEFAULT_AUTH_SERVER;
 
@@ -76,20 +88,20 @@ export async function authLogin(argv: any) {
     });
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error(`❌ Failed to start authorization (${response.status}): ${error}`);
-      process.exit(1);
+      explainNoAuthServer(authServer, `HTTP ${response.status}`);
     }
 
     const data = (await response.json()) as any;
+    if (!data?.device_code || !data?.user_code || !data?.verification_uri) {
+      explainNoAuthServer(authServer, 'unexpected response');
+    }
     deviceCode = data.device_code;
     userCode = data.user_code;
     verificationUri = data.verification_uri;
     expiresIn = data.expires_in;
     interval = data.interval || 5;
   } catch (error: any) {
-    console.error(`❌ Could not reach auth server at ${authServer}: ${error.message}`);
-    process.exit(1);
+    explainNoAuthServer(authServer, error.message);
   }
 
   // Step 2: Show the user code and open browser

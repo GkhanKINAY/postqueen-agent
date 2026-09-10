@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.22] - 2026-09-11
+
 ### Added
 - `posts:settings` - Update a post's provider settings via `PUT /public/v1/posts/:id/settings` (merged: only the keys you pass change; unpublished DRAFT/QUEUE posts only). Needs a PostQueen API that serves this endpoint.
 - Cursor plugin: `.cursor-plugin/plugin.json` and `.cursor-plugin/marketplace.json`, so the repo installs as a [Cursor plugin](https://cursor.com/docs/reference/plugins) next to the Claude Code plugin.
@@ -20,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - The Claude Code plugin manifest points `skills` at `./skills/postqueen` instead of `./`, so the skill is no longer loaded twice.
+- `auth:login` no longer prints the host's error page when no auth server answers. PostQueen Cloud does not run one behind the default `cli-auth.postqueen.ai`, so it now says to use `POSTQUEEN_API_KEY` there, or to run the auth server in `server/` and point `--auth-server` / `POSTQUEEN_AUTH_SERVER` at it. The READMEs say the same.
 
 ## [1.0.0] - 2026-02-13
 
