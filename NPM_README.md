@@ -42,7 +42,10 @@ Pick either option; if both are present, the OAuth2 credentials take priority.
 export POSTQUEEN_API_KEY=your_api_key_here
 ```
 
-**OAuth2 device flow**: no client ID or secret needed:
+**OAuth2 device flow** (self-hosted auth server only): PostQueen Cloud does not run the
+auth server this flow needs, so use an API key there. If you self-host, run the server
+from `server/SERVER.md` and point the CLI at it with `--auth-server` or
+`POSTQUEEN_AUTH_SERVER`:
 
 ```bash
 postqueen auth:login     # prints a one-time code and opens your browser
@@ -50,9 +53,8 @@ postqueen auth:status    # check that stored credentials are still valid
 postqueen auth:logout    # remove them
 ```
 
-Credentials land in `~/.postqueen/credentials.json`. The device flow needs an auth
-server (`POSTQUEEN_AUTH_SERVER`, default `cli-auth.postqueen.ai`); you can self-host
-it with the guide in `server/SERVER.md`. If it is unreachable, use an API key instead.
+Credentials land in `~/.postqueen/credentials.json`. Without a reachable auth server,
+`auth:login` stops and points you back to the API key.
 
 ## Quick start
 
@@ -78,7 +80,7 @@ postqueen posts:list
 
 | Command | What it does |
 | --- | --- |
-| `auth:login` / `auth:status` / `auth:logout` | OAuth2 device flow: sign in, verify, sign out |
+| `auth:login` / `auth:status` / `auth:logout` | OAuth2 device flow (needs a self-hosted auth server): sign in, verify, sign out |
 | `integrations:list [--group <id>]` | List connected channels; filter by group (customer) |
 | `integrations:groups` | List groups (customers) as `{id, name}` |
 | `integrations:settings <id>` | Character limits, required settings and available tools for a channel |
@@ -139,7 +141,7 @@ Supported formats: PNG, JPG, JPEG, GIF and MP4.
 | --- | --- | --- |
 | `POSTQUEEN_API_KEY` | – | Your PostQueen API key (not needed after `auth:login`) |
 | `POSTQUEEN_API_URL` | `https://api.postqueen.ai` | Point the CLI at a self-hosted instance |
-| `POSTQUEEN_AUTH_SERVER` | `https://cli-auth.postqueen.ai` | Custom OAuth2 device-flow server |
+| `POSTQUEEN_AUTH_SERVER` | `https://cli-auth.postqueen.ai` | OAuth2 device-flow server for `auth:login`; not run on PostQueen Cloud |
 
 Self-hosting PostQueen? Set `POSTQUEEN_API_URL` to your own API base URL and everything else works
 the same.
@@ -160,7 +162,7 @@ claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API
 
 | Error | Fix |
 | --- | --- |
-| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or run `postqueen auth:login`) |
+| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or, with a self-hosted auth server, run `postqueen auth:login`) |
 | `Integration not found` | Run `integrations:list` for valid channel IDs |
 | `--date is required` | Pass ISO 8601: `-s "2026-08-01T09:00:00Z"` |
 | `Invalid settings` | Check `integrations:settings <id>` for the required fields |

@@ -333,18 +333,18 @@ export POSTQUEEN_API_KEY=your_api_key_here
 export POSTQUEEN_API_URL=https://your-custom-api.com
 ```
 
-### Option 2: OAuth2 device flow
+### Option 2: OAuth2 device flow (self-hosted auth server)
 
-Authenticate using the device flow: no client ID or secret needed:
+`postqueen auth:login` runs an OAuth2 device flow, and that flow needs an auth server to hold the OAuth app secret and mediate it. **PostQueen Cloud does not run one**, so on the hosted service use an API key (Option 1). If you self-host, run the server from [`server/SERVER.md`](./server/SERVER.md) and point the CLI at it:
 
 ```bash
-postqueen auth:login
+postqueen auth:login --auth-server https://auth.example.com   # or set POSTQUEEN_AUTH_SERVER
 ```
 
-This will:
+With a reachable auth server this will:
 1. Display a one-time code in your terminal
 2. Open your browser to authorize
-3. Automatically save credentials to `~/.postqueen/credentials.json`
+3. Save credentials to `~/.postqueen/credentials.json`
 
 ```bash
 # Check current auth status (verifies credentials are still valid)
@@ -354,7 +354,7 @@ postqueen auth:status
 postqueen auth:logout
 ```
 
-The device flow needs an auth server. By default it points at `cli-auth.postqueen.ai`; you can run your own with the guide in [`server/SERVER.md`](./server/SERVER.md) and point the CLI at it via `POSTQUEEN_AUTH_SERVER`. If the auth server is unreachable, use an API key instead; every command works the same either way.
+Without one, `auth:login` stops with a message pointing you back to the API key; every command works the same either way.
 
 > **Note:** OAuth2 credentials take priority over the API key when both are present.
 
@@ -938,9 +938,9 @@ The CLI interacts with these PostQueen API endpoints:
 |----------|----------|---------|-------------|
 | `POSTQUEEN_API_KEY` | No* | - | Your PostQueen API key |
 | `POSTQUEEN_API_URL` | No | `https://api.postqueen.ai` | Custom API endpoint |
-| `POSTQUEEN_AUTH_SERVER` | No | `https://cli-auth.postqueen.ai` | Custom auth server URL |
+| `POSTQUEEN_AUTH_SERVER` | No | `https://cli-auth.postqueen.ai` | Auth server for `auth:login`; PostQueen Cloud does not run one, self-hosters run `server/` |
 
-*Either OAuth2 (via `postqueen auth:login`) or `POSTQUEEN_API_KEY` is required.
+*On PostQueen Cloud, `POSTQUEEN_API_KEY` is required. `postqueen auth:login` works only against a self-hosted auth server.
 
 ---
 
@@ -955,7 +955,7 @@ The CLI provides clear error messages with exit codes:
 
 | Error | Solution |
 |-------|----------|
-| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or run `postqueen auth:login`) |
+| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or, with a self-hosted auth server, run `postqueen auth:login`) |
 | `Integration not found` | Run `integrations:list` to get valid IDs |
 | `startDate/endDate required` | Use ISO 8601 format: `"2026-12-31T12:00:00Z"` |
 | `Invalid settings` | Check `integrations:settings` for required fields |
@@ -970,7 +970,7 @@ The CLI provides clear error messages with exit codes:
 ```bash
 # Authentication
 export POSTQUEEN_API_KEY=your_key                                 # API key (quickest)
-postqueen auth:login                                              # Or OAuth2 device flow
+postqueen auth:login                                              # OAuth2 device flow (self-hosted auth server)
 postqueen auth:status                                             # Check auth
 postqueen auth:logout                                             # Remove credentials
 
