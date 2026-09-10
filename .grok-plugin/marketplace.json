@@ -1,0 +1,29 @@
+{
+  "name": "postqueen-agent",
+  "description": "PostQueen social media automation for AI agents: schedule and publish posts across 30+ platforms",
+  "owner": {
+    "name": "PostQueen"
+  },
+  "plugins": [
+    {
+      "name": "postqueen",
+      "description": "PostQueen social media automation. Schedule posts, manage integrations, upload media, and track analytics across 30+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, and Instagram.",
+      "category": "productivity",
+      "source": {
+        "type": "local",
+        "path": "./"
+      },
+      "homepage": "https://postqueen.ai",
+      "keywords": [
+        "postqueen",
+        "social media scheduler",
+        "social media agentic scheduler",
+        "schedule social media posts",
+        "social media automation"
+      ],
+      "domains": [
+        "postqueen.ai"
+      ]
+    }
+  ]
+}
