@@ -291,6 +291,30 @@ npx skills add GkhanKINAY/postqueen-agent
 
 > Published on npm as [`postqueen`](https://www.npmjs.com/package/postqueen). By default the CLI talks to the hosted PostQueen API at `https://api.postqueen.ai`. Set the `POSTQUEEN_API_URL` environment variable to target any self-hosted PostQueen instance. The only URL-related flag is `--auth-server` (on `auth:login`), which points the OAuth2 device flow at a self-hosted auth server.
 
+### Claude Code plugin
+
+```bash
+/plugin marketplace add GkhanKINAY/postqueen-agent
+/plugin install postqueen@postqueen-agent
+```
+
+### Cursor plugin
+
+The repo ships a [Cursor plugin](https://cursor.com/docs/reference/plugins) manifest at `.cursor-plugin/plugin.json`. To install it locally:
+
+```bash
+git clone https://github.com/GkhanKINAY/postqueen-agent.git
+ln -s "$(pwd)/postqueen-agent" ~/.cursor/plugins/local/postqueen
+```
+
+Then restart Cursor or run **Developer: Reload Window**.
+
+### Grok Build plugin
+
+The repo also carries a `.grok-plugin/plugin.json` manifest and a `.grok-plugin/marketplace.json` catalog, so Grok Build can add it as a marketplace source.
+
+All three plugins load the `postqueen` skill, which drives the `postqueen` CLI (the CLI handles media uploads, which image and video posts need). Install the CLI and set `POSTQUEEN_API_KEY` before you ask your agent to post. None of the plugins registers an MCP server; to use MCP instead, see [Or connect over MCP](#-or-connect-over-mcp).
+
 ---
 
 ## Authentication
@@ -452,7 +476,7 @@ postqueen posts:list --startDate "2026-01-01T00:00:00Z" --endDate "2026-12-31T23
 postqueen posts:list --customer "customer-id"
 ```
 
-Defaults to last 30 days to next 30 days if dates not specified.
+Defaults to last 30 days to next 30 days if dates not specified. Each returned post includes its current `settings`, returned as a JSON string, so `JSON.parse` it. The intended workflow is `posts:list` (read current settings) → `posts:settings` (patch them).
 
 **Delete post**
 ```bash
@@ -466,6 +490,14 @@ postqueen posts:status <post-id> --status schedule
 ```
 
 Move a scheduled post back to a draft, or promote a draft into the publishing queue. Switching to `draft` also terminates any workflow that's already running for the post, so it won't publish. Switching to `schedule` queues the post for publishing at its stored date.
+
+**Update a post's provider-specific settings**
+```bash
+postqueen posts:settings <post-id> --settings '{"content_posting_method":"DIRECT_POST"}'
+postqueen posts:settings <post-id> --settings '{"subreddit":[{"value":{"subreddit":"/r/selfhosted","title":"My title","type":"self","is_flair_required":true}}]}'
+```
+
+Patches a post's settings server-side. The backend **merges** the object: only the keys you pass change and everything else is preserved, so pass a partial object, not the full settings blob. Only **DRAFT/QUEUE** (unpublished) posts can be updated; published posts are rejected. Pass the **main post id**, not a comment id. Do **not** include `__type`, the backend adds it automatically from the integration.
 
 ---
 
@@ -600,7 +632,7 @@ VIDEO_URL=$(echo "$VIDEO" | jq -r '.path')
 postqueen posts:create \
   -c "Video caption #fyp" \
   -s "2026-12-31T12:00:00Z" \
-  --settings '{"privacy":"PUBLIC_TO_EVERYONE","duet":true,"stitch":true}' \
+  --settings '{"privacy_level":"PUBLIC_TO_EVERYONE","duet":true,"stitch":true,"content_posting_method":"DIRECT_POST"}' \
   -m "$VIDEO_URL" \
   -i "tiktok-id"
 ```
@@ -671,7 +703,7 @@ postqueen posts:create \
 | LinkedIn | getCompanies | companyId, carousel |
 | Reddit | getFlairs, searchSubreddits | subreddit, title, flair |
 | YouTube | getPlaylists, getCategories | title, type, tags, playlistId |
-| TikTok | - | privacy, duet, stitch |
+| TikTok | - | content_posting_method, privacy_level, comment, brand toggles, duet/stitch/video_made_with_ai (video only), autoAddMusic (photo only) |
 | Instagram | - | post_type (post/story) |
 | Facebook | getPages | - |
 | Pinterest | getBoards, getBoardSections | - |
@@ -887,6 +919,7 @@ The CLI interacts with these PostQueen API endpoints:
 | `/public/v1/posts` | GET | List posts |
 | `/public/v1/posts/:id` | DELETE | Delete a post |
 | `/public/v1/posts/:id/status` | PUT | Change post status (draft ↔ schedule) |
+| `/public/v1/posts/:id/settings` | PUT | Update a post's provider settings (merged; unpublished only) |
 | `/public/v1/posts/:id/missing` | GET | Get missing content from provider |
 | `/public/v1/posts/:id/release-id` | PUT | Update release ID for a post |
 | `/public/v1/integrations` | GET | List integrations (optional `?group=` filter) |
@@ -961,6 +994,7 @@ postqueen posts:list                                  # List posts
 postqueen posts:delete <id>                           # Delete post
 postqueen posts:status <id> --status draft            # Move to draft (stops workflow)
 postqueen posts:status <id> --status schedule         # Queue draft for publishing
+postqueen posts:settings <id> --settings '{}'         # Patch a post's settings (merged; DRAFT/QUEUE only)
 postqueen upload <file>                               # Upload media
 
 # Analytics

@@ -28,7 +28,7 @@ official website: https://postqueen.ai
 
 ---
 
-## ⚠️ Two Hard Rules (Read First)
+## ⚠️ Four Hard Rules (Read First)
 
 **Rule 1 — Authenticate before anything.** All commands fail without valid credentials.
 
@@ -41,6 +41,10 @@ postqueen posts:create ... -m "$URL" ...
 ```
 
 If you see `-m "something.jpg"` anywhere below, treat it as shorthand for "the `.path` you got back from `postqueen upload something.jpg`" — never a raw local file.
+
+**Rule 3 — When posting to TikTok, `content_posting_method` MUST be `"DIRECT_POST"`** unless the user has explicitly asked to finish the post inside the TikTok app. `"UPLOAD"` does not publish — it drops the media into the account's TikTok inbox to be completed manually within 24 hours, while the PostQueen API still reports success. A user saying "upload this video to TikTok" means `"DIRECT_POST"`.
+
+**Rule 4 — Fetch `postqueen integrations:settings <id>` before scheduling and honor the returned `rules` and per-field `description`s.** They state which settings apply and when. A setting that doesn't apply (wrong posting method, wrong media type, etc.) is **silently discarded**, not rejected — the post still reports success, so this is your only chance to catch it.
 
 ---
 
@@ -194,6 +198,8 @@ postqueen posts:create --json post.json
 
 ```bash
 # List posts (defaults to last 30 days to next 30 days)
+# Each returned post includes its current `settings` (as a JSON string — JSON.parse it).
+# Workflow: run posts:list to read a post's current settings, then posts:settings to patch them.
 postqueen posts:list
 
 # List posts in date range
@@ -205,6 +211,12 @@ postqueen posts:delete <post-id>
 # Change post status (draft ↔ schedule)
 postqueen posts:status <post-id> --status draft     # Move back to draft, terminates any running publish workflow
 postqueen posts:status <post-id> --status schedule  # Promote a draft into the publishing queue (uses the post's stored date)
+
+# Update a post's provider-specific settings (merged — only the keys you pass change)
+# Only DRAFT/QUEUE (unpublished) posts can be updated. Pass the MAIN post id, not a comment id.
+# Do NOT include __type — the backend adds it automatically from the integration.
+postqueen posts:settings <post-id> --settings '{"content_posting_method":"DIRECT_POST"}'   # Switch a TikTok draft to direct publishing
+postqueen posts:settings <post-id> --settings '{"subreddit":[{"value":{"subreddit":"/r/selfhosted","title":"My title","type":"self","is_flair_required":true}}]}'  # Set a Reddit post's subreddit
 ```
 
 ### Analytics
@@ -403,9 +415,18 @@ postqueen posts:create --json campaign.json
 INTEGRATION_ID="twitter-123"
 CONTENT="Your post content here"
 
-# Get integration settings and extract max length
+# Get integration settings
 SETTINGS_JSON=$(postqueen integrations:settings "$INTEGRATION_ID")
 MAX_LENGTH=$(echo "$SETTINGS_JSON" | jq '.output.maxLength')
+
+# Provider-specific guidance written for agents. Read it and follow it — it explains
+# what the settings values actually do (e.g. which enum value publishes vs. silently
+# does not). Do not skip this because a field name looks self-explanatory.
+echo "$SETTINGS_JSON" | jq -r '.output.rules // empty'
+
+# The settings JSON schema. Property `description` fields carry the same guidance
+# per-field; check them before choosing a value.
+echo "$SETTINGS_JSON" | jq '.output.settings'
 
 # Check character limit and truncate if needed
 if [ ${#CONTENT} -gt "$MAX_LENGTH" ]; then
@@ -646,7 +667,7 @@ VIDEO_URL=$(echo "$VIDEO" | jq -r '.path')
 postqueen posts:create \
   -c "Video caption #fyp" \
   -s "2024-12-31T12:00:00Z" \
-  --settings '{"privacy":"PUBLIC_TO_EVERYONE","duet":true,"stitch":true}' \
+  --settings '{"privacy_level":"PUBLIC_TO_EVERYONE","duet":true,"stitch":true,"content_posting_method":"DIRECT_POST"}' \
   -m "$VIDEO_URL" \
   -i "tiktok-id"
 ```
@@ -736,6 +757,7 @@ postqueen posts:create \
 9. **Required settings** - Some platforms require specific settings (Reddit needs title, YouTube needs title)
 10. **Media MIME types** - CLI auto-detects from file extension, ensure correct extension
 11. **Analytics returns `{"missing": true}`** - The post was published but the platform didn't return a post ID. Run `posts:missing <post-id>` to get available content, then `posts:connect <post-id> --release-id "<id>"` to link it. Analytics will work after connecting.
+12. **`posts:settings` merges** - Only the keys you pass change; everything else on the post is preserved, so pass a partial object, not the full settings blob. Only **DRAFT/QUEUE** (unpublished) posts can be updated — published posts are rejected. Pass the **main post id**, not a comment id. Never include `__type` — the backend adds it automatically from the integration.
 
 ---
 
@@ -768,6 +790,7 @@ postqueen posts:list                                  # List posts
 postqueen posts:delete <id>                          # Delete post
 postqueen posts:status <id> --status draft           # Move to draft (stops workflow)
 postqueen posts:status <id> --status schedule        # Queue draft for publishing
+postqueen posts:settings <id> --settings '{}'        # Patch a post's settings (merged; DRAFT/QUEUE only)
 postqueen upload <file>                              # Upload media
 
 # Analytics

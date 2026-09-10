@@ -1,0 +1,49 @@
+{
+  "name": "postqueen-agent",
+  "owner": {
+    "name": "PostQueen"
+  },
+  "metadata": {
+    "description": "PostQueen social media automation for AI agents: schedule and publish posts across 30+ platforms"
+  },
+  "plugins": [
+    {
+      "name": "postqueen",
+      "source": "./",
+      "version": "2.0.21",
+      "description": "Social media automation CLI for scheduling posts, managing integrations, uploading media, and tracking analytics across 30+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, Instagram, and more",
+      "author": {
+        "name": "PostQueen",
+        "url": "https://github.com/GkhanKINAY"
+      },
+      "homepage": "https://postqueen.ai",
+      "repository": "https://github.com/GkhanKINAY/postqueen-agent",
+      "license": "AGPL-3.0",
+      "logo": "assets/logo.svg",
+      "category": "productivity",
+      "tags": [
+        "social-media",
+        "scheduling",
+        "marketing",
+        "automation",
+        "ai-agent"
+      ],
+      "keywords": [
+        "postqueen",
+        "social-media",
+        "scheduling",
+        "automation",
+        "ai-agent",
+        "twitter",
+        "linkedin",
+        "instagram",
+        "tiktok",
+        "youtube",
+        "reddit"
+      ],
+      "skills": [
+        "./skills/postqueen"
+      ]
+    }
+  ]
+}

@@ -9,19 +9,32 @@
   "homepage": "https://postqueen.ai",
   "repository": "https://github.com/GkhanKINAY/postqueen-agent",
   "license": "AGPL-3.0",
-  "skills": ["./skills/postqueen"],
+  "logo": "assets/logo.svg",
   "keywords": [
     "postqueen",
     "social-media",
     "scheduling",
     "automation",
     "ai-agent",
+    "marketing",
+    "content",
     "twitter",
+    "x",
     "linkedin",
     "facebook",
     "instagram",
+    "threads",
     "tiktok",
     "youtube",
-    "reddit"
+    "reddit",
+    "bluesky",
+    "mastodon",
+    "pinterest",
+    "discord",
+    "slack",
+    "telegram"
+  ],
+  "skills": [
+    "./skills/postqueen"
   ]
 }

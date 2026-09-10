@@ -87,6 +87,7 @@ postqueen posts:list
 | `posts:list [--startDate --endDate --customer]` | List posts; defaults to last 30 → next 30 days |
 | `posts:delete <id>` | Delete a post |
 | `posts:status <id> --status draft\|schedule` | Move a post back to draft (stops a running workflow) or queue it |
+| `posts:settings <id> --settings <json>` | Patch a post's provider settings: only the keys you pass change, draft and scheduled posts only |
 | `posts:missing <id>` | List recent provider content when a published post has no usable ID |
 | `posts:connect <id> --release-id "<content-id>"` | Attach that content to the post so analytics work |
 | `analytics:platform <id> [-d 30]` | Followers, impressions and engagement for a channel (default 7 days) |
