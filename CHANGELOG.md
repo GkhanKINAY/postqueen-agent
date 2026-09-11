@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- DeepSeek Harness plugin: `plugins/dsh-postiz` is an installable `dsh` bundle (`dsh plugin --profile web add dsh-postiz`). It mounts one `@deepseek-ai/dsh-mcp-client` row pointed at the hosted Postiz MCP server (`https://mcp.postiz.com/mcp`, Bearer auth from `POSTIZ_API_KEY`) and registers a `postiz` skill describing the integrationList → integrationSchema → schedulePostTool workflow. Self-hosted instances override `baseUrl` on the `postiz` row. Listed on [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin); the repo now carries the `dsh-plugin` topic.
+
 ## [2.0.17] - 2026-09-01
 
 ### Added

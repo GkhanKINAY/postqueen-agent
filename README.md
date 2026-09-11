@@ -37,6 +37,18 @@ This repo ships a [Cursor plugin](https://cursor.com/docs/reference/plugins) man
 
 The plugin exposes the `postiz` skill, which drives the `postiz` CLI (the CLI handles media uploads, which is required for image/video posts). Make sure the CLI is installed (`npm install -g postiz`) and authenticated (`postiz auth:login` or `export POSTIZ_API_KEY=...`) before asking the agent to post.
 
+### DeepSeek Harness plugin
+
+This repo ships a [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) bundle at [`plugins/dsh-postiz`](plugins/dsh-postiz). It connects the agent to the hosted Postiz MCP server and registers a `postiz` workflow skill.
+
+```bash
+dsh plugin --profile web add "github:gitroomhq/postiz-agent#path:/plugins/dsh-postiz"
+export POSTIZ_API_KEY=your-api-key   # Postiz → Settings → Developers → Public API
+dsh web
+```
+
+The Postiz tools then appear as `mcp__postiz__*` (`integrationList`, `integrationSchema`, `schedulePostTool`, ...). Self-hosted instances override `baseUrl` on the `postiz` row. See the [plugin README](plugins/dsh-postiz/README.md) for configuration.
+
 # Postiz CLI
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
