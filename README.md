@@ -37,6 +37,24 @@ This repo ships a [Cursor plugin](https://cursor.com/docs/reference/plugins) man
 
 The plugin exposes the `postiz` skill, which drives the `postiz` CLI (the CLI handles media uploads, which is required for image/video posts). Make sure the CLI is installed (`npm install -g postiz`) and authenticated (`postiz auth:login` or `export POSTIZ_API_KEY=...`) before asking the agent to post.
 
+### Gemini CLI extension
+
+This repo is a [Gemini CLI extension](https://geminicli.com/docs/extensions/) (`gemini-extension.json` at the root) and is indexed in the [extensions gallery](https://geminicli.com/extensions/browse/).
+
+```bash
+gemini extensions install https://github.com/gitroomhq/postiz-agent
+```
+
+It installs the `postiz` skill and the hosted Postiz MCP server (`https://mcp.postiz.com/mcp-oauth-dynamic`). Gemini CLI opens a browser to sign in to Postiz on first use; run `/mcp auth postiz` to re-authenticate. The skill drives the `postiz` CLI for media uploads, so install it with `npm install -g postiz` for image or video posts.
+
+### Qwen Code
+
+Qwen Code installs Claude Code marketplaces directly, so no separate manifest is needed:
+
+```bash
+qwen extensions install gitroomhq/postiz-agent:postiz
+```
+
 ### DeepSeek Harness plugin
 
 This repo ships a [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) bundle at [`plugins/dsh-postiz`](plugins/dsh-postiz). It connects the agent to the hosted Postiz MCP server and registers a `postiz` workflow skill.

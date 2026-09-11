@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.18] - 2026-09-11
+
 ### Added
+- Gemini CLI extension: a root `gemini-extension.json` so the repo installs with `gemini extensions install https://github.com/gitroomhq/postiz-agent`. It exposes the `postiz` skill from `skills/postiz` and declares the hosted Postiz MCP server (`https://mcp.postiz.com/mcp-oauth-dynamic`, OAuth on first connect via Gemini CLI's automatic OAuth discovery). The repo carries the `gemini-cli-extension` topic, so the [Gemini CLI extensions gallery](https://geminicli.com/extensions/browse/) indexes it from the latest tag.
 - DeepSeek Harness plugin: `plugins/dsh-postiz` is an installable `dsh` bundle (`dsh plugin --profile web add dsh-postiz`). It mounts one `@deepseek-ai/dsh-mcp-client` row pointed at the hosted Postiz MCP server (`https://mcp.postiz.com/mcp`, Bearer auth from `POSTIZ_API_KEY`) and registers a `postiz` skill describing the integrationList → integrationSchema → schedulePostTool workflow. Self-hosted instances override `baseUrl` on the `postiz` row. Listed on [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin); the repo now carries the `dsh-plugin` topic.
 
 ## [2.0.17] - 2026-09-01
