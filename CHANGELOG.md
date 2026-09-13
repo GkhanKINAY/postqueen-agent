@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- README MCP copy: hosted `/mcp` exposes **14 tools** (13 registry tools plus `ask_postqueen`), not 11. The schedule tool's wire name is `integrationSchedulePostTool` (not `schedulePostTool`). The Claude README mock now shows that name.
+
 ## [2.0.22] - 2026-09-11
 
 ### Added
