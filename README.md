@@ -207,7 +207,9 @@ Keep it secret: it grants full access to your account. You can revoke or rotate 
 
 ## 🔌 Or connect over MCP
 
-Prefer tool calls over shell commands? PostQueen speaks MCP at one URL she hosts, so any MCP client gets **11 tools** to list channels, upload media and schedule posts without installing anything.
+Prefer tool calls over shell commands? PostQueen speaks MCP at one URL she hosts, so any MCP client gets **14 tools** on `/mcp` without installing anything: the 13 in-app registry tools plus `ask_postqueen`.
+
+The registry wire names are `integrationList`, `groupList`, `integrationSchema`, `triggerTool`, `integrationSchedulePostTool`, `postsListTool`, `postSettingsTool`, `generateVideoOptions`, `videoFunctionTool`, `generateVideoTool`, `videoStatusTool`, `generateImageTool`, and `uploadFromUrlTool`. Schedule with `integrationSchedulePostTool` (not `schedulePostTool`). `ask_postqueen` is the fourteenth: hand her the whole request in plain language.
 
 **One line (Claude Code or any CLI client):**
 
@@ -256,7 +258,7 @@ Set-up guide: [ChatGPT »](https://postqueen.ai/chatgpt)
 The same one-link connector works on claude.ai, and it follows you into the Claude apps on iOS, Android and desktop. Wherever you talk to Claude, she is in the room, ready to plan and schedule your week:
 
 <p align="center">
-  <img src=".github/assets/chat-claude.svg" width="620" alt="Claude with the PostQueen connector: it plans a five-post launch week and schedules every post to X and LinkedIn" />
+  <img src=".github/assets/chat-claude.svg?v=2" width="620" alt="Claude with the PostQueen connector: it plans a five-post launch week and schedules every post to X and LinkedIn" />
 </p>
 
 ```text
