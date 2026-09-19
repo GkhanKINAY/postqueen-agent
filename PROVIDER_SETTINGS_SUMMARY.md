@@ -20,7 +20,6 @@ The CLI now supports **platform-specific settings** for all 28+ integrations!
 | **Pinterest** | `pinterest` | Platform-specific settings |
 | **Discord** | `discord` | Platform-specific settings |
 | **Slack** | `slack` | Platform-specific settings |
-| **Medium** | `medium` | Platform-specific settings |
 | **Dev.to** | `devto` | Platform-specific settings |
 | **Hashnode** | `hashnode` | Platform-specific settings |
 | **WordPress** | `wordpress` | Platform-specific settings |
