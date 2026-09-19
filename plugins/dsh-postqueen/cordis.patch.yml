@@ -1,0 +1,40 @@
+# Patch layer contributed by the dsh-postqueen bundle.
+#
+# Two rows:
+#   1. `postqueen`      - this package's provider plugin. Reads the PostQueen API
+#                         key (POSTQUEEN_API_KEY by default), exposes
+#                         `ctx.postqueen` with the MCP endpoint URL and auth
+#                         headers, and registers the `postqueen` skill that
+#                         teaches the agent the posting workflow.
+#   2. `postqueen-mcp`  - one @deepseek-ai/dsh-mcp-client instance that connects
+#                         to the PostQueen MCP server over streamable HTTP and
+#                         registers its tools as mcp__postqueen__*
+#                         (integrationList, integrationSchema,
+#                         integrationSchedulePostTool, ...).
+#
+# Configuration (override the `postqueen` row in your profile's cordis.patch.yml):
+#   apiKeyEnv  - env var holding the PostQueen API key (default: POSTQUEEN_API_KEY)
+#   apiKey     - inline key; prefer the env var or a .env file in $DSH_HOME
+#   baseUrl    - PostQueen API host (default: https://api.postqueen.ai;
+#                self-hosted instances use their own backend URL)
+#   skill      - register the `postqueen` workflow skill (default: true)
+- insert:
+    - id: postqueen
+      name: dsh-postqueen
+      config:
+        apiKeyEnv: POSTQUEEN_API_KEY
+        baseUrl: https://api.postqueen.ai
+    - id: postqueen-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      inject: [postqueen]
+      config:
+        transport: streamable-http
+        serverName: postqueen
+        url: !!js ctx.postqueen.url
+        headers: !!js ctx.postqueen.headers
+        failOnStartupError: false
+        reconnect:
+          enabled: true
+          initialDelayMs: 2000
+          maxDelayMs: 30000
+          maxAttempts: 10

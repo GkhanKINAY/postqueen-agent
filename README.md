@@ -335,7 +335,35 @@ Then restart Cursor or run **Developer: Reload Window**.
 
 The repo also carries a `.grok-plugin/plugin.json` manifest and a `.grok-plugin/marketplace.json` catalog, so Grok Build can add it as a marketplace source.
 
-All three plugins load the `postqueen` skill, which drives the `postqueen` CLI (the CLI handles media uploads, which image and video posts need). Install the CLI and set `POSTQUEEN_API_KEY` before you ask your agent to post. None of the plugins registers an MCP server; to use MCP instead, see [Or connect over MCP](#-or-connect-over-mcp).
+### Gemini CLI extension
+
+The repo root carries a `gemini-extension.json`, so the repo installs as a [Gemini CLI extension](https://geminicli.com/docs/extensions/):
+
+```bash
+gemini extensions install https://github.com/GkhanKINAY/postqueen-agent
+```
+
+### Qwen Code
+
+Qwen Code installs Claude Code marketplaces directly, so no separate manifest is needed:
+
+```bash
+qwen extensions install GkhanKINAY/postqueen-agent:postqueen
+```
+
+The Claude Code, Cursor and Grok plugins, the Gemini CLI extension and Qwen Code all load the `postqueen` skill, which drives the `postqueen` CLI (the CLI handles media uploads, which image and video posts need). Install the CLI and set `POSTQUEEN_API_KEY` before you ask your agent to post. None of them registers an MCP server; to use MCP instead, see [Or connect over MCP](#-or-connect-over-mcp).
+
+### DeepSeek Harness plugin
+
+This repo also ships a [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (`dsh`) bundle at [`plugins/dsh-postqueen`](plugins/dsh-postqueen). Unlike the plugins above, it connects the agent to the PostQueen MCP server, with your API key as a Bearer token, and registers a `postqueen` workflow skill.
+
+```bash
+dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"
+export POSTQUEEN_API_KEY=your-api-key   # PostQueen → Settings → API Keys
+dsh web
+```
+
+The PostQueen tools then appear as `mcp__postqueen__*` (`integrationList`, `integrationSchema`, `integrationSchedulePostTool`, ...). Self-hosted instances override `baseUrl` on the `postqueen` row. See the [plugin README](plugins/dsh-postqueen/README.md) for configuration.
 
 ---
 

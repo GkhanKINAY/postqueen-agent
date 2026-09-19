@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- DeepSeek Harness plugin: `plugins/dsh-postqueen` is a `dsh` bundle (`dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"`). It mounts one `@deepseek-ai/dsh-mcp-client` row pointed at the PostQueen MCP server (`https://api.postqueen.ai/mcp`, Bearer auth from `POSTQUEEN_API_KEY`) and registers a `postqueen` skill describing the integrationList → integrationSchema → integrationSchedulePostTool workflow. Self-hosted instances override `baseUrl` on the `postqueen` row. It is not published on npm.
+- Gemini CLI extension: a root `gemini-extension.json`, so the repo installs with `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` and loads the `postqueen` skill. Like the other plugins it registers no MCP server.
+- README: Gemini CLI and Qwen Code install steps. Qwen Code installs the Claude Code marketplace directly.
+
+### Changed
+- The Claude Code and Cursor plugin descriptions, and the skill's description row, name every supported platform instead of six.
+
 ### Fixed
 - README MCP copy: hosted `/mcp` exposes **14 tools** (13 registry tools plus `ask_postqueen`), not 11. The schedule tool's wire name is `integrationSchedulePostTool` (not `schedulePostTool`). The Claude README mock now shows that name.
 
