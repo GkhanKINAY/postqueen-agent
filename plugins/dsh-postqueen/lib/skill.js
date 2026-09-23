@@ -33,7 +33,7 @@ list, say so and stop.
 Call \`mcp__postqueen__integrationSchema\` with \`{ platform, isPremium }\` before
 composing. It returns \`maxLength\`, \`rules\`, a \`settings\` JSON schema of
 required per-platform settings, and helper \`tools\` (for example: list Discord
-channels, search subreddits, list LinkedIn pages). Run helpers with
+channels, search subreddits, list Pinterest boards). Run helpers with
 \`mcp__postqueen__triggerTool\` when a setting needs an ID you do not have.
 
 ## 3. Compose the content
@@ -85,7 +85,8 @@ been published yet.
 ## Setup
 
 The tools are missing when no API key is configured. The key comes from the
-\`POSTQUEEN_API_KEY\` environment variable (PostQueen → Settings → API Keys).
+\`POSTQUEEN_API_KEY\` environment variable (PostQueen > Connections > API Keys;
+only workspace admins can see it).
 Self-hosted instances set \`baseUrl\` on the \`postqueen\` row in the profile's
 \`cordis.patch.yml\`.
 `

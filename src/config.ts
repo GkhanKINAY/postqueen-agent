@@ -1,5 +1,5 @@
 import { PostQueenConfig } from './api';
-import { loadCredentials } from './commands/auth';
+import { loadCredentials, API_KEY_LOCATION } from './commands/auth';
 
 export function getConfig(): PostQueenConfig {
   // Check for stored OAuth credentials first
@@ -18,8 +18,9 @@ export function getConfig(): PostQueenConfig {
   if (!apiKey) {
     console.error('❌ Error: No authentication found.');
     console.error('Options:');
-    console.error('  1. Log in: run "postqueen auth:login" (opens a browser device flow)');
-    console.error('  2. API Key: export POSTQUEEN_API_KEY=your_api_key');
+    console.error('  1. API Key: export POSTQUEEN_API_KEY=your_api_key');
+    console.error(`     Get it from ${API_KEY_LOCATION}.`);
+    console.error('  2. Your own auth server: postqueen auth:login --auth-server <url>');
     process.exit(1);
   }
 

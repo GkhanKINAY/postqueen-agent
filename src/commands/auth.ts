@@ -6,7 +6,8 @@ import fetch from 'node-fetch';
 const CREDENTIALS_DIR = join(homedir(), '.postqueen');
 const CREDENTIALS_FILE = join(CREDENTIALS_DIR, 'credentials.json');
 
-const DEFAULT_AUTH_SERVER = 'https://cli-auth.postqueen.ai';
+// Where the API key lives in the PostQueen app, for every message that asks for one.
+export const API_KEY_LOCATION = 'PostQueen > Connections > API Keys, visible to workspace admins only';
 
 interface StoredCredentials {
   accessToken: string;
@@ -57,20 +58,43 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// PostQueen Cloud does not run an auth server behind the default URL, so a
-// failure to start the flow almost always means "use an API key". Say that,
+// A configured auth server that does not answer: say how to use an API key
 // instead of printing whatever page the host answered with.
 function explainNoAuthServer(authServer: string, detail: string): never {
   console.error(`❌ No auth server is answering at ${authServer} (${detail}).\n`);
-  console.error('   On PostQueen Cloud, authenticate with an API key instead:');
-  console.error('     export POSTQUEEN_API_KEY=your_key   # Settings → API Keys\n');
-  console.error('   Self-hosting? Run the auth server in server/ and point the CLI at it');
-  console.error('   with --auth-server or POSTQUEEN_AUTH_SERVER.');
+  console.error('   Authenticate with an API key instead:');
+  console.error(`     export POSTQUEEN_API_KEY=your_key   # ${API_KEY_LOCATION}\n`);
+  console.error('   Or check the URL you passed with --auth-server or POSTQUEEN_AUTH_SERVER.');
   process.exit(1);
 }
 
+// PostQueen runs no device-flow auth server, so with none configured there is
+// nothing to log in to. Explain the API key instead of calling out to a host.
+function explainApiKey(): void {
+  if (process.env.POSTQUEEN_API_KEY) {
+    console.log('✅ POSTQUEEN_API_KEY is set, so the CLI is ready to use.');
+    console.log('   Run "postqueen auth:status" to check the key.');
+    return;
+  }
+
+  console.log('🔑 The PostQueen CLI signs in with an API key.\n');
+  console.log(`   1. Copy the key from ${API_KEY_LOCATION}.`);
+  console.log('   2. Set it where the CLI runs:');
+  console.log('        export POSTQUEEN_API_KEY=your_api_key');
+  console.log('   3. Check it:');
+  console.log('        postqueen auth:status\n');
+  console.log('   Running your own device-flow auth server (server/ in the CLI repository)?');
+  console.log('   Log in through it with --auth-server <url> or POSTQUEEN_AUTH_SERVER.');
+  process.exitCode = 1;
+}
+
 export async function authLogin(argv: any) {
-  const authServer = argv.authServer || process.env.POSTQUEEN_AUTH_SERVER || DEFAULT_AUTH_SERVER;
+  const authServer = argv.authServer || process.env.POSTQUEEN_AUTH_SERVER;
+
+  if (!authServer) {
+    explainApiKey();
+    return;
+  }
 
   console.log('🔐 Starting device authorization flow...\n');
 
@@ -159,7 +183,7 @@ export async function authLogin(argv: any) {
       console.error(`❌ Authorization failed: ${data.error}`);
       process.exit(1);
     } catch {
-      // Network error during poll — keep trying
+      // Network error during poll: keep trying
       continue;
     }
   }
@@ -204,8 +228,9 @@ export async function authStatus() {
   } else {
     console.log('❌ Not authenticated.');
     console.log('\nOptions:');
-    console.log('  1. OAuth2: postqueen auth:login');
-    console.log('  2. API Key: export POSTQUEEN_API_KEY=your_api_key');
+    console.log('  1. API Key: export POSTQUEEN_API_KEY=your_api_key');
+    console.log(`     Get it from ${API_KEY_LOCATION}.`);
+    console.log('  2. Your own auth server: postqueen auth:login --auth-server <url>');
     return;
   }
 

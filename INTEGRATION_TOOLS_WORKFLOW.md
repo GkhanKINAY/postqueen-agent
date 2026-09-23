@@ -1,6 +1,8 @@
 # Integration Tools Workflow
 
-Some integrations require additional data (like IDs, tags, playlists, etc.) before you can post. The CLI supports a complete workflow to discover and use these tools.
+Some integrations need data that only the network knows (a subreddit's flairs, a Pinterest board, a Discord channel) before you can post. The CLI supports a complete workflow to discover and use these tools.
+
+Most commands print one status line before their JSON, so the examples below drop it with `tail -n +2` before `jq`.
 
 ## The Complete Workflow
 
@@ -10,7 +12,7 @@ Some integrations require additional data (like IDs, tags, playlists, etc.) befo
 postqueen integrations:list
 ```
 
-Get your integration IDs.
+Get your integration IDs. Each entry also has an `identifier`, such as `reddit` or `pinterest`.
 
 ### Step 2: Get Integration Settings
 
@@ -18,18 +20,21 @@ Get your integration IDs.
 postqueen integrations:settings <integration-id>
 ```
 
-This returns:
+This returns, under `output`:
+- `rules` - Guidance for agents on what the settings do
 - `maxLength` - Character limit
-- `settings` - Required/optional fields
-- **`tools`** - Callable methods to fetch additional data
+- `settings` - The settings JSON schema (required fields, enums, descriptions)
+- **`tools`** - Callable methods to fetch additional data (an empty array when the network has none)
 
 ### Step 3: Trigger Tools (If Needed)
 
-If settings require IDs/data you don't have, use the tools:
+If settings require IDs you don't have, use the tools:
 
 ```bash
 postqueen integrations:trigger <integration-id> <method-name> -d '{"key":"value"}'
 ```
+
+The result comes back as `{"output": ...}`.
 
 ### Step 4: Create Post with Complete Settings
 
@@ -43,49 +48,30 @@ Use the data from Step 3 in your post settings.
 postqueen integrations:settings reddit-abc123
 ```
 
-**Output:**
+**The `tools` part of the output:**
 ```json
 {
   "output": {
-    "maxLength": 40000,
-    "settings": {
-      "properties": {
-        "subreddit": {
-          "type": "array",
-          "items": {
-            "properties": {
-              "subreddit": { "type": "string" },
-              "title": { "type": "string" },
-              "flair": {
-                "properties": {
-                  "id": { "type": "string" }  // ← Need flair ID!
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "tools": [
       {
-        "methodName": "getFlairs",
-        "description": "Get available flairs for a subreddit",
+        "methodName": "subreddits",
+        "description": "Get list of subreddits with information",
         "dataSchema": [
           {
-            "key": "subreddit",
-            "description": "The subreddit name",
-            "type": "string"
+            "key": "word",
+            "type": "string",
+            "description": "Search subreddit by string"
           }
         ]
       },
       {
-        "methodName": "searchSubreddits",
-        "description": "Search for subreddits",
+        "methodName": "restrictions",
+        "description": "Get list of flairs and restrictions for a subreddit",
         "dataSchema": [
           {
-            "key": "query",
-            "description": "Search query",
-            "type": "string"
+            "key": "subreddit",
+            "type": "string",
+            "description": "Search flairs and restrictions by subreddit key should be \"/r/[name]\""
           }
         ]
       }
@@ -94,45 +80,52 @@ postqueen integrations:settings reddit-abc123
 }
 ```
 
-### 2. Get Flairs for the Subreddit
+### 2. Find the Subreddit
 
 ```bash
-postqueen integrations:trigger reddit-abc123 getFlairs -d '{"subreddit":"programming"}'
+postqueen integrations:trigger reddit-abc123 subreddits -d '{"word":"programming"}'
 ```
 
-**Output:**
+Each result has a `title`, an `id` and a `name`. The `name` is the subreddit's `/r/...` path, which is what the `subreddit` setting takes.
+
+### 3. Get Its Post Types and Flairs
+
+```bash
+postqueen integrations:trigger reddit-abc123 restrictions -d '{"subreddit":"/r/programming"}'
+```
+
+**Output shape:**
 ```json
 {
-  "output": [
-    {
-      "id": "flair-12345",
-      "name": "Discussion"
-    },
-    {
-      "id": "flair-67890",
-      "name": "Tutorial"
-    }
-  ]
+  "output": {
+    "subreddit": "/r/programming",
+    "allow": ["self", "link"],
+    "is_flair_required": true,
+    "flairs": [
+      { "id": "<flair id>", "name": "<flair name>" }
+    ]
+  }
 }
 ```
 
-### 3. Create Post with Flair ID
+`allow` lists the post types the subreddit accepts, out of `self`, `link` and `media`.
+
+### 4. Create Post with the Flair
 
 ```bash
 postqueen posts:create \
   -c "Check out my project!" \
-  -p reddit \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "programming",
+        "subreddit": "/r/programming",
         "title": "My Cool Project",
-        "type": "text",
-        "url": "",
+        "type": "self",
         "is_flair_required": true,
         "flair": {
-          "id": "flair-12345",
-          "name": "Discussion"
+          "id": "<flair id>",
+          "name": "<flair name>"
         }
       }
     }]
@@ -140,121 +133,56 @@ postqueen posts:create \
   -i "reddit-abc123"
 ```
 
-## Example: YouTube Playlists
+`type` must be `self` (a text post), `link` (also needs `url`) or `media` (posts the first attached image or MP4 video). `flair` is only needed when `is_flair_required` is true.
 
-### 1. Get YouTube Settings
+## Example: Pinterest Boards
 
-```bash
-postqueen integrations:settings youtube-123
-```
-
-**Output includes tools:**
-```json
-{
-  "tools": [
-    {
-      "methodName": "getPlaylists",
-      "description": "Get your YouTube playlists",
-      "dataSchema": []
-    },
-    {
-      "methodName": "getCategories",
-      "description": "Get available video categories",
-      "dataSchema": []
-    }
-  ]
-}
-```
-
-### 2. Get Playlists
+### 1. List Boards
 
 ```bash
-postqueen integrations:trigger youtube-123 getPlaylists
+postqueen integrations:trigger pinterest-123 boards
 ```
 
-**Output:**
+**Output shape:**
 ```json
 {
   "output": [
-    {
-      "id": "PLxxxxxx",
-      "title": "My Tutorials"
-    },
-    {
-      "id": "PLyyyyyy",
-      "title": "Product Demos"
-    }
+    { "name": "<board name>", "id": "<board id>" }
   ]
 }
 ```
 
-### 3. Post to Specific Playlist
+### 2. Post to a Board
+
+```bash
+PIN=$(postqueen upload pin.jpg | tail -n +2 | jq -r '.path')
+
+postqueen posts:create \
+  -c "Pin description" \
+  -s "2026-12-31T12:00:00Z" \
+  -m "$PIN" \
+  --settings '{"board":"<board id>","title":"My Pin"}' \
+  -i "pinterest-123"
+```
+
+## Example: Discord and Slack Channels
+
+### 1. List Channels
+
+```bash
+postqueen integrations:trigger discord-123 channels
+```
+
+Both Discord and Slack return `[{ "id": "...", "name": "..." }]` under `output`. Discord lists text and announcement channels.
+
+### 2. Post to a Channel
 
 ```bash
 postqueen posts:create \
-  -c "Video description" \
-  -p youtube \
-  --settings '{
-    "title": "My Video",
-    "type": "public",
-    "playlistId": "PLxxxxxx"
-  }' \
-  -i "youtube-123"
-```
-
-## Example: LinkedIn Companies
-
-### 1. Get LinkedIn Settings
-
-```bash
-postqueen integrations:settings linkedin-123
-```
-
-**Output includes tools:**
-```json
-{
-  "tools": [
-    {
-      "methodName": "getCompanies",
-      "description": "Get companies you can post to",
-      "dataSchema": []
-    }
-  ]
-}
-```
-
-### 2. Get Companies
-
-```bash
-postqueen integrations:trigger linkedin-123 getCompanies
-```
-
-**Output:**
-```json
-{
-  "output": [
-    {
-      "id": "company-123",
-      "name": "My Company"
-    },
-    {
-      "id": "company-456",
-      "name": "Other Company"
-    }
-  ]
-}
-```
-
-### 3. Post as Company
-
-```bash
-postqueen posts:create \
-  -c "Company announcement" \
-  -p linkedin \
-  --settings '{
-    "companyId": "company-123"
-  }' \
-  -i "linkedin-123"
+  -c "Release notes are out" \
+  -s "2026-12-31T12:00:00Z" \
+  --settings '{"channel":"<channel id>"}' \
+  -i "discord-123"
 ```
 
 ## Understanding Tools
@@ -263,13 +191,13 @@ postqueen posts:create \
 
 ```json
 {
-  "methodName": "getFlairs",
-  "description": "Get available flairs for a subreddit",
+  "methodName": "restrictions",
+  "description": "Get list of flairs and restrictions for a subreddit",
   "dataSchema": [
     {
       "key": "subreddit",
-      "description": "The subreddit name",
-      "type": "string"
+      "type": "string",
+      "description": "Search flairs and restrictions by subreddit key should be \"/r/[name]\""
     }
   ]
 }
@@ -277,7 +205,7 @@ postqueen posts:create \
 
 - **methodName** - Use this in `integrations:trigger`
 - **description** - What the tool does
-- **dataSchema** - Required input parameters
+- **dataSchema** - The input keys to pass with `-d`
 
 ### Calling Tools
 
@@ -289,29 +217,33 @@ postqueen integrations:trigger <integration-id> <methodName>
 postqueen integrations:trigger <integration-id> <methodName> -d '{"key":"value"}'
 ```
 
-## Common Tool Methods
+## Every Tool Method
 
-### Reddit
-- `getFlairs` - Get flairs for a subreddit
-- `searchSubreddits` - Search for subreddits
-- `getSubreddits` - Get subscribed subreddits
+These are all the tools the PostQueen API has, by network (`identifier` from `integrations:list`):
 
-### YouTube
-- `getPlaylists` - Get your playlists
-- `getCategories` - Get video categories
-- `getChannels` - Get your channels
+| Network | Tools (`methodName`) | Input (`-d`) | Setting it helps fill |
+|---|---|---|---|
+| Reddit (`reddit`) | `subreddits` | `{"word":"programming"}` | `subreddit[].value.subreddit` |
+| Reddit (`reddit`) | `restrictions` | `{"subreddit":"/r/programming"}` | `type`, `is_flair_required`, `flair` |
+| Pinterest (`pinterest`) | `boards` | none | `board` |
+| Discord (`discord`) | `channels` | none | `channel` |
+| Slack (`slack`) | `channels` | none | `channel` |
+| Lemmy (`lemmy`) | `subreddits` (communities) | `{"word":"..."}` | `subreddit[].value` |
+| Farcaster (`wrapcast`) | `subreddits` (channels) | `{"word":"..."}` | `subreddit[].value.id` |
+| DEV (`devto`) | `tags`, `organizations` | none | `tags`, `organization` |
+| Hashnode (`hashnode`) | `tagsList`, `publications` | none | `tags`, `publication` |
+| WordPress (`wordpress`) | `postTypes`, `categoriesList`, `tagsList` | none | `type`, `categories`, `tags` |
+| Listmonk (`listmonk`) | `list`, `templates` | none | `list`, `template` |
+| Dribbble (`dribbble`) | `teams` | none | `team` |
+| MeWe (`mewe`) | `groups` | none | `group` |
+| Skool (`skool`) | `groups`, then `label` | `label`: `{"id":"<group id>"}` | `group`, `label` |
+| Whop (`whop`) | `companies`, then `experiences` | `experiences`: `{"id":"<company id>"}` | `company`, `experience` |
+| Instagram, Facebook login (`instagram`) | `audioSearch` | `{"q":"...","type":"music"}` or `"original_sound"` | `audio` |
+| TikTok Business (`tiktok-business`) | `musicSearch`, `locationSearch` | `{"genre":"POP"}`, `{"q":"..."}` | `music`, `location` |
 
-### LinkedIn
-- `getCompanies` - Get companies you manage
-- `getOrganizations` - Get organizations
+X, LinkedIn, LinkedIn Page, Facebook, Threads, YouTube, TikTok and the other networks have no tools. A LinkedIn Page is its own channel (`linkedin-page`), not a setting of a LinkedIn profile.
 
-### Twitter/X
-- `getListsowned` - Get your Twitter lists
-- `getCommunities` - Get communities you're in
-
-### Pinterest
-- `getBoards` - Get your Pinterest boards
-- `getBoardSections` - Get sections in a board
+Some of these networks are marked Soon on the hosted service and cannot be connected there yet; see the Networks section of [SKILL.md](SKILL.md).
 
 ## AI Agent Workflow
 
@@ -323,22 +255,17 @@ For AI agents, this enables dynamic discovery and usage:
 INTEGRATION_ID="your-integration-id"
 
 # 1. Get settings and tools
-SETTINGS=$(postqueen integrations:settings "$INTEGRATION_ID")
+SETTINGS=$(postqueen integrations:settings "$INTEGRATION_ID" | tail -n +2)
 echo "$SETTINGS" | jq '.output.tools'
 
-# 2. Get tool method names
-TOOLS=$(echo "$SETTINGS" | jq -r '.output.tools[]?.methodName')
+# 2. Read each tool's dataSchema, then call the ones the settings need, for example:
+postqueen integrations:trigger "$INTEGRATION_ID" <methodName> -d '{"<key>":"<value>"}'
 
-# 3. Call tools to get required data
-for METHOD in $TOOLS; do
-  RESULT=$(postqueen integrations:trigger "$INTEGRATION_ID" "$METHOD" -d '{}')
-  echo "Tool $METHOD returned: $RESULT"
-done
-
-# 4. Create post with complete settings
+# 3. Create post with complete settings
 postqueen posts:create \
   -c "Your content" \
-  --settings '{"key": "value"}' \
+  -s "2026-12-31T12:00:00Z" \
+  --settings '<settings JSON built from the tool output>' \
   -i "$INTEGRATION_ID"
 ```
 
@@ -348,28 +275,21 @@ postqueen posts:create \
 
 ```bash
 postqueen integrations:trigger reddit-123 invalidMethod
-# ❌ Failed to trigger tool: Tool not found
-```
-
-### Missing Required Data
-
-```bash
-postqueen integrations:trigger reddit-123 getFlairs
-# ❌ Missing required parameter: subreddit
+# ❌ Failed to trigger tool: Request failed: API Error (404): {"msg":"Tool not found"}
 ```
 
 ### Integration Not Found
 
 ```bash
-postqueen integrations:trigger invalid-id getFlairs
-# ❌ Failed to trigger tool: Integration not found
+postqueen integrations:trigger invalid-id subreddits -d '{"word":"programming"}'
+# ❌ Failed to trigger tool: Request failed: API Error (404): {"msg":"Integration not found"}
 ```
 
 ## Tips
 
 1. **Always check tools first** - Run `integrations:settings` to see available tools
 2. **Read dataSchema** - Know what parameters each tool needs
-3. **Parse JSON output** - Use `jq` or similar to extract data
+3. **Parse JSON output** - Drop the status line with `tail -n +2`, then use `jq`
 4. **Cache results** - Tool results don't change often
 5. **For AI agents** - Automate the entire workflow
 
@@ -379,42 +299,37 @@ postqueen integrations:trigger invalid-id getFlairs
 #!/bin/bash
 export POSTQUEEN_API_KEY=your_key
 INTEGRATION_ID="reddit-abc123"
+SUBREDDIT="/r/programming"
 
 # 1. Get settings
 echo "📋 Getting settings..."
-SETTINGS=$(postqueen integrations:settings $INTEGRATION_ID)
-echo $SETTINGS | jq '.output.tools'
+postqueen integrations:settings "$INTEGRATION_ID" | tail -n +2 | jq '.output.tools'
 
-# 2. Get flairs
+# 2. Get the subreddit's post types and flairs
 echo ""
 echo "🏷️  Getting flairs..."
-FLAIRS=$(postqueen integrations:trigger $INTEGRATION_ID getFlairs -d '{"subreddit":"programming"}')
-FLAIR_ID=$(echo $FLAIRS | jq -r '.output[0].id')
-FLAIR_NAME=$(echo $FLAIRS | jq -r '.output[0].name')
+RULES=$(postqueen integrations:trigger "$INTEGRATION_ID" restrictions -d "{\"subreddit\":\"$SUBREDDIT\"}" | tail -n +2)
+FLAIR_REQUIRED=$(echo "$RULES" | jq '.output.is_flair_required')
+FLAIR_ID=$(echo "$RULES" | jq -r '.output.flairs[0].id')
+FLAIR_NAME=$(echo "$RULES" | jq -r '.output.flairs[0].name')
 
+echo "Allowed types: $(echo "$RULES" | jq -c '.output.allow')"
 echo "Selected flair: $FLAIR_NAME ($FLAIR_ID)"
 
 # 3. Create post
 echo ""
 echo "📝 Creating post..."
+SETTINGS=$(jq -cn \
+  --arg subreddit "$SUBREDDIT" \
+  --argjson required "$FLAIR_REQUIRED" \
+  --arg id "$FLAIR_ID" \
+  --arg name "$FLAIR_NAME" \
+  '{subreddit: [{value: {subreddit: $subreddit, title: "My Post Title", type: "self", is_flair_required: $required, flair: {id: $id, name: $name}}}]}')
+
 postqueen posts:create \
   -c "My post content" \
-  -p reddit \
-  --settings "{
-    \"subreddit\": [{
-      \"value\": {
-        \"subreddit\": \"programming\",
-        \"title\": \"My Post Title\",
-        \"type\": \"text\",
-        \"url\": \"\",
-        \"is_flair_required\": true,
-        \"flair\": {
-          \"id\": \"$FLAIR_ID\",
-          \"name\": \"$FLAIR_NAME\"
-        }
-      }
-    }]
-  }" \
+  -s "2026-12-31T12:00:00Z" \
+  --settings "$SETTINGS" \
   -i "$INTEGRATION_ID"
 
 echo "✅ Done!"
@@ -428,5 +343,3 @@ echo "✅ Done!"
 ✅ **Complete workflow** from discovery to posting
 ✅ **Perfect for AI agents** - fully automated
 ✅ **No guesswork** - know exactly what data you need
-
-**The CLI now supports the complete integration tools workflow!** 🎉

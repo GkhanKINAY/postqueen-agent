@@ -56,7 +56,9 @@ No PostQueen account yet? [Start a 7-day trial, $0 due today](https://postqueen.
 | `analytics:platform <id>` | Channel analytics for the last 7 days, or `-d <days>` |
 | `analytics:post <id>` | Analytics for one post |
 | `upload <file>` | Upload an image or video and get its path |
-| `auth:login`, `auth:status`, `auth:logout` | Device-flow login for a self-hosted auth server, and checks on stored credentials |
+| `auth:status` | Check which credentials the CLI uses and whether they work |
+| `auth:login` | Explain how to set up the API key. With `--auth-server` or `POSTQUEEN_AUTH_SERVER`, log in through a device-flow auth server you run yourself |
+| `auth:logout` | Remove the credentials `auth:login` stored |
 
 Media goes in two steps: `upload` returns a `path`, and that path goes into `posts:create -m`. The [command reference](https://docs.postqueen.ai/cli/command-reference) has every flag.
 
@@ -93,7 +95,7 @@ Prefer tool calls to shell commands? Many agents connect to PostQueen over MCP i
 | --- | --- |
 | `POSTQUEEN_API_KEY` | Your workspace API key. Required on the hosted service. |
 | `POSTQUEEN_API_URL` | The API the CLI calls. It defaults to `https://api.postqueen.ai`; set it to your own backend if you self-host. |
-| `POSTQUEEN_AUTH_SERVER` | The auth server that `auth:login` uses. The hosted service does not run one, so use an API key there. Self-hosters can run the one in [`server/`](server/SERVER.md). |
+| `POSTQUEEN_AUTH_SERVER` | Not set by default. Set it, or pass `--auth-server`, to make `auth:login` log in through a device-flow auth server you run, such as the one in [`server/`](server/SERVER.md). The hosted service runs none, so use `POSTQUEEN_API_KEY` there. |
 
 Stored `auth:login` credentials live in `~/.postqueen/credentials.json` and take priority over `POSTQUEEN_API_KEY`.
 

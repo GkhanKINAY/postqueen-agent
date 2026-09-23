@@ -4,7 +4,7 @@ import { createPost, listPosts, deletePost, getMissingContent, connectPost, chan
 import { listIntegrations, listGroups, getIntegrationSettings, triggerIntegrationTool } from './commands/integrations';
 import { getAnalytics, getPostAnalytics } from './commands/analytics';
 import { uploadFile } from './commands/upload';
-import { authLogin, authLogout, authStatus } from './commands/auth';
+import { authLogin, authLogout, authStatus, API_KEY_LOCATION } from './commands/auth';
 import type { Argv } from 'yargs';
 
 yargs(hideBin(process.argv))
@@ -83,12 +83,12 @@ yargs(hideBin(process.argv))
           'Create draft post'
         )
         .example(
-          '$0 posts:create -c "Main post" -m "img1.jpg,img2.jpg" -s "2024-12-31T12:00:00Z" -i "twitter-123"',
-          'Post with multiple images'
+          '$0 posts:create -c "Main post" -m "$IMG1,$IMG2" -s "2024-12-31T12:00:00Z" -i "twitter-123"',
+          'Post with two images (each a path returned by postqueen upload)'
         )
         .example(
-          '$0 posts:create -c "Main post" -m "img1.jpg" -c "First comment" -m "img2.jpg" -c "Second comment" -m "img3.jpg,img4.jpg" -s "2024-12-31T12:00:00Z" -i "twitter-123"',
-          'Post with comments, each having their own media'
+          '$0 posts:create -c "Main post" -m "$IMG1" -c "First comment" -m "$IMG2" -c "Second comment" -m "$IMG3,$IMG4" -s "2024-12-31T12:00:00Z" -i "twitter-123"',
+          'Post with comments, each having their own uploaded media'
         )
         .example(
           '$0 posts:create -c "Main" -c "Comment with semicolon; see?" -c "Another!" -s "2024-12-31T12:00:00Z" -i "twitter-123"',
@@ -103,12 +103,12 @@ yargs(hideBin(process.argv))
           'Complex post from JSON file'
         )
         .example(
-          '$0 posts:create -c "Post to subreddit" -s "2024-12-31T12:00:00Z" --settings \'{"subreddit":[{"value":{"subreddit":"programming","title":"My Title","type":"text","url":"","is_flair_required":false}}]}\' -i "reddit-123"',
-          'Reddit post with specific subreddit settings'
+          '$0 posts:create -c "Post to subreddit" -s "2024-12-31T12:00:00Z" --settings \'{"subreddit":[{"value":{"subreddit":"/r/programming","title":"My Title","type":"self","is_flair_required":false}}]}\' -i "reddit-123"',
+          'Reddit text post (type is self, link or media)'
         )
         .example(
-          '$0 posts:create -c "Video description" -s "2024-12-31T12:00:00Z" --settings \'{"title":"My Video","type":"public","tags":[{"value":"tech","label":"Tech"}]}\' -i "youtube-123"',
-          'YouTube post with title and tags'
+          '$0 posts:create -c "Video description" -m "$VIDEO" -s "2024-12-31T12:00:00Z" --settings \'{"title":"My Video","type":"public","tags":[{"value":"tech","label":"Tech"}]}\' -i "youtube-123"',
+          'YouTube video (uploaded first) with title and tags'
         )
         .example(
           '$0 posts:create -c "Tweet content" -s "2024-12-31T12:00:00Z" --settings \'{"who_can_reply_post":"everyone"}\' -i "twitter-123"',
@@ -212,7 +212,7 @@ yargs(hideBin(process.argv))
           type: 'string',
         })
         .option('settings', {
-          describe: 'Partial settings as a JSON string — only the keys you pass change; do not include __type',
+          describe: 'Partial settings as a JSON string. Only the keys you pass change; do not include __type',
           type: 'string',
           demandOption: true,
         })
@@ -310,16 +310,16 @@ yargs(hideBin(process.argv))
           type: 'string',
         })
         .example(
-          '$0 integrations:trigger reddit-123 getSubreddits',
-          'Get list of subreddits'
-        )
-        .example(
-          '$0 integrations:trigger reddit-123 searchSubreddits -d \'{"query":"programming"}\'',
+          '$0 integrations:trigger reddit-123 subreddits -d \'{"word":"programming"}\'',
           'Search for subreddits'
         )
         .example(
-          '$0 integrations:trigger youtube-123 getPlaylists',
-          'Get YouTube playlists'
+          '$0 integrations:trigger reddit-123 restrictions -d \'{"subreddit":"/r/programming"}\'',
+          'Get a subreddit\'s allowed post types and flairs'
+        )
+        .example(
+          '$0 integrations:trigger pinterest-123 boards',
+          'List Pinterest boards'
         );
     },
     triggerIntegrationTool as any
@@ -391,23 +391,27 @@ yargs(hideBin(process.argv))
   )
   .command(
     'auth:login',
-    'Authenticate using OAuth2 (device flow)',
+    'Explain API key setup, or log in through your own auth server (device flow)',
     (yargs: Argv) => {
       return yargs
         .option('auth-server', {
-          describe: 'Auth server URL (default: https://cli-auth.postqueen.ai)',
+          describe: 'URL of a device-flow auth server you run yourself (or set POSTQUEEN_AUTH_SERVER). PostQueen has none: the hosted service signs in with POSTQUEEN_API_KEY',
           type: 'string',
         })
         .example(
           '$0 auth:login',
-          'Login via OAuth2 device flow'
+          'Show how to set up an API key'
+        )
+        .example(
+          '$0 auth:login --auth-server https://auth.example.com',
+          'Log in through your own auth server'
         );
     },
     authLogin as any
   )
   .command(
     'auth:logout',
-    'Remove stored OAuth2 credentials',
+    'Remove credentials stored by auth:login',
     {},
     authLogout as any
   )
@@ -423,6 +427,6 @@ yargs(hideBin(process.argv))
   .version()
   .alias('v', 'version')
   .epilogue(
-    'For more information, visit: https://postqueen.ai\n\nAuthentication:\n  OAuth2: postqueen auth:login\n  API Key: export POSTQUEEN_API_KEY=your_api_key'
+    `For more information, visit: https://postqueen.ai\n\nAuthentication:\n  API Key: export POSTQUEEN_API_KEY=your_api_key\n    (${API_KEY_LOCATION})\n  Your own auth server: postqueen auth:login --auth-server <url>`
   )
   .parse();
