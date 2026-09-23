@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.26] - 2026-09-24
+
+### Changed
+
+- The npm page now matches the GitHub README: the PostQueen CLI banner, colour badges, the AI agents and networks card, and the PostQueen Cloud trial. No code changes.
+
 ## [2.0.25] - 2026-09-23
 
 ### Fixed
