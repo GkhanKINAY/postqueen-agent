@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `engines.node` now says `^20.19.0 || >=22.12.0`. 2.0.23 stops at start on Node 18 with `ERR_REQUIRE_ESM`, so npm now warns before installing on a Node it cannot run on.
+
 ## [2.0.23] - 2026-09-23
 
 ### Added
