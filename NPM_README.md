@@ -4,13 +4,11 @@
 
 <p>
   <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen" alt="npm version"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node.js 18 or newer"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-20.19%2B%20%7C%2022.12%2B-brightgreen" alt="Node.js 20.19+ or 22.12+"></a>
   <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/calendar.svg" width="660" alt="An illustration of the PostQueen calendar: a week of scheduled posts across several channels" />
-</p>
+<img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/terminal.png" width="100%" alt="A terminal running postqueen integrations:list, which prints one status line and then the connected channels as JSON, then postqueen posts:create, which prints a success line and the new post ID as JSON.">
 
 Posts you create with the CLI land on the same calendar you see in the PostQueen app.
 
@@ -24,7 +22,7 @@ Posts you create with the CLI land on the same calendar you see in the PostQueen
 
 ## Quick start
 
-You need Node.js 18 or newer and a PostQueen API key. In PostQueen, open Connections > API Keys to copy the key. Only workspace admins can see it, and each workspace has one.
+You need Node.js 20.19 or newer (22.12 or newer on Node 22) and a PostQueen API key. In PostQueen, open Connections > API Keys to copy the key. Only workspace admins can see it, and each workspace has one.
 
 ```bash
 npm install -g postqueen
@@ -70,11 +68,11 @@ Most commands print one human-readable status line and then the JSON result. Dro
 postqueen integrations:list | tail -n +2 | jq -r '.[].id'
 ```
 
-`posts:missing` prints JSON only, and `posts:delete` prints only a confirmation line. Errors go to stderr, and the command exits with code 1.
+`posts:missing` prints JSON only, and `posts:delete` prints only a confirmation line. When a command fails, the error goes to stderr and the command exits with code 1. `auth:status` and `auth:login` print their messages to stdout.
 
 ## Agent skill and plugins
 
-The skill in [`skills/postqueen`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/skills/postqueen/SKILL.md) teaches an agent to run the CLI. Every route below except DeepSeek Harness needs the CLI installed and `POSTQUEEN_API_KEY` set where the agent runs.
+The skill in [`skills/postqueen`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/skills/postqueen/SKILL.md) teaches an agent to run the CLI. Every route below needs `POSTQUEEN_API_KEY` set where the agent runs, and every route except DeepSeek Harness also needs the CLI installed.
 
 | Agent | Install |
 | --- | --- |
@@ -102,7 +100,7 @@ Stored `auth:login` credentials live in `~/.postqueen/credentials.json` and take
 ## Privacy and security
 
 - Channels connect through each network's official OAuth sign-in where the network offers one.
-- Some networks, such as Bluesky, Lemmy, WordPress and Nostr, need an app password or a key that you paste in.
+- Some networks, such as Bluesky, Lemmy, WordPress and Nostr, need an app password, an account password or a key that you paste in.
 - PostQueen stores these credentials so it can post for you, and replaces them when you remove the channel.
 - Your API key gives full access to the workspace. Keep it in an environment variable, not in your code.
 - Read the [privacy policy](https://postqueen.ai/privacy-policy), or [delete your account](https://postqueen.ai/delete-my-account).
