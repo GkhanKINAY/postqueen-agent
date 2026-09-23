@@ -23,11 +23,13 @@ The PostQueen API supports a rich post structure:
         },
         // ... more comments
       ],
-      settings: { __type: 'EmptySettings' }
+      settings: {}                    // Platform settings; the backend adds __type
     }
   ]
 }
 ```
+
+Every media `path`, and every value passed to `-m`, must be a path returned by `postqueen upload`. The file names and URLs below stand for those paths.
 
 ## Simple Usage Examples
 
@@ -36,6 +38,7 @@ The PostQueen API supports a rich post structure:
 ```bash
 postqueen posts:create \
   -c "Hello World!" \
+  -s "2024-12-31T12:00:00Z" \
   -i "twitter-123"
 ```
 
@@ -44,7 +47,8 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Check out these images!" \
-  --image "https://example.com/img1.jpg,https://example.com/img2.jpg,https://example.com/img3.jpg" \
+  -m "img1.jpg,img2.jpg,img3.jpg" \
+  -s "2024-12-31T12:00:00Z" \
   -i "twitter-123"
 ```
 
@@ -53,7 +57,10 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Main post content" \
-  --comments "First comment;Second comment;Third comment" \
+  -c "First comment" \
+  -c "Second comment" \
+  -c "Third comment" \
+  -s "2024-12-31T12:00:00Z" \
   -i "twitter-123"
 ```
 
@@ -80,8 +87,8 @@ postqueen posts:create --json examples/post-with-comments.json
 
 This creates:
 - Main post with 2 images
-- First comment with 1 image (posted 5s after main)
-- Second comment with 2 images (posted 10s after main)
+- First comment with 1 image (5-minute delay)
+- Second comment with 2 images (10-minute delay)
 
 ### 2. Multi-Platform Campaign
 
@@ -105,7 +112,7 @@ All scheduled for the same time with platform-specific content and media!
 postqueen posts:create --json examples/thread-post.json
 ```
 
-This creates a 5-part Twitter thread, with each tweet having its own image and a 2-second delay between tweets.
+This creates a 5-part Twitter thread, with each tweet having its own image and a 2-minute delay between tweets.
 
 ## JSON File Structure Explained
 
@@ -113,7 +120,7 @@ This creates a 5-part Twitter thread, with each tweet having its own image and a
 
 ```json
 {
-  "type": "now",                    // "now", "schedule", "draft", "update"
+  "type": "now",                    // "now", "schedule" or "draft"
   "date": "2024-01-15T12:00:00Z",  // When to post (ISO 8601)
   "shortLink": true,                // Enable URL shortening
   "tags": [],                       // Array of tags
@@ -140,9 +147,7 @@ This creates a 5-part Twitter thread, with each tweet having its own image and a
       "delay": 5                     // Optional delay in minutes
     }
   ],
-  "settings": {
-    "__type": "EmptySettings"        // Platform-specific settings
-  }
+  "settings": {}                     // Platform-specific settings (no __type: the backend adds it)
 }
 ```
 
@@ -161,8 +166,8 @@ Create a coordinated multi-platform launch:
       "integration": { "id": "twitter-id" },
       "value": [
         { "content": "🚀 Launching today!", "image": [...] },
-        { "content": "Special features:", "image": [...], "delay": 3600000 },
-        { "content": "Get it now:", "image": [...], "delay": 7200000 }
+        { "content": "Special features:", "image": [...], "delay": 60 },
+        { "content": "Get it now:", "image": [...], "delay": 120 }
       ]
     },
     {
@@ -182,15 +187,16 @@ Create an educational thread:
 ```json
 {
   "type": "now",
+  "date": "2024-03-15T09:00:00Z",
   "posts": [
     {
       "integration": { "id": "twitter-id" },
       "value": [
         { "content": "🧵 How to X (1/5)", "image": [...] },
-        { "content": "Step 1: ... (2/5)", "image": [...], "delay": 2000 },
-        { "content": "Step 2: ... (3/5)", "image": [...], "delay": 2000 },
-        { "content": "Step 3: ... (4/5)", "image": [...], "delay": 2000 },
-        { "content": "Conclusion (5/5)", "image": [...], "delay": 2000 }
+        { "content": "Step 1: ... (2/5)", "image": [...], "delay": 2 },
+        { "content": "Step 2: ... (3/5)", "image": [...], "delay": 2 },
+        { "content": "Step 3: ... (4/5)", "image": [...], "delay": 2 },
+        { "content": "Conclusion (5/5)", "image": [...], "delay": 2 }
       ]
     }
   ]
@@ -204,6 +210,7 @@ Live event updates with media:
 ```json
 {
   "type": "now",
+  "date": "2024-03-15T09:00:00Z",
   "posts": [
     {
       "integration": { "id": "twitter-id" },
@@ -219,7 +226,7 @@ Live event updates with media:
           "image": [
             { "id": "2", "path": "speaker-photo.jpg" }
           ],
-          "delay": 1800000
+          "delay": 30
         }
       ]
     }
@@ -235,11 +242,11 @@ Before creating posts, get your integration IDs:
 postqueen integrations:list
 ```
 
-Output:
+Output (after a status line):
 ```json
 [
-  { "id": "abc-123-twitter", "provider": "twitter", "name": "@myaccount" },
-  { "id": "def-456-linkedin", "provider": "linkedin", "name": "My Company" }
+  { "id": "abc-123-twitter", "identifier": "x", "name": "@myaccount" },
+  { "id": "def-456-linkedin", "identifier": "linkedin-page", "name": "My Company" }
 ]
 ```
 
@@ -248,7 +255,7 @@ Use these IDs in your `integration.id` fields.
 ## Tips for AI Agents
 
 1. **Use JSON for complex posts** - If you need comments with media, always use JSON files
-2. **Delays matter** - Use appropriate delays between comments (Twitter: 2-5s, others: 30s-1min)
+2. **Delays are in minutes** - `delay` (and `-d`) is the wait in minutes before each comment
 3. **Image IDs** - Generate unique IDs for each image (can use UUIDs or random strings)
 4. **Validate before sending** - Check that all integration IDs exist
 5. **Test with "draft" type** - Use `"type": "draft"` to create without posting
@@ -282,10 +289,10 @@ cat > thread.json << 'EOF'
     "integration": { "id": "twitter-123" },
     "value": [
       { "content": "Tweet 1", "image": [] },
-      { "content": "Tweet 2", "image": [], "delay": 2000 },
-      { "content": "Tweet 3", "image": [], "delay": 2000 }
+      { "content": "Tweet 2", "image": [], "delay": 2 },
+      { "content": "Tweet 3", "image": [], "delay": 2 }
     ],
-    "settings": { "__type": "EmptySettings" }
+    "settings": {}
   }]
 }
 EOF
@@ -299,7 +306,7 @@ postqueen posts:create --json thread.json
 Common errors and solutions:
 
 1. **Invalid integration ID** - Run `integrations:list` to get valid IDs
-2. **Invalid image path** - Ensure images are accessible URLs or uploaded to PostQueen first
+2. **Invalid image path** - Every image path must be one that `postqueen upload` returned
 3. **Missing required fields** - Check that `type`, `date`, `shortLink`, `tags`, and `posts` are all present
 4. **Invalid date format** - Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
 

@@ -30,7 +30,7 @@
               "path": "https://example.com/comment1-image.jpg"
             }
           ],
-          "delay": 5000
+          "delay": 5
         },
         {
           "content": "This is the second comment with different media 🎨",
@@ -44,7 +44,7 @@
               "path": "https://example.com/comment2-image2.jpg"
             }
           ],
-          "delay": 10000
+          "delay": 10
         }
       ],
       "settings": {

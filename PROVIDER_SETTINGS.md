@@ -9,9 +9,17 @@ The PostQueen CLI supports platform-specific settings for each integration. Diff
 ```bash
 postqueen posts:create \
   -c "Your content" \
-  -p <provider-type> \
+  -s "2026-12-31T12:00:00Z" \
   --settings '<json-settings>' \
   -i "integration-id"
+```
+
+There is no flag for the platform: the backend reads it from the integration ID and adds the `__type` discriminator itself, so you never send it. The same `--settings` go to every integration in `-i`, so mix only integrations that take the same settings, or use a JSON file.
+
+Every value passed to `-m`, and every `path` in a JSON file's `image` list, must be a path returned by `postqueen upload`. In the examples below, `$IMG1`, `$VIDEO` and so on hold such paths:
+
+```bash
+IMG1=$(postqueen upload img1.jpg | tail -n +2 | jq -r '.path')
 ```
 
 ### Method 2: JSON File
@@ -32,13 +40,11 @@ In the JSON file, specify settings per integration:
     "integration": { "id": "reddit-123" },
     "value": [{ "content": "Post content", "image": [] }],
     "settings": {
-      "__type": "reddit",
       "subreddit": [{
         "value": {
-          "subreddit": "programming",
+          "subreddit": "/r/programming",
           "title": "My Post Title",
-          "type": "text",
-          "url": "",
+          "type": "self",
           "is_flair_required": false
         }
       }]
@@ -52,9 +58,9 @@ In the JSON file, specify settings per integration:
 ### Reddit (`reddit`)
 
 **Settings:**
-- `subreddit` (required): Subreddit name
+- `subreddit` (required): The subreddit as a `/r/...` path (the `name` that `integrations:trigger <id> subreddits` returns)
 - `title` (required): Post title
-- `type` (required): `"text"` or `"link"`
+- `type` (required): `"self"` (text), `"link"` or `"media"` (the post's first image or MP4). `integrations:trigger <id> restrictions` says which ones a subreddit allows
 - `url` (required for links): URL if type is "link"
 - `is_flair_required` (boolean): Whether flair is required
 - `flair` (optional): Flair object with `id` and `name`
@@ -63,14 +69,13 @@ In the JSON file, specify settings per integration:
 ```bash
 postqueen posts:create \
   -c "Post content here" \
-  -p reddit \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "programming",
+        "subreddit": "/r/programming",
         "title": "Check out this cool project",
-        "type": "text",
-        "url": "",
+        "type": "self",
         "is_flair_required": false
       }
     }]
@@ -91,7 +96,7 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Video description here" \
-  -p youtube \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "title": "My Awesome Video",
     "type": "public",
@@ -119,7 +124,7 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Tweet content" \
-  -p x \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "who_can_reply_post": "everyone"
   }' \
@@ -130,7 +135,7 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Community tweet" \
-  -p x \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "community": "https://x.com/i/communities/1493446837214187523",
     "who_can_reply_post": "everyone"
@@ -148,8 +153,8 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "LinkedIn post" \
-  -m "img1.jpg,img2.jpg,img3.jpg" \
-  -p linkedin \
+  -m "$IMG1,$IMG2,$IMG3" \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "post_as_images_carousel": true,
     "carousel_name": "Product Showcase"
@@ -160,7 +165,7 @@ postqueen posts:create \
 ### Instagram (`instagram`)
 
 **Settings:**
-- `post_type` (required): `"post"` or `"story"`
+- `post_type` (required): `"post"`, `"reel"` or `"story"`
 - `is_trial_reel` (optional): Boolean
 - `graduation_strategy` (optional): `"MANUAL"` or `"SS_PERFORMANCE"`
 - `collaborators` (optional): Array of collaborator objects with `label`
@@ -169,8 +174,8 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Instagram post" \
-  -m "photo.jpg" \
-  -p instagram \
+  -m "$IMG1" \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "post_type": "post",
     "is_trial_reel": false
@@ -182,8 +187,8 @@ postqueen posts:create \
 ```bash
 postqueen posts:create \
   -c "Story content" \
-  -m "story-image.jpg" \
-  -p instagram \
+  -m "$IMG1" \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "post_type": "story"
   }' \
@@ -208,7 +213,7 @@ Two independent axes decide whether a TikTok setting applies. A setting sent on 
 - `duet` (boolean, DIRECT_POST only, **video posts only**): Allow duets
 - `stitch` (boolean, DIRECT_POST only, **video posts only**): Allow stitch
 - `comment` (boolean, DIRECT_POST only, video + photo): Allow comments
-- `autoAddMusic` (DIRECT_POST only, **photo posts only**): `"yes"` or `"no"` — automatically adds music to photo posts; ignored on video posts, so don't set it there
+- `autoAddMusic` (required, DIRECT_POST only, **photo posts only**): `"yes"` or `"no"`. Automatically adds music to photo posts. The API still requires it on video posts, where TikTok ignores it, so send `"no"` there
 - `brand_content_toggle` (boolean, DIRECT_POST only, video + photo): Brand content toggle
 - `brand_organic_toggle` (boolean, DIRECT_POST only, video + photo): Brand organic toggle
 - `video_made_with_ai` (optional boolean, DIRECT_POST only, **video posts only**): Label the video as AI-generated
@@ -222,14 +227,15 @@ Two independent axes decide whether a TikTok setting applies. A setting sent on 
 ```bash
 postqueen posts:create \
   -c "TikTok video description" \
-  -m "video.mp4" \
-  -p tiktok \
+  -m "$VIDEO" \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "title": "Check this out!",
     "privacy_level": "PUBLIC_TO_EVERYONE",
     "duet": true,
     "stitch": true,
     "comment": true,
+    "autoAddMusic": "no",
     "brand_content_toggle": false,
     "brand_organic_toggle": false,
     "video_made_with_ai": false,
@@ -238,33 +244,9 @@ postqueen posts:create \
   -i "tiktok-123"
 ```
 
-### Facebook (`facebook`)
+### Other platforms
 
-Settings available - check the DTO for specifics.
-
-### Pinterest (`pinterest`)
-
-Settings available - check the DTO for specifics.
-
-### Discord (`discord`)
-
-Settings available - check the DTO for specifics.
-
-### Slack (`slack`)
-
-Settings available - check the DTO for specifics.
-
-### Dev.to (`devto`)
-
-Settings available - check the DTO for specifics.
-
-### Hashnode (`hashnode`)
-
-Settings available - check the DTO for specifics.
-
-### WordPress (`wordpress`)
-
-Settings available - check the DTO for specifics.
+Facebook, Pinterest, Discord, Slack, Dev.to, Hashnode, WordPress and the rest have their own settings. Pinterest requires a `board`, and Discord and Slack a `channel`, each an ID from `integrations:trigger`. `postqueen integrations:settings <integration-id>` prints any platform's full schema, rules and helper tools.
 
 ## Platforms Without Specific Settings
 
@@ -276,10 +258,7 @@ These platforms use the default `EmptySettings`:
 - `nostr`
 - `vk`
 
-For these, you don't need to specify settings or can use:
-```bash
--p threads  # or any of the above
-```
+For these, leave out `--settings`.
 
 ## Using JSON Files for Complex Settings
 
@@ -301,13 +280,11 @@ For complex settings, it's easier to use JSON files:
       "image": []
     }],
     "settings": {
-      "__type": "reddit",
       "subreddit": [{
         "value": {
-          "subreddit": "programming",
+          "subreddit": "/r/programming",
           "title": "My Cool Project - Built with TypeScript",
-          "type": "text",
-          "url": "",
+          "type": "self",
           "is_flair_required": true,
           "flair": {
             "id": "flair-123",
@@ -343,7 +320,6 @@ postqueen posts:create --json reddit-post.json
       }]
     }],
     "settings": {
-      "__type": "youtube",
       "title": "How to Build a CLI Tool",
       "type": "public",
       "selfDeclaredMadeForKids": "no",
@@ -375,13 +351,11 @@ postqueen posts:create --json youtube-video.json
       "integration": { "id": "reddit-123" },
       "value": [{ "content": "Reddit-specific content", "image": [] }],
       "settings": {
-        "__type": "reddit",
         "subreddit": [{
           "value": {
-            "subreddit": "programming",
+            "subreddit": "/r/programming",
             "title": "Post Title",
-            "type": "text",
-            "url": "",
+            "type": "self",
             "is_flair_required": false
           }
         }]
@@ -391,7 +365,6 @@ postqueen posts:create --json youtube-video.json
       "integration": { "id": "twitter-123" },
       "value": [{ "content": "Twitter-specific content", "image": [] }],
       "settings": {
-        "__type": "x",
         "who_can_reply_post": "everyone"
       }
     },
@@ -407,7 +380,6 @@ postqueen posts:create --json youtube-video.json
         }
       ],
       "settings": {
-        "__type": "linkedin",
         "post_as_images_carousel": true,
         "carousel_name": "Product Launch"
       }
@@ -432,39 +404,17 @@ To find the correct provider type for your integration:
 postqueen integrations:list
 ```
 
-This will show the `provider` field for each integration, which corresponds to the `__type` in settings.
+Each integration's `identifier` field names its platform, such as `x`, `reddit` or `linkedin-page`. The backend turns it into the settings `__type` for you.
 
 ## Common Errors
 
-### Missing __type
+### Sending `__type`
 
-```json
-{
-  "settings": {
-    "title": "My Video"  // ❌ Missing __type
-  }
-}
-```
+Leave `__type` out of `settings`. The backend sets it from the integration, so a value you send is replaced.
 
-**Fix:**
-```json
-{
-  "settings": {
-    "__type": "youtube",  // ✅ Add __type
-    "title": "My Video"
-  }
-}
-```
+### Settings for the wrong platform
 
-### Wrong Provider Type
-
-```bash
-# ❌ Wrong
--p twitter  # Should be "x"
-
-# ✅ Correct
--p x
-```
+`--settings` go to every integration in `-i`. Posting X settings to a Reddit integration fails validation, so post to each platform separately, or use a JSON file with settings per integration.
 
 ### Invalid Settings for Platform
 
@@ -472,7 +422,7 @@ Each platform validates its own settings. Check the error message and refer to t
 
 ## See Also
 
-- **EXAMPLES.md** - General usage examples
-- **COMMAND_LINE_GUIDE.md** - Command-line syntax
-- **SKILL.md** - AI agent patterns
-- Source DTOs in `libraries/nestjs-libraries/src/dtos/posts/providers-settings/`
+- [examples/EXAMPLES.md](./examples/EXAMPLES.md) - General usage examples
+- [examples/COMMAND_LINE_GUIDE.md](./examples/COMMAND_LINE_GUIDE.md) - Command-line syntax
+- [SKILL.md](./SKILL.md) - AI agent patterns
+- `postqueen integrations:settings <integration-id>` - The live settings schema for one integration

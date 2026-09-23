@@ -5,24 +5,24 @@
 ### From Source (Development)
 
 ```bash
-# Navigate to the monorepo root
-cd /path/to/postqueen-app
+# Clone this repository
+git clone https://github.com/GkhanKINAY/postqueen-agent.git
+cd postqueen-agent
 
 # Install dependencies
 pnpm install
 
 # Build the CLI
-pnpm run build:cli
+pnpm run build
 
 # Test locally
-node apps/cli/dist/index.js --help
+node dist/index.js --help
 ```
 
 ### Global Installation (Development)
 
 ```bash
-# From the CLI directory
-cd apps/cli
+# From the repository root
 
 # Link globally
 pnpm link --global
@@ -34,7 +34,6 @@ postqueen --help
 ### From npm (Recommended)
 
 ```bash
-# Once published
 npm install -g postqueen
 
 # Or with pnpm
@@ -46,8 +45,8 @@ pnpm add -g postqueen
 ### 1. Get Your API Key
 
 1. Log in to your PostQueen account at https://postqueen.ai
-2. Navigate to Settings → API Keys
-3. Generate a new API key
+2. Open Connections > API Keys (only workspace admins can see it)
+3. Copy the key
 
 ### 2. Set Environment Variable
 
@@ -80,26 +79,32 @@ postqueen --help
 
 ### Create a Post
 
+Every post needs a date (`-s`, ISO 8601) and at least one integration ID (`-i`). Media go through `postqueen upload` first, and `-m` takes the `path` it returns.
+
 ```bash
 # Simple post
-postqueen posts:create -c "Hello World!" -i "twitter-123"
+postqueen posts:create -c "Hello World!" -s "2024-12-31T12:00:00Z" -i "twitter-123"
+
+# Draft instead of scheduled
+postqueen posts:create -c "Hello World!" -s "2024-12-31T12:00:00Z" -t draft -i "twitter-123"
 
 # Post with multiple images
+IMG1=$(postqueen upload img1.jpg | tail -n +2 | jq -r '.path')
+IMG2=$(postqueen upload img2.jpg | tail -n +2 | jq -r '.path')
 postqueen posts:create \
   -c "Check these out!" \
-  -m "img1.jpg,img2.jpg" \
+  -m "$IMG1,$IMG2" \
+  -s "2024-12-31T12:00:00Z" \
   -i "twitter-123"
 
 # Post with comments (each can have different media!)
+MAIN=$(postqueen upload main.jpg | tail -n +2 | jq -r '.path')
+C1=$(postqueen upload comment1.jpg | tail -n +2 | jq -r '.path')
+C2=$(postqueen upload comment2.jpg | tail -n +2 | jq -r '.path')
 postqueen posts:create \
-  -c "Main post" -m "main.jpg" \
-  -c "First comment" -m "comment1.jpg" \
-  -c "Second comment" -m "comment2.jpg" \
-  -i "twitter-123"
-
-# Scheduled post
-postqueen posts:create \
-  -c "Future post" \
+  -c "Main post" -m "$MAIN" \
+  -c "First comment" -m "$C1" \
+  -c "Second comment" -m "$C2" \
   -s "2024-12-31T12:00:00Z" \
   -i "twitter-123"
 ```
@@ -107,14 +112,14 @@ postqueen posts:create \
 ### List Posts
 
 ```bash
-# List all posts
+# List posts from 30 days ago to 30 days ahead
 postqueen posts:list
 
-# With pagination
-postqueen posts:list -p 2 -l 20
+# For a date range
+postqueen posts:list --startDate "2024-01-01T00:00:00Z" --endDate "2024-12-31T23:59:59Z"
 
-# Search
-postqueen posts:list -s "keyword"
+# For one customer
+postqueen posts:list --customer "customer-id"
 ```
 
 ### Delete a Post
@@ -144,11 +149,11 @@ postqueen upload ./path/to/image.png
 postqueen integrations:list
 ```
 
-The output will show integration IDs like:
+After a status line, the output shows integration IDs like:
 ```json
 [
-  { "id": "twitter-123", "provider": "twitter" },
-  { "id": "linkedin-456", "provider": "linkedin" }
+  { "id": "twitter-123", "name": "@myhandle", "identifier": "x" },
+  { "id": "linkedin-456", "name": "My Name", "identifier": "linkedin" }
 ]
 ```
 
@@ -158,6 +163,7 @@ The output will show integration IDs like:
 # Use the integration IDs from step 1
 postqueen posts:create \
   -c "Posting to multiple platforms!" \
+  -s "2024-12-31T12:00:00Z" \
   -i "twitter-123,linkedin-456,facebook-789"
 ```
 
@@ -165,35 +171,37 @@ postqueen posts:create \
 
 ```bash
 # Morning post
-postqueen posts:create -c "Good morning!" -s "2024-01-15T09:00:00Z"
+postqueen posts:create -c "Good morning!" -s "2024-01-15T09:00:00Z" -i "twitter-123"
 
 # Afternoon post
-postqueen posts:create -c "Lunch time update!" -s "2024-01-15T12:00:00Z"
+postqueen posts:create -c "Lunch time update!" -s "2024-01-15T12:00:00Z" -i "twitter-123"
 
 # Evening post
-postqueen posts:create -c "Good night!" -s "2024-01-15T20:00:00Z"
+postqueen posts:create -c "Good night!" -s "2024-01-15T20:00:00Z" -i "twitter-123"
 ```
 
 ### 4. Upload and Post Image
 
 ```bash
-# First upload the image
-postqueen upload ./my-image.png
+# First upload the image and keep the path it returns
+IMAGE=$(postqueen upload ./my-image.png | tail -n +2 | jq -r '.path')
 
-# Copy the URL from the response, then create post
-postqueen posts:create -c "Check out this image!" --image "url-from-upload"
+# Then create the post with it
+postqueen posts:create -c "Check out this image!" -m "$IMAGE" -s "2024-12-31T12:00:00Z" -i "twitter-123"
 ```
 
 ## Tips & Tricks
 
 ### Using with jq for JSON Parsing
 
+Most commands print one status line before their JSON, so drop it with `tail -n +2`:
+
 ```bash
 # Get just the post IDs
-postqueen posts:list | jq '.[] | .id'
+postqueen posts:list | tail -n +2 | jq '.posts[].id'
 
-# Get integration names
-postqueen integrations:list | jq '.[] | .provider'
+# Get each integration's platform
+postqueen integrations:list | tail -n +2 | jq '.[].identifier'
 ```
 
 ### Script Automation
@@ -205,7 +213,8 @@ postqueen integrations:list | jq '.[] | .provider'
 for hour in 09 12 15 18; do
   postqueen posts:create \
     -c "Automated post at ${hour}:00" \
-    -s "2024-01-15T${hour}:00:00Z"
+    -s "2024-01-15T${hour}:00:00Z" \
+    -i "twitter-123"
   echo "Created post for ${hour}:00"
 done
 ```
@@ -225,7 +234,7 @@ postqueen posts:list
 ### API Key Not Set
 
 ```
-❌ Error: POSTQUEEN_API_KEY environment variable is required
+❌ Error: No authentication found.
 ```
 
 **Solution:** Set the environment variable:
@@ -240,9 +249,9 @@ postqueen: command not found
 ```
 
 **Solution:** Either:
-1. Use the full path: `node apps/cli/dist/index.js`
-2. Link globally: `cd apps/cli && pnpm link --global`
-3. Add to PATH: `export PATH=$PATH:/path/to/apps/cli/dist`
+1. Use the full path: `node /path/to/postqueen-agent/dist/index.js`
+2. Link globally: run `pnpm link --global` in the repository root
+3. Install it from npm: `npm install -g postqueen`
 
 ### API Errors
 
@@ -250,7 +259,7 @@ postqueen: command not found
 ❌ API Error (401): Unauthorized
 ```
 
-**Solution:** Check your API key is valid and has proper permissions.
+**Solution:** Check your API key is valid. `postqueen auth:status` tests it.
 
 ```
 ❌ API Error (404): Not Found
@@ -280,5 +289,5 @@ postqueen posts:delete --help
 
 - [PostQueen Website](https://postqueen.ai)
 - [API Documentation](https://api.postqueen.ai/docs)
-- [GitHub Repository](https://github.com/GkhanKINAY/postqueen-app)
-- [Report Issues](https://github.com/GkhanKINAY/postqueen-app/issues)
+- [GitHub Repository](https://github.com/GkhanKINAY/postqueen-agent)
+- [Report Issues](https://github.com/GkhanKINAY/postqueen-agent/issues)

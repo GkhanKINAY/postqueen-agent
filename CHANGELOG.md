@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `npm test` builds the CLI and runs it against a local stand-in for the API (`test/cli.test.mjs`).
 
+### Changed
+- The GitHub-only guides use real flags, which the strict parser now requires. `PROVIDER_SETTINGS.md`, `INTEGRATION_SETTINGS_DISCOVERY.md`, `QUICK_START.md`, `examples/EXAMPLES.md`, `examples/COMMAND_LINE_GUIDE.md` and the two example scripts no longer use `-p`, `--image`, `--comments` or `posts:list -l/-p/-s`, which the CLI never had. Every `posts:create` example now passes the required `-s` date and `-i` ID. Delays are in minutes, and Reddit takes a `/r/...` subreddit with type `self`, `link` or `media`. The example JSON files match.
+- Removed `SYNTAX_UPGRADE.md`, `FEATURES.md` and `PROVIDER_SETTINGS_SUMMARY.md`. They described flags the CLI never had and repeated the guides above.
+
 ## [2.0.24] - 2026-09-23
 
 ### Fixed
