@@ -41,7 +41,7 @@ postqueen posts:create -c "Hello from the terminal" -s "2026-12-31T12:00:00Z" -i
 
 Some networks need settings of their own before they accept a post. X, for example, needs `who_can_reply_post`. Run `postqueen integrations:settings <integration-id>` to see what a channel needs, and pass it with `--settings '<json>'`.
 
-No PostQueen account yet? [Start a 7-day trial, $0 due today](https://postqueen.ai/pricing).
+No PostQueen account yet? [Start a 7-day trial, $0 due today](https://app.postqueen.ai/auth?utm_source=github&utm_medium=readme&utm_campaign=postqueen-agent&utm_content=npm-quick-start).
 
 ## Commands
 
