@@ -22,6 +22,19 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-7C3AED?labelColor=15131C" alt="License: AGPL-3.0"></a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/NEW-7C3AED?style=flat-square" height="18" alt="New">&nbsp; <b>Connect Claude, ChatGPT, Grok Bot or any AI agent to your socials.</b> <a href="https://docs.postqueen.ai/agents/overview">See every agent →</a>
+</p>
+
+<p align="center">
+  <a href="https://docs.postqueen.ai/channels/overview"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/channels-row-dark.png"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/channels-row-light.png" width="100%" alt="Posts to 30+ networks: Instagram, TikTok, YouTube, X, LinkedIn, Facebook, Threads, Pinterest, Reddit, Bluesky, Mastodon, Discord, Telegram, Slack, Twitch, Kick, Google Business Profile, Dribbble, Tumblr, WordPress, DEV, Hashnode, VK, MeWe, Lemmy, Nostr, Farcaster, Moltbook, Listmonk, Whop and Skool"></picture></a>
+</p>
+
+<p align="center">
+  <a href="https://docs.postqueen.ai/agents/overview"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/agents-row-dark.png"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/agents-row-light.png" width="100%" alt="Works with the AI agent you already use: Claude, ChatGPT, Grok Bot (new), Grok, Perplexity, Muse (new), Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, OpenClaw, Hermes, NanoClaw, Paperclip and any MCP app"></picture></a>
+</p>
+
+
 <img src=".github/assets/terminal.png" width="100%" alt="A terminal running postqueen integrations:list, which prints one status line and then the connected channels as JSON, then postqueen posts:create, which prints a success line and the new post ID as JSON.">
 
 Posts you create with the CLI land on the same calendar you see in the PostQueen app.
@@ -91,12 +104,12 @@ The skill in [`skills/postqueen`](skills/postqueen/SKILL.md) teaches an agent to
 | Agent | Install |
 | --- | --- |
 | Any agent that reads the `skills` registry | `npx skills add GkhanKINAY/postqueen-agent` |
-| Claude Code | `/plugin marketplace add GkhanKINAY/postqueen-agent`, then `/plugin install postqueen@postqueen-agent` |
-| Grok Build | `grok plugin marketplace add GkhanKINAY/postqueen-agent`, then `grok plugin install postqueen --trust` |
-| Cursor | Clone this repository and link it into `~/.cursor/plugins/local/postqueen` (manifest in [`.cursor-plugin`](.cursor-plugin/plugin.json)) |
-| Gemini CLI | `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/claude-code.svg" width="20" height="20" alt=""> Claude Code | `/plugin marketplace add GkhanKINAY/postqueen-agent`, then `/plugin install postqueen@postqueen-agent` |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/grok.svg" width="20" height="20" alt=""> Grok Build | `grok plugin marketplace add GkhanKINAY/postqueen-agent`, then `grok plugin install postqueen --trust` |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/cursor.svg" width="20" height="20" alt=""> Cursor | Clone this repository and link it into `~/.cursor/plugins/local/postqueen` (manifest in [`.cursor-plugin`](.cursor-plugin/plugin.json)) |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/gemini-cli.svg" width="20" height="20" alt=""> Gemini CLI | `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` |
 | Qwen Code | `qwen extensions install GkhanKINAY/postqueen-agent:postqueen` |
-| OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/openclaw.svg" width="20" height="20" alt=""> OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
 | DeepSeek Harness | `dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"`. This one connects over MCP instead of the CLI; see [its README](plugins/dsh-postqueen/README.md) |
 
 Prefer tool calls to shell commands? Many agents connect to PostQueen over MCP instead, by signing in or with the API key. See the [MCP guide](https://docs.postqueen.ai/mcp/introduction) and the [agents overview](https://docs.postqueen.ai/agents/overview).
