@@ -17,8 +17,8 @@ From the repository:
 dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"
 ```
 
-Then give it a PostQueen API key. Copy it from **PostQueen → Settings → API Keys** and
-export it before starting dsh, or put it in `$DSH_HOME/.env`:
+Then give it a PostQueen API key. Copy it from **PostQueen > Connections > API Keys** (only workspace
+admins can see it) and export it before starting dsh, or put it in `$DSH_HOME/.env`:
 
 ```bash
 export POSTQUEEN_API_KEY=your-api-key
@@ -44,7 +44,7 @@ The model sees the PostQueen MCP tools under the `mcp__postqueen__` namespace, a
 | `mcp__postqueen__integrationList` | List connected channels (optionally filtered by group) |
 | `mcp__postqueen__groupList` | List customer groups |
 | `mcp__postqueen__integrationSchema` | Posting rules, character limits, and required settings for a platform |
-| `mcp__postqueen__triggerTool` | Platform helpers (list Discord channels, search subreddits, list LinkedIn pages) |
+| `mcp__postqueen__triggerTool` | Platform helpers (list Discord channels, search subreddits, list Pinterest boards) |
 | `mcp__postqueen__integrationSchedulePostTool` | Schedule, draft, or immediately publish posts |
 | `mcp__postqueen__postsListTool` | List posts scheduled between two dates |
 | `mcp__postqueen__postSettingsTool` | Update settings of an unpublished post |

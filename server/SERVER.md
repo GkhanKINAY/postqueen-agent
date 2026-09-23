@@ -59,7 +59,7 @@ Create a database. The server auto-creates the `device_requests` table on startu
 export DATABASE_URL="postgresql://user:password@localhost:5432/postqueen_auth"
 export POSTQUEEN_OAUTH_CLIENT_ID="pca_xxx"
 export POSTQUEEN_OAUTH_CLIENT_SECRET="pcs_xxx"
-export SERVER_URL="https://cli-auth.postqueen.ai"
+export SERVER_URL="https://auth.example.com"
 ```
 
 ### 4. Run
@@ -74,6 +74,15 @@ pnpm dev
 # Production
 pnpm build
 pnpm start:prod
+```
+
+### 5. Point the CLI at it
+
+The CLI has no default auth server, so pass this server's `SERVER_URL` when you log in:
+
+```bash
+postqueen auth:login --auth-server https://auth.example.com
+# or: export POSTQUEEN_AUTH_SERVER=https://auth.example.com
 ```
 
 ## Endpoints
@@ -109,4 +118,4 @@ Rows are deleted after the CLI retrieves the token, or on next access if expired
 
 Any platform that runs Node.js and can connect to Postgres works (Railway, Fly.io, Render, VPS, etc.).
 
-The server is stateless beyond Postgres, so it scales horizontally — run multiple instances behind a load balancer if needed.
+The server is stateless beyond Postgres, so it scales horizontally: run multiple instances behind a load balancer if needed.
