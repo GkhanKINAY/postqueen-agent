@@ -231,7 +231,7 @@ export async function authStatus() {
     console.log('  1. API Key: export POSTQUEEN_API_KEY=your_api_key');
     console.log(`     Get it from ${API_KEY_LOCATION}.`);
     console.log('  2. Your own auth server: postqueen auth:login --auth-server <url>');
-    return;
+    process.exit(1);
   }
 
   // Verify credentials by calling the integrations endpoint
@@ -255,11 +255,14 @@ export async function authStatus() {
       } else {
         console.log('   Update your POSTQUEEN_API_KEY environment variable.');
       }
+      process.exit(1);
     } else {
       const error = await response.text();
       console.log(`⚠️  Could not verify credentials (HTTP ${response.status}): ${error}`);
+      process.exit(1);
     }
   } catch (error: any) {
     console.log(`⚠️  Could not reach API to verify credentials: ${error.message}`);
+    process.exit(1);
   }
 }
