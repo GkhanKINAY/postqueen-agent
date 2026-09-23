@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - The Claude Code and Cursor plugin descriptions, and the skill's description row, name every supported platform instead of six.
+- README and NPM_README rewritten as a short CLI page: install, the API key location (Connections > API Keys, admins only), the command table, the real output format (one status line, then JSON), the skill and plugin installs, and links. The per-network examples, which named helper tools and settings that do not exist, now point to `integrations:settings` and the command reference instead.
+- The npm package description no longer says every command returns clean JSON.
+- `LICENSE` now carries the full AGPL-3.0 text under the existing copyright and notice lines.
 
 ### Fixed
 - README MCP copy: hosted `/mcp` exposes **14 tools** (13 registry tools plus `ask_postqueen`), not 11. The schedule tool's wire name is `integrationSchedulePostTool` (not `schedulePostTool`). The Claude README mock now shows that name.
