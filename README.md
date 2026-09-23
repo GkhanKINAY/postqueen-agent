@@ -17,9 +17,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen?label=npm&color=7C3AED&labelColor=15131C" alt="npm version"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-20.19%2B%20%7C%2022.12%2B-7C3AED?labelColor=15131C" alt="Node.js 20.19+ or 22.12+"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-7C3AED?labelColor=15131C" alt="License: AGPL-3.0"></a>
+  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen?label=npm&color=CB3837&labelColor=15131C&logo=npm&logoColor=white" alt="npm version"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-20.19%2B%20%7C%2022.12%2B-339933?labelColor=15131C&logo=nodedotjs&logoColor=white" alt="Node.js 20.19+ or 22.12+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-2563EB?labelColor=15131C" alt="License: AGPL-3.0"></a>
 </p>
 
 <p align="center">
