@@ -72,8 +72,9 @@ export async function createPost(args: any) {
       ? args.integrations.split(',').map((id: string) => id.trim())
       : [];
 
-    if (integrations.length === 0) {
-      console.error('❌ At least one integration ID is required');
+    // "id1," or "id1,,id2" splits into an empty ID, which the API would reject
+    if (integrations.length === 0 || integrations.includes('')) {
+      console.error(`❌ Empty integration ID in --integrations "${args.integrations}"`);
       console.error('Use -i or --integrations to specify integration IDs');
       console.error('Run "postqueen integrations:list" to see available integrations');
       process.exit(1);

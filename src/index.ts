@@ -19,6 +19,8 @@ yargs(hideBin(process.argv))
           alias: 'c',
           describe: 'Post/comment content (can be used multiple times)',
           type: 'string',
+          // Take the next argument even when it starts with "-", such as "- item" or "-hello"
+          nargs: 1,
         })
         .option('media', {
           alias: 'm',
@@ -421,6 +423,36 @@ yargs(hideBin(process.argv))
     {},
     authStatus as any
   )
+  // Options with nargs, such as --content, take the next argument even if it starts with "-"
+  .parserConfiguration({ 'nargs-eats-options': true })
+  // A mistyped command or flag is an error, not something to ignore
+  .strict()
+  // -c and -m repeat on purpose, once per post and comment. Every other flag takes
+  // one value, and repeating it would hand the command an array.
+  .check((argv) => {
+    const repeated = Object.keys(argv).find(
+      (key) => key.length > 1 && !['content', 'media'].includes(key) && Array.isArray(argv[key])
+    );
+    if (repeated) {
+      throw new Error(`--${repeated} was given more than once, but takes one value`);
+    }
+    return true;
+  })
+  // On a usage error, print the reason and where to look instead of the whole help
+  .fail((msg, err) => {
+    const [first] = hideBin(process.argv);
+    const command = first && !first.startsWith('-') ? first : undefined;
+    let reason = (msg || err?.message || 'Invalid arguments').replace(/\s*\n\s*/g, ' ');
+    let help = command ? `postqueen ${command} --help` : 'postqueen --help';
+    // A mistyped command shows up as an unknown argument in the command's place
+    const unknown = /^Unknown arguments?: (.*)$/.exec(reason)?.[1].split(', ') || [];
+    if (command && unknown.includes(command)) {
+      reason = `Unknown command: ${command}`;
+      help = 'postqueen --help';
+    }
+    console.error(`❌ ${reason}. Run "${help}" for usage.`);
+    process.exit(1);
+  })
   .demandCommand(1, 'You need at least one command')
   .help()
   .alias('h', 'help')

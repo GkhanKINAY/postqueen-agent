@@ -11,6 +11,7 @@
     "sync-skill": "cp SKILL.md skills/postqueen/SKILL.md",
     "build": "tsup",
     "start": "node ./dist/index.js",
+    "test": "npm run build && node --test test/*.test.mjs",
     "prepublishOnly": "npm run build && node scripts/npm-readme.js check",
     "publish:npm": "sh scripts/publish-npm.sh"
   },

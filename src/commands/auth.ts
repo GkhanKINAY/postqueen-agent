@@ -68,24 +68,16 @@ function explainNoAuthServer(authServer: string, detail: string): never {
   process.exit(1);
 }
 
-// PostQueen runs no device-flow auth server, so with none configured there is
-// nothing to log in to. Explain the API key instead of calling out to a host.
-function explainApiKey(): void {
+// PostQueen's API has no /device/* routes, on the hosted service or self-hosted,
+// so with no auth server of your own there is nothing to log in to. Point to the
+// API key without calling out to a host, and exit 1 because nothing logged in.
+function explainApiKey(): never {
   if (process.env.POSTQUEEN_API_KEY) {
-    console.log('✅ POSTQUEEN_API_KEY is set, so the CLI is ready to use.');
-    console.log('   Run "postqueen auth:status" to check the key.');
-    return;
+    console.error('❌ PostQueen uses an API key, and POSTQUEEN_API_KEY is already set: run "postqueen auth:status" to check it.');
+  } else {
+    console.error(`❌ PostQueen uses an API key: set POSTQUEEN_API_KEY to the key from ${API_KEY_LOCATION}.`);
   }
-
-  console.log('🔑 The PostQueen CLI signs in with an API key.\n');
-  console.log(`   1. Copy the key from ${API_KEY_LOCATION}.`);
-  console.log('   2. Set it where the CLI runs:');
-  console.log('        export POSTQUEEN_API_KEY=your_api_key');
-  console.log('   3. Check it:');
-  console.log('        postqueen auth:status\n');
-  console.log('   Running your own device-flow auth server (server/ in the CLI repository)?');
-  console.log('   Log in through it with --auth-server <url> or POSTQUEEN_AUTH_SERVER.');
-  process.exitCode = 1;
+  process.exit(1);
 }
 
 export async function authLogin(argv: any) {
