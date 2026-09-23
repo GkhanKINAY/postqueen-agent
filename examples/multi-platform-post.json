@@ -30,7 +30,7 @@
         {
           "content": "Limited time offer - 50% off! 🎁",
           "image": [],
-          "delay": 3600000
+          "delay": 60
         }
       ],
       "settings": {
@@ -78,7 +78,7 @@
               "path": "https://example.com/holiday-sale-banner.jpg"
             }
           ],
-          "delay": 300000
+          "delay": 5
         }
       ],
       "settings": {

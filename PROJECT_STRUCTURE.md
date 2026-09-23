@@ -190,11 +190,11 @@ Output to console
 ### Available Commands
 
 1. **posts:create**
-   - Options: `--content`, `--integrations`, `--schedule`, `--image`
+   - Options: `--content`, `--media`, `--integrations`, `--date`, `--type`, `--delay`, `--settings`, `--json`
    - Handler: `commands/posts.ts::createPost()`
 
 2. **posts:list**
-   - Options: `--page`, `--limit`, `--search`
+   - Options: `--startDate`, `--endDate`, `--customer`
    - Handler: `commands/posts.ts::listPosts()`
 
 3. **posts:delete**

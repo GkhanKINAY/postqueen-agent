@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.25] - 2026-09-23
+
+### Fixed
+- Unknown commands and flags are errors. `postqueen post:create` printed nothing and exited 0, and a mistyped flag such as `posts:list --startdate` was dropped, so the command ran with its default. Both now print one line, such as `❌ Unknown argument: startdate. Run "postqueen posts:list --help" for usage.`, and exit 1. The kebab-case and camelCase forms of a flag, such as `--start-date` and `--startDate`, both still work.
+- Usage errors, such as a missing `--content`, print one line with the reason and the help command to run, instead of the whole help block, and exit 1.
+- A single-value flag given twice fails with `❌ --integrations was given more than once, but takes one value.` and exit 1. A second `-i` crashed with a TypeError, and a second `-s` sent the API a list of dates. `-c` and `-m` still repeat, once per post and comment.
+- `-c` takes text that starts with "-", such as `-c "-hello"` or `-c "- item"`. `-c "-hello"` printed the help and exited 0, and `-c "- item"` sent an empty comment.
+- An empty integration ID, as in `-i "id1,"` or `-i "id1,,id2"`, is caught before the API call. The check for it never ran, so the API answered "All posts must have an integration id".
+- `auth:login` without `--auth-server` or `POSTQUEEN_AUTH_SERVER` prints one line to stderr that says where to get the API key, and exits 1, also when `POSTQUEEN_API_KEY` is set (it exited 0 then). PostQueen's API has no `/device/*` routes, so the device flow still runs only against an auth server you name, such as the one in `server/`.
+
+### Added
+- `npm test` builds the CLI and runs it against a local stand-in for the API (`test/cli.test.mjs`).
+
+### Changed
+- The GitHub-only guides use real flags, which the strict parser now requires. `PROVIDER_SETTINGS.md`, `INTEGRATION_SETTINGS_DISCOVERY.md`, `QUICK_START.md`, `examples/EXAMPLES.md`, `examples/COMMAND_LINE_GUIDE.md` and the two example scripts no longer use `-p`, `--image`, `--comments` or `posts:list -l/-p/-s`, which the CLI never had. Every `posts:create` example now passes the required `-s` date and `-i` ID. Delays are in minutes, and Reddit takes a `/r/...` subreddit with type `self`, `link` or `media`. The example JSON files match.
+- Removed `SYNTAX_UPGRADE.md`, `FEATURES.md` and `PROVIDER_SETTINGS_SUMMARY.md`. They described flags the CLI never had and repeated the guides above.
+
 ## [2.0.24] - 2026-09-23
 
 ### Fixed

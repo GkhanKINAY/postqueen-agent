@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PostQueen CLI - Command Line Examples
-# Demonstrating the new -c and -m flag syntax
+# Demonstrating the -c and -m flag syntax
 
 echo "🚀 PostQueen CLI Command Line Examples"
 echo ""
@@ -19,7 +19,7 @@ echo ""
 # Example 1: Simple post
 echo "📝 Example 1: Simple post"
 echo "Command:"
-echo 'postqueen posts:create -c "Hello World!" -i "twitter-123"'
+echo 'postqueen posts:create -c "Hello World!" -s "2024-12-31T12:00:00Z" -i "twitter-123"'
 echo ""
 
 # Example 2: Post with multiple images
@@ -28,6 +28,7 @@ echo "Command:"
 echo 'postqueen posts:create \'
 echo '  -c "Check out these amazing photos!" \'
 echo '  -m "photo1.jpg,photo2.jpg,photo3.jpg" \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
@@ -41,6 +42,7 @@ echo '  -c "First comment with its own image 📸" \'
 echo '  -m "comment1-image.jpg" \'
 echo '  -c "Second comment with different images 🎨" \'
 echo '  -m "comment2-image1.jpg,comment2-image2.jpg" \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
@@ -51,11 +53,12 @@ echo 'postqueen posts:create \'
 echo '  -c "Main post" \'
 echo '  -c "First comment; notice the semicolon!" \'
 echo '  -c "Second comment; with multiple; semicolons; works fine!" \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
 # Example 5: Twitter thread with custom delay
-echo "🧵 Example 5: Twitter thread with 2-second delays"
+echo "🧵 Example 5: Twitter thread with 2-minute delays"
 echo "Command:"
 echo 'postqueen posts:create \'
 echo '  -c "🧵 How to use PostQueen CLI (1/5)" \'
@@ -68,7 +71,8 @@ echo '  -c "Step 3: Create your first post (4/5)" \'
 echo '  -m "step3-screenshot.jpg" \'
 echo '  -c "You'\''re all set! 🎉 (5/5)" \'
 echo '  -m "done.jpg" \'
-echo '  -d 2000 \'
+echo '  -d 2 \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
@@ -93,6 +97,7 @@ echo '  -c "Exciting announcement! 🎉" \'
 echo '  -m "announcement.jpg" \'
 echo '  -c "More details in the comments..." \'
 echo '  -m "details-infographic.jpg" \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123,linkedin-456,facebook-789"'
 echo ""
 
@@ -104,6 +109,7 @@ echo '  -c "Check out this amazing view! 🏔️" \'
 echo '  -m "mountain-photo.jpg" \'
 echo '  -c "Taken at sunrise this morning" \'
 echo '  -c "Location: Swiss Alps" \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
@@ -119,7 +125,8 @@ echo '  -c "2. Create your account and set up your profile" \'
 echo '  -m "signup-screen.jpg" \'
 echo '  -c "3. You'\''re ready to go! Start creating your first project" \'
 echo '  -m "dashboard-screen.jpg" \'
-echo '  -d 3000 \'
+echo '  -d 3 \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123"'
 echo ""
 
@@ -135,7 +142,8 @@ echo '  -c "Second speaker: John Smith on cloud architecture" \'
 echo '  -m "speaker2-photo.jpg" \'
 echo '  -c "Networking break! Great conversations happening" \'
 echo '  -m "networking-photo.jpg" \'
-echo '  -d 30000 \'
+echo '  -d 30 \'
+echo '  -s "2024-12-31T12:00:00Z" \'
 echo '  -i "twitter-123,linkedin-456"'
 echo ""
 
@@ -144,7 +152,8 @@ echo "  - Use multiple -c flags for main post + comments"
 echo "  - Use -m flags to specify media for each -c"
 echo "  - First -c is the main post, subsequent ones are comments"
 echo "  - -m is optional, can be omitted for text-only comments"
-echo "  - Use -d to set delay between comments (in milliseconds)"
+echo "  - Use -d to set delay between comments (in minutes)"
+echo "  - Every -m value is a path returned by postqueen upload"
 echo "  - Semicolons and special characters work fine in -c content!"
 echo ""
 echo "📖 For more examples, see:"

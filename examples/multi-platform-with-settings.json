@@ -18,10 +18,9 @@
         "__type": "reddit",
         "subreddit": [{
           "value": {
-            "subreddit": "programming",
+            "subreddit": "/r/programming",
             "title": "Launching PostQueen CLI - Social Media Automation for Developers",
-            "type": "text",
-            "url": "",
+            "type": "self",
             "is_flair_required": false
           }
         }]
@@ -41,19 +40,19 @@
           "image": [
             { "id": "t2", "path": "https://cdn.example.com/multi-platform.jpg" }
           ],
-          "delay": 3000
+          "delay": 3
         },
         {
           "content": "2️⃣ Thread creation\nEasily create Twitter threads, each tweet with its own media",
           "image": [
             { "id": "t3", "path": "https://cdn.example.com/threads.jpg" }
           ],
-          "delay": 3000
+          "delay": 3
         },
         {
           "content": "3️⃣ Provider-specific settings\nReddit subreddits, YouTube visibility, TikTok privacy - all configurable\n\nGet started: https://github.com/yourrepo",
           "image": [],
-          "delay": 3000
+          "delay": 3
         }
       ],
       "settings": {

@@ -12,12 +12,16 @@ Get the settings schema, validation rules, and maximum character limits for any 
 postqueen integrations:settings <integration-id>
 ```
 
+The command prints one status line (`⚙️  Settings for integration: <id>`) and then the JSON, so drop the first line with `tail -n +2` before you pipe it into `jq`.
+
 ## What It Returns
 
 ```json
 {
   "output": {
+    "rules": "Platform guidance written for agents",
     "maxLength": 280,
+    "tools": [],
     "settings": {
       "properties": {
         "who_can_reply_post": {
@@ -43,26 +47,23 @@ postqueen integrations:settings <integration-id>
 postqueen integrations:list
 ```
 
-Output:
+Output (after the status line):
 ```json
 [
   {
     "id": "reddit-abc123",
     "name": "My Reddit Account",
-    "identifier": "reddit",
-    "provider": "reddit"
+    "identifier": "reddit"
   },
   {
     "id": "youtube-def456",
     "name": "My YouTube Channel",
-    "identifier": "youtube",
-    "provider": "youtube"
+    "identifier": "youtube"
   },
   {
     "id": "twitter-ghi789",
     "name": "@myhandle",
-    "identifier": "x",
-    "provider": "x"
+    "identifier": "x"
   }
 ]
 ```
@@ -98,7 +99,7 @@ Output:
                   },
                   "type": {
                     "type": "string",
-                    "description": "Post type (text or link)"
+                    "description": "Post type (self, link or media)"
                   },
                   "url": {
                     "type": "string",
@@ -134,14 +135,13 @@ Now you know what settings are available and required!
 ```bash
 postqueen posts:create \
   -c "My post content" \
-  -p reddit \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "programming",
+        "subreddit": "/r/programming",
         "title": "Check this out!",
-        "type": "text",
-        "url": "",
+        "type": "self",
         "is_flair_required": false
       }
     }]
@@ -159,8 +159,8 @@ postqueen integrations:settings reddit-abc123
 
 Returns:
 - Max length: 40,000 characters
-- Required settings: subreddit, title, type
-- Optional: flair
+- Required settings: subreddit (a `/r/...` path), title, type (self, link or media), is_flair_required
+- Optional: url (for link posts), flair
 
 ### YouTube
 
@@ -215,7 +215,7 @@ postqueen integrations:settings instagram-pqr678
 
 Returns:
 - Max length: 2,200 characters
-- Required settings: post_type (post or story)
+- Required settings: post_type (post, reel or story)
 - Optional: is_trial_reel, graduation_strategy, collaborators
 
 ## No Additional Settings Required
@@ -263,7 +263,7 @@ postqueen integrations:settings reddit-456
 Check maximum character limits:
 
 ```bash
-postqueen integrations:settings twitter-789 | jq '.output.maxLength'
+postqueen integrations:settings twitter-789 | tail -n +2 | jq '.output.maxLength'
 # Output: 280
 ```
 
@@ -277,7 +277,7 @@ AI agents can call this endpoint to:
 ```bash
 # Get settings schema
 INTEGRATION_ID="your-integration-id"
-SETTINGS=$(postqueen integrations:settings "$INTEGRATION_ID")
+SETTINGS=$(postqueen integrations:settings "$INTEGRATION_ID" | tail -n +2)
 
 # Extract max length
 MAX_LENGTH=$(echo "$SETTINGS" | jq '.output.maxLength')
@@ -298,14 +298,15 @@ Use the schema to generate UI forms:
 
 ```bash
 # Inspect the settings schema for form generation
-postqueen integrations:settings reddit-123 | jq '.output.settings'
+postqueen integrations:settings reddit-123 | tail -n +2 | jq '.output.settings'
 
 # Extract specific field properties
 postqueen integrations:settings reddit-123 \
+  | tail -n +2 \
   | jq '.output.settings.properties.subreddit.items.properties.value.properties'
 # → subreddit (text, minLength: 2)
 # → title (text, minLength: 2)
-# → type (select: text/link)
+# → type (select: self/link/media)
 # → etc.
 ```
 
@@ -324,23 +325,22 @@ postqueen integrations:list
 # 2. Get settings for Reddit
 echo ""
 echo "⚙️  Reddit settings:"
-SETTINGS=$(postqueen integrations:settings reddit-123)
-echo $SETTINGS | jq '.output.maxLength'
-echo $SETTINGS | jq '.output.settings'
+SETTINGS=$(postqueen integrations:settings reddit-123 | tail -n +2)
+echo "$SETTINGS" | jq '.output.maxLength'
+echo "$SETTINGS" | jq '.output.settings'
 
 # 3. Create post with correct settings
 echo ""
 echo "📝 Creating post..."
 postqueen posts:create \
   -c "My post content" \
-  -p reddit \
+  -s "2026-12-31T12:00:00Z" \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "programming",
+        "subreddit": "/r/programming",
         "title": "Interesting post",
-        "type": "text",
-        "url": "",
+        "type": "self",
         "is_flair_required": false
       }
     }]
@@ -359,8 +359,10 @@ Returns:
 ```typescript
 {
   output: {
+    rules: string;
     maxLength: number;
     settings: ValidationSchema | "No additional settings required";
+    tools: Tool[];
   }
 }
 ```
@@ -371,14 +373,17 @@ Returns:
 
 ```bash
 postqueen integrations:settings invalid-id
-# ❌ Failed to get integration settings: Integration not found
+# ❌ Failed to get integration settings: <the API's error>
 ```
 
 ### API Key Not Set
 
 ```bash
 postqueen integrations:settings reddit-123
-# ❌ Error: POSTQUEEN_API_KEY environment variable is required
+# ❌ Error: No authentication found.
+# Options:
+#   1. API Key: export POSTQUEEN_API_KEY=your_api_key
+#      Get it from PostQueen > Connections > API Keys, visible to workspace admins only.
 ```
 
 ## Tips

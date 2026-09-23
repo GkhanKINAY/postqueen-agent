@@ -55,7 +55,7 @@ No PostQueen account yet? [Start a 7-day trial, $0 due today](https://postqueen.
 | `analytics:post <id>` | Analytics for one post |
 | `upload <file>` | Upload an image or video and get its path |
 | `auth:status` | Check which credentials the CLI uses and whether they work |
-| `auth:login` | Explain how to set up the API key. With `--auth-server` or `POSTQUEEN_AUTH_SERVER`, log in through a device-flow auth server you run yourself |
+| `auth:login` | Say where to get the API key, and exit 1. With `--auth-server` or `POSTQUEEN_AUTH_SERVER`, log in through a device-flow auth server you run yourself |
 | `auth:logout` | Remove the credentials `auth:login` stored |
 
 Media goes in two steps: `upload` returns a `path`, and that path goes into `posts:create -m`. The [command reference](https://docs.postqueen.ai/cli/command-reference) has every flag.
@@ -68,7 +68,7 @@ Most commands print one human-readable status line and then the JSON result. Dro
 postqueen integrations:list | tail -n +2 | jq -r '.[].id'
 ```
 
-`posts:missing` prints JSON only, and `posts:delete` prints only a confirmation line. When a command fails, the error goes to stderr and the command exits with code 1. `auth:status` and `auth:login` print their messages to stdout.
+`posts:missing` prints JSON only, and `posts:delete` prints only a confirmation line. When a command fails, the error goes to stderr and the command exits with code 1. `auth:status` prints its messages to stdout.
 
 ## Agent skill and plugins
 
