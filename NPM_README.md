@@ -8,11 +8,11 @@
   <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
 </p>
 
-<p><img src="https://img.shields.io/badge/NEW-7C3AED?style=flat-square" alt="New"> <b>Connect Claude, ChatGPT, Grok Bot or any AI agent to your socials.</b> <a href="https://docs.postqueen.ai/agents/overview">See every agent →</a></p>
+<a href="https://docs.postqueen.ai/agents/grok-bot"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/announce-light.png" width="100%" alt="New: Grok Bot is here. Connect Claude, ChatGPT, Grok Bot or any AI agent to your socials."></a>
 
-<a href="https://docs.postqueen.ai/channels/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/channels-row-light.png" width="100%" alt="Posts to 30+ networks: Instagram, TikTok, YouTube, X, LinkedIn, Facebook, Threads, Pinterest, Reddit, Bluesky, Mastodon, Discord, Telegram, Slack, Twitch, Kick, Google Business Profile, Dribbble, Tumblr, WordPress, DEV, Hashnode, VK, MeWe, Lemmy, Nostr, Farcaster, Moltbook, Listmonk, Whop and Skool"></a>
+<p><a href="https://app.postqueen.ai/auth?utm_source=github&utm_medium=readme&utm_campaign=postqueen-agent&utm_content=npm-button"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-trial-light.png" width="323" alt="Start 7-day trial for $0"></a><a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-agent-light.png" width="297" alt="Connect your AI agent"></a></p>
 
-<a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/agents-row-light.png" width="100%" alt="Works with the AI agent you already use: Claude, ChatGPT, Grok Bot (new), Grok, Perplexity, Muse (new), Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, OpenClaw, Hermes, NanoClaw, Paperclip and any MCP app"></a>
+<a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/works-light.png" width="100%" alt="Use the agent you already have: Claude, ChatGPT, Grok Bot (new), Grok, Perplexity, Muse (new), Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, OpenClaw, Hermes, NanoClaw, Paperclip and any MCP app. Posts to 30+ networks."></a>
 
 
 <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/terminal.png" width="100%" alt="A terminal running postqueen integrations:list, which prints one status line and then the connected channels as JSON, then postqueen posts:create, which prints a success line and the new post ID as JSON.">
