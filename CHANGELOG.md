@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.24] - 2026-09-23
+
 ### Fixed
 - `engines.node` now says `^20.19.0 || >=22.12.0`. 2.0.23 stops at start on Node 18 with `ERR_REQUIRE_ESM`, so npm now warns before installing on a Node it cannot run on.
+- `auth:status` exits with code 1 when no credentials are set, when the API rejects them, or when they could not be checked. It exited 0 in every case, so a script could not tell.
+- The Claude, Cursor, Grok and Gemini CLI plugin manifests said 2.0.22. They now carry the package version.
 
 ## [2.0.23] - 2026-09-23
 
