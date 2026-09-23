@@ -1,18 +1,22 @@
 # PostQueen CLI
 
-`postqueen` is the command line for PostQueen: schedule posts, upload media and read analytics from a terminal, a script or a coding agent.
+<a href="https://app.postqueen.ai/auth?utm_source=npm&utm_medium=readme&utm_campaign=postqueen-cli&utm_content=npm-banner"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/banner-light.png" width="100%" alt="PostQueen CLI. Schedule posts from your terminal: create posts, upload media and read analytics from a terminal, a script or a coding agent."></a>
 
 <p>
-  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen" alt="npm version"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-20.19%2B%20%7C%2022.12%2B-brightgreen" alt="Node.js 20.19+ or 22.12+"></a>
-  <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
+  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen?label=npm&color=CB3837&labelColor=15131C&logo=npm&logoColor=white" alt="npm version"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-20.19%2B%20%7C%2022.12%2B-339933?labelColor=15131C&logo=nodedotjs&logoColor=white" alt="Node.js 20.19+ or 22.12+"></a>
+  <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-2563EB?labelColor=15131C" alt="License: AGPL-3.0"></a>
 </p>
 
 <a href="https://docs.postqueen.ai/agents/grok-bot"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/announce-light.png" width="100%" alt="New: Grok Bot is here. Connect Claude, ChatGPT, Grok Bot or any AI agent to your socials."></a>
 
-<p><a href="https://app.postqueen.ai/auth?utm_source=github&utm_medium=readme&utm_campaign=postqueen-agent&utm_content=npm-button"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-trial-light.png" width="351" alt="Start 7-day trial for $0"></a><a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-agent-light.png" width="325" alt="Connect your AI agent"></a></p>
+<p><a href="https://app.postqueen.ai/auth?utm_source=npm&utm_medium=readme&utm_campaign=postqueen-cli&utm_content=npm-button"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-trial-light.png" width="351" alt="Start 7-day trial for $0"></a><a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-agent-light.png" width="325" alt="Connect your AI agent"></a></p>
+
+<sub><b>$0 due today.</b> A card is required, and you pay nothing if you cancel within 7 days.</sub>
 
 <a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/works-light.png" width="100%" alt="Use the agent you already have: Claude, ChatGPT, Grok Bot (new), Grok, Perplexity, Muse (new), Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, OpenClaw, Hermes, NanoClaw, Paperclip and any MCP app. Posts to 30+ networks."></a>
+
+`postqueen` is the command line for PostQueen: schedule posts, upload media and read analytics from a terminal, a script or a coding agent.
 
 
 <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/terminal.png" width="100%" alt="A terminal running postqueen integrations:list, which prints one status line and then the connected channels as JSON, then postqueen posts:create, which prints a success line and the new post ID as JSON.">
@@ -41,7 +45,7 @@ postqueen posts:create -c "Hello from the terminal" -s "2026-12-31T12:00:00Z" -i
 
 Some networks need settings of their own before they accept a post. X, for example, needs `who_can_reply_post`. Run `postqueen integrations:settings <integration-id>` to see what a channel needs, and pass it with `--settings '<json>'`.
 
-No PostQueen account yet? [Start a 7-day trial, $0 due today](https://app.postqueen.ai/auth?utm_source=github&utm_medium=readme&utm_campaign=postqueen-agent&utm_content=npm-quick-start).
+No PostQueen account yet? [Start a 7-day trial, $0 due today](https://app.postqueen.ai/auth?utm_source=npm&utm_medium=readme&utm_campaign=postqueen-cli&utm_content=quick-start).
 
 ## Commands
 
@@ -111,6 +115,10 @@ Stored `auth:login` credentials live in `~/.postqueen/credentials.json` and take
 - PostQueen stores these credentials so it can post for you, and replaces them when you remove the channel.
 - Your API key gives full access to the workspace. Keep it in an environment variable, not in your code.
 - Read the [privacy policy](https://postqueen.ai/privacy-policy), or [delete your account](https://postqueen.ai/delete-my-account).
+
+**No PostQueen account yet?** The CLI posts through PostQueen Cloud: start a trial, copy the key from Connections > API Keys, and your terminal or coding agent can post.
+
+<a href="https://app.postqueen.ai/auth?utm_source=npm&utm_medium=readme&utm_campaign=postqueen-cli&utm_content=npm-closing-band"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/cta-light.png" width="100%" alt="Ready when you are: hand your next post to your agent. Start 7-day trial for $0. $0 due today, cancel in one click."></a>
 
 ## Links
 
