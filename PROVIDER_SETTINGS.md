@@ -254,10 +254,6 @@ Settings available - check the DTO for specifics.
 
 Settings available - check the DTO for specifics.
 
-### Medium (`medium`)
-
-Settings available - check the DTO for specifics.
-
 ### Dev.to (`devto`)
 
 Settings available - check the DTO for specifics.

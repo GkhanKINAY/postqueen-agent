@@ -39,3 +39,6 @@ coverage/
 
 # Backup written by scripts/npm-readme.js while packing
 .readme-github.bak
+
+# Plugin subpackages install their peer deps locally for tests
+plugins/*/pnpm-lock.yaml

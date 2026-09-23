@@ -1,6 +1,6 @@
 ---
 name: postqueen
-description: PostQueen is a tool to schedule social media and chat posts to 30+ channels X, LinkedIn, LinkedIn Page, Reddit, Instagram, Facebook Page, Threads, YouTube, Google My Business, TikTok, Pinterest, Dribbble, Discord, Slack, Kick, Twitch, Mastodon, Bluesky, Lemmy, Farcaster, Telegram, Nostr, VK, Medium, Dev.to, Hashnode, WordPress, ListMonk, MeWe, Whop, Skool, Moltbook, Tumblr
+description: PostQueen is a tool to schedule social media and chat posts to 30+ channels X, LinkedIn, LinkedIn Page, Reddit, Instagram, Facebook Page, Threads, YouTube, Google My Business, TikTok, Pinterest, Dribbble, Discord, Slack, Kick, Twitch, Mastodon, Bluesky, Lemmy, Farcaster, Telegram, Nostr, VK, Dev.to, Hashnode, WordPress, ListMonk, MeWe, Whop, Skool, Moltbook, Tumblr
 homepage: https://docs.postqueen.ai/public-api/introduction
 metadata: {"openclaw":{"emoji":"🌎","requires":{"bins":["postqueen"],"env":["POSTQUEEN_API_KEY"]}}}
 ---
@@ -23,7 +23,7 @@ official website: https://postqueen.ai
 | Property | Value |
 |----------|-------|
 | **name** | postqueen |
-| **description** | Social media automation CLI for scheduling posts across 30+ platforms |
+| **description** | Social media automation CLI for scheduling posts across 30+ platforms including X, LinkedIn, LinkedIn Pages, Instagram, Facebook, Threads, YouTube, TikTok, Reddit, Pinterest, Bluesky, Mastodon, Google My Business, Discord, Slack, Telegram, Twitch, Kick, Lemmy, Farcaster, Nostr, VK, MeWe, Tumblr, Skool, Whop, Moltbook, Dribbble, Dev.to, Hashnode, WordPress, and ListMonk |
 | **allowed-tools** | Bash(postqueen:*) |
 
 ---

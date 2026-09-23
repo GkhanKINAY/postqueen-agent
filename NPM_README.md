@@ -1,185 +1,120 @@
-<p align="center">
-  <a href="https://postqueen.ai">
-    <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/header.svg" width="840" alt="PostQueen: the queen of your posts, your AI social media assistant" />
-  </a>
-</p>
+# PostQueen CLI
 
-<p align="center">
+`postqueen` is the command line for PostQueen: schedule posts, upload media and read analytics from a terminal, a script or a coding agent.
+
+<p>
   <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/v/postqueen" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/postqueen"><img src="https://img.shields.io/npm/dm/postqueen" alt="npm downloads"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node.js 18 or newer"></a>
   <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
 </p>
 
-# PostQueen CLI
+<p align="center">
+  <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-agent/main/.github/assets/calendar.svg" width="660" alt="An illustration of the PostQueen calendar: a week of scheduled posts across several channels" />
+</p>
 
-Command-line interface to the [PostQueen](https://postqueen.ai) API: tell her what to post and when,
-from a script, a cron job or an AI agent, and she publishes it to 30+ networks, from X and
-LinkedIn to TikTok and YouTube. Every command outputs JSON, so it drops cleanly into scripts and
-agent tool-calls.
+Posts you create with the CLI land on the same calendar you see in the PostQueen app.
 
-## Install
+## What it does
 
-```bash
-npm install -g postqueen
-```
-
-Requires Node.js 18+. To register the CLI as a skill for coding agents that support the `skills`
-registry:
-
-```bash
-npx skills add GkhanKINAY/postqueen-agent
-```
-
-## Authenticate
-
-Pick either option; if both are present, the OAuth2 credentials take priority.
-
-**API key (quickest)**: grab it at [app.postqueen.ai/settings](https://app.postqueen.ai/settings)
-(Developers → Public API → Reveal):
-
-```bash
-export POSTQUEEN_API_KEY=your_api_key_here
-```
-
-**OAuth2 device flow** (self-hosted auth server only): PostQueen Cloud does not run the
-auth server this flow needs, so use an API key there. If you self-host, run the server
-from `server/SERVER.md` and point the CLI at it with `--auth-server` or
-`POSTQUEEN_AUTH_SERVER`:
-
-```bash
-postqueen auth:login     # prints a one-time code and opens your browser
-postqueen auth:status    # check that stored credentials are still valid
-postqueen auth:logout    # remove them
-```
-
-Credentials land in `~/.postqueen/credentials.json`. Without a reachable auth server,
-`auth:login` stops and points you back to the API key.
+- Creates, lists, deletes and reschedules posts on the channels connected to your PostQueen workspace.
+- Uploads images and videos and returns the path to use in a post.
+- Reads channel analytics and post analytics.
+- Shows each channel's settings schema and runs its helper tools, such as Reddit subreddit search or Pinterest boards.
+- Ships a skill and plugins, so coding agents such as Claude Code, Cursor and Grok Build can run it for you.
 
 ## Quick start
 
+You need Node.js 18 or newer and a PostQueen API key. In PostQueen, open Connections > API Keys to copy the key. Only workspace admins can see it, and each workspace has one.
+
 ```bash
-# 1. Find the channels you can post to
+npm install -g postqueen
+export POSTQUEEN_API_KEY=your_api_key
+
 postqueen integrations:list
-
-# 2. Upload media first: most platforms only accept URLs they trust
-MEDIA=$(postqueen upload ./launch.png | jq -r '.path')
-
-# 3. Schedule the post (--date is required, ISO 8601)
-postqueen posts:create \
-  -c "We just shipped 🎉" \
-  -m "$MEDIA" \
-  -s "2026-08-01T09:00:00Z" \
-  -i "twitter-123,linkedin-456"
-
-# 4. See what is queued
-postqueen posts:list
+postqueen posts:create -c "Hello from the terminal" -s "2026-12-31T12:00:00Z" -i "<integration-id>"
 ```
+
+Some networks need settings of their own before they accept a post. X, for example, needs `who_can_reply_post`. Run `postqueen integrations:settings <integration-id>` to see what a channel needs, and pass it with `--settings '<json>'`.
+
+No PostQueen account yet? [Start a 7-day trial, $0 due today](https://postqueen.ai/pricing).
 
 ## Commands
 
 | Command | What it does |
 | --- | --- |
-| `auth:login` / `auth:status` / `auth:logout` | OAuth2 device flow (needs a self-hosted auth server): sign in, verify, sign out |
-| `integrations:list [--group <id>]` | List connected channels; filter by group (customer) |
-| `integrations:groups` | List groups (customers) as `{id, name}` |
-| `integrations:settings <id>` | Character limits, required settings and available tools for a channel |
-| `integrations:trigger <id> <method> [-d '{}']` | Fetch dynamic data: Reddit flairs, YouTube playlists, LinkedIn companies… |
-| `posts:create` | Create a scheduled post or draft (see options below) |
-| `posts:list [--startDate --endDate --customer]` | List posts; defaults to last 30 → next 30 days |
+| `posts:create` | Create a post: `-c` content (repeat it for a thread or comments), `-s` date, `-i` channel IDs, `-m` media paths, `-t draft` or `schedule`, `--settings`, or `--json <file>` for a full request body |
+| `posts:list` | List posts between two dates (30 days back to 30 days ahead by default) |
 | `posts:delete <id>` | Delete a post |
-| `posts:status <id> --status draft\|schedule` | Move a post back to draft (stops a running workflow) or queue it |
-| `posts:settings <id> --settings <json>` | Patch a post's provider settings: only the keys you pass change, draft and scheduled posts only |
-| `posts:missing <id>` | List recent provider content when a published post has no usable ID |
-| `posts:connect <id> --release-id "<content-id>"` | Attach that content to the post so analytics work |
-| `analytics:platform <id> [-d 30]` | Followers, impressions and engagement for a channel (default 7 days) |
-| `analytics:post <id> [-d 30]` | Likes, comments, shares and impressions for a published post |
-| `upload <file>` | Upload an image or video and get a PostQueen URL back |
+| `posts:status <id>` | Move a post between draft and scheduled |
+| `posts:settings <id>` | Change the settings of a post that has not been published |
+| `posts:missing <id>` | List recent content on the network for a post that has no release ID |
+| `posts:connect <id>` | Connect a post to that content with `--release-id` |
+| `integrations:list` | List the connected channels |
+| `integrations:groups` | List customer groups |
+| `integrations:settings <id>` | Show a channel's settings schema and helper tools |
+| `integrations:trigger <id> <method>` | Run one of those helper tools, with `-d '<json>'` for its input |
+| `analytics:platform <id>` | Channel analytics for the last 7 days, or `-d <days>` |
+| `analytics:post <id>` | Analytics for one post |
+| `upload <file>` | Upload an image or video and get its path |
+| `auth:login`, `auth:status`, `auth:logout` | Device-flow login for a self-hosted auth server, and checks on stored credentials |
 
-Run `postqueen --help` or `postqueen <command> --help` for the full syntax.
+Media goes in two steps: `upload` returns a `path`, and that path goes into `posts:create -m`. The [command reference](https://docs.postqueen.ai/cli/command-reference) has every flag.
 
-### `posts:create` options
+### Output
 
-| Flag | Description |
+Most commands print one human-readable status line and then the JSON result. Drop the first line before you parse it:
+
+```bash
+postqueen integrations:list | tail -n +2 | jq -r '.[].id'
+```
+
+`posts:missing` prints JSON only, and `posts:delete` prints only a confirmation line. Errors go to stderr, and the command exits with code 1.
+
+## Agent skill and plugins
+
+The skill in [`skills/postqueen`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/skills/postqueen/SKILL.md) teaches an agent to run the CLI. Every route below except DeepSeek Harness needs the CLI installed and `POSTQUEEN_API_KEY` set where the agent runs.
+
+| Agent | Install |
 | --- | --- |
-| `-c, --content` | Post content. Repeat it to add comments/threads, in order |
-| `-s, --date` | Schedule date, ISO 8601 (**required**), e.g. `"2026-08-01T09:00:00Z"` |
-| `-i, --integrations` | Comma-separated channel IDs (**required** unless `--json`) |
-| `-m, --media` | Comma-separated media URLs for the matching `-c` |
-| `-t, --type` | `schedule` (default) or `draft` |
-| `-d, --delay` | Minutes between comments (default `0`) |
-| `--settings` | Platform-specific settings as a JSON string |
-| `-j, --json` | Path to a JSON file holding the full post structure |
-| `--shortLink` | Use short links (default `true`) |
+| Any agent that reads the `skills` registry | `npx skills add GkhanKINAY/postqueen-agent` |
+| Claude Code | `/plugin marketplace add GkhanKINAY/postqueen-agent`, then `/plugin install postqueen@postqueen-agent` |
+| Grok Build | `grok plugin marketplace add GkhanKINAY/postqueen-agent`, then `grok plugin install postqueen --trust` |
+| Cursor | Clone this repository and link it into `~/.cursor/plugins/local/postqueen` (manifest in [`.cursor-plugin`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/.cursor-plugin/plugin.json)) |
+| Gemini CLI | `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` |
+| Qwen Code | `qwen extensions install GkhanKINAY/postqueen-agent:postqueen` |
+| OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
+| DeepSeek Harness | `dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"`. This one connects over MCP instead of the CLI; see [its README](https://github.com/GkhanKINAY/postqueen-agent/blob/main/plugins/dsh-postqueen/README.md) |
 
-```bash
-# Thread with a 5-minute gap between parts
-postqueen posts:create -c "1/3" -c "2/3" -c "3/3" -d 5 -s "2026-08-01T09:00:00Z" -i "twitter-123"
+Prefer tool calls to shell commands? Many agents connect to PostQueen over MCP instead, by signing in or with the API key. See the [MCP guide](https://docs.postqueen.ai/mcp/introduction) and the [agents overview](https://docs.postqueen.ai/agents/overview).
 
-# Reddit post with subreddit settings
-postqueen posts:create -c "Content" -s "2026-08-01T09:00:00Z" -i "reddit-123" \
-  --settings '{"subreddit":[{"value":{"subreddit":"programming","title":"My Post","type":"text"}}]}'
+## Configuration
 
-# Anything complex: describe it in a file
-postqueen posts:create --json ./post.json
-```
-
-## Media uploads
-
-Upload files to PostQueen **before** referencing them in a post. TikTok, Instagram and YouTube only
-accept media from trusted domains and will reject external links.
-
-```bash
-postqueen upload ./video.mp4     # → { "path": "https://…" }
-```
-
-Supported formats: PNG, JPG, JPEG, GIF and MP4.
-
-## Environment variables
-
-| Variable | Default | Description |
-| --- | --- | --- |
-| `POSTQUEEN_API_KEY` | – | Your PostQueen API key (not needed after `auth:login`) |
-| `POSTQUEEN_API_URL` | `https://api.postqueen.ai` | Point the CLI at a self-hosted instance |
-| `POSTQUEEN_AUTH_SERVER` | `https://cli-auth.postqueen.ai` | OAuth2 device-flow server for `auth:login`; not run on PostQueen Cloud |
-
-Self-hosting PostQueen? Set `POSTQUEEN_API_URL` to your own API base URL and everything else works
-the same.
-
-## Use it from an AI agent
-
-Every command prints JSON on stdout and exits `0` on success and `1` on error, so there is
-nothing to parse around. A typical agent loop is `integrations:list` → `integrations:settings` →
-`integrations:trigger` (for flairs, playlists, companies) → `upload` → `posts:create`.
-
-Prefer tool-calls over a shell? PostQueen also ships a hosted MCP server:
-
-```bash
-claude mcp add --transport http postqueen https://api.postqueen.ai/mcp/<YOUR_API_KEY>
-```
-
-## Troubleshooting
-
-| Error | Fix |
+| Variable | What it does |
 | --- | --- |
-| `Not authenticated` | Set `POSTQUEEN_API_KEY` (or, with a self-hosted auth server, run `postqueen auth:login`) |
-| `Integration not found` | Run `integrations:list` for valid channel IDs |
-| `--date is required` | Pass ISO 8601: `-s "2026-08-01T09:00:00Z"` |
-| `Invalid settings` | Check `integrations:settings <id>` for the required fields |
-| `analytics:post` returns `{"missing": true}` | Run `posts:missing <id>`, then `posts:connect <id> --release-id "<content-id>"` |
+| `POSTQUEEN_API_KEY` | Your workspace API key. Required on the hosted service. |
+| `POSTQUEEN_API_URL` | The API the CLI calls. It defaults to `https://api.postqueen.ai`; set it to your own backend if you self-host. |
+| `POSTQUEEN_AUTH_SERVER` | The auth server that `auth:login` uses. The hosted service does not run one, so use an API key there. Self-hosters can run the one in [`server/`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/server/SERVER.md). |
+
+Stored `auth:login` credentials live in `~/.postqueen/credentials.json` and take priority over `POSTQUEEN_API_KEY`.
+
+## Privacy and security
+
+- Channels connect through each network's official OAuth sign-in where the network offers one.
+- Some networks, such as Bluesky, Lemmy, WordPress and Nostr, need an app password or a key that you paste in.
+- PostQueen stores these credentials so it can post for you, and replaces them when you remove the channel.
+- Your API key gives full access to the workspace. Keep it in an environment variable, not in your code.
+- Read the [privacy policy](https://postqueen.ai/privacy-policy), or [delete your account](https://postqueen.ai/delete-my-account).
 
 ## Links
 
 | | |
 | --- | --- |
-| Documentation | [docs.postqueen.ai](https://docs.postqueen.ai) |
-| REST API reference | [api.postqueen.ai/docs](https://api.postqueen.ai/docs) |
-| Full guide, examples and issues | [github.com/GkhanKINAY/postqueen-agent](https://github.com/GkhanKINAY/postqueen-agent) |
-| NodeJS SDK | [`@postqueen/node`](https://www.npmjs.com/package/@postqueen/node) |
-| n8n node | [`n8n-nodes-postqueen`](https://www.npmjs.com/package/n8n-nodes-postqueen) |
+| CLI docs | [docs.postqueen.ai/cli/introduction](https://docs.postqueen.ai/cli/introduction) |
+| npm | [`postqueen`](https://www.npmjs.com/package/postqueen) · [changelog](https://github.com/GkhanKINAY/postqueen-agent/blob/main/CHANGELOG.md) |
+| API reference | [api.postqueen.ai/docs](https://api.postqueen.ai/docs) |
+| Repositories | [app](https://github.com/GkhanKINAY/postqueen-app) · [CLI and skill](https://github.com/GkhanKINAY/postqueen-agent) · [n8n node](https://github.com/GkhanKINAY/postqueen-n8n) · [docs](https://github.com/GkhanKINAY/postqueen-docs) · [Docker Compose](https://github.com/GkhanKINAY/postqueen-docker-compose) · [Helm chart](https://github.com/GkhanKINAY/postqueen-helmchart) |
+| Help | support@postqueen.ai · [GitHub issues](https://github.com/GkhanKINAY/postqueen-agent/issues) |
 
 ## License
 
-[AGPL-3.0](https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE). PostQueen is a fork of
-[Postiz](https://github.com/gitroomhq/postiz-app) by Nevo David / Gitroom. Thank you to the Postiz
-contributors for the foundation this builds on.
+The PostQueen CLI is open source under the [AGPL-3.0 license](https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE). PostQueen started as a fork of [Postiz](https://github.com/gitroomhq/postiz-app) by Nevo David, and this repository started from [postiz-agent](https://github.com/gitroomhq/postiz-agent).
