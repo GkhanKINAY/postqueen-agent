@@ -243,8 +243,6 @@ These are all the tools the PostQueen API has, by network (`identifier` from `in
 
 X, LinkedIn, LinkedIn Page, Facebook, Threads, YouTube, TikTok and the other networks have no tools. A LinkedIn Page is its own channel (`linkedin-page`), not a setting of a LinkedIn profile.
 
-Some of these networks are marked Soon on the hosted service and cannot be connected there yet; see the Networks section of [SKILL.md](SKILL.md).
-
 ## AI Agent Workflow
 
 For AI agents, this enables dynamic discovery and usage:
