@@ -8,13 +8,13 @@
   <a href="https://github.com/GkhanKINAY/postqueen-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-2563EB?labelColor=15131C" alt="License: AGPL-3.0"></a>
 </p>
 
-<a href="https://docs.postqueen.ai/agents/grok-bot"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/announce-light.png" width="100%" alt="New: Grok Bot is here. Connect Claude, ChatGPT, Grok Bot or any AI agent to your socials."></a>
+<a href="https://docs.postqueen.ai/agents/grok-bot"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/announce-light.png" width="100%" alt="New: connect Grok Bot, Muse, ChatGPT, Claude or any AI agent to your socials."></a>
 
 <p><a href="https://app.postqueen.ai/auth?utm_source=npm&utm_medium=readme&utm_campaign=postqueen-cli&utm_content=npm-button"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-trial-light.png" width="351" alt="Start 7-day trial for $0"></a><a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/btn-agent-light.png" width="325" alt="Connect your AI agent"></a></p>
 
 <sub><b>$0 due today.</b> A card is required, and you pay nothing if you cancel within 7 days.</sub>
 
-<a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/works-light.png" width="100%" alt="Use the agent you already have: Claude, ChatGPT, Grok Bot (new), Grok, Perplexity, Muse (new), Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, OpenClaw, Hermes, NanoClaw, Paperclip and any MCP app. Posts to 30+ networks."></a>
+<a href="https://docs.postqueen.ai/agents/overview"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/works-light.png" width="100%" alt="Use the agent you already have: Grok Bot (new), Muse (new), OpenClaw, Hermes, Claude, ChatGPT, Grok, Perplexity, Claude Code, Codex, Cursor, Gemini CLI, VS Code, Devin Desktop, Zed, NanoClaw, Paperclip and any MCP app. Posts to 30+ networks."></a>
 
 `postqueen` is the command line for PostQueen: schedule posts, upload media and read analytics from a terminal, a script or a coding agent.
 
@@ -88,12 +88,12 @@ The skill in [`skills/postqueen`](https://github.com/GkhanKINAY/postqueen-agent/
 | Agent | Install |
 | --- | --- |
 | Any agent that reads the `skills` registry | `npx skills add GkhanKINAY/postqueen-agent` |
+| OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
 | Claude Code | `/plugin marketplace add GkhanKINAY/postqueen-agent`, then `/plugin install postqueen@postqueen-agent` |
-| Grok Build | `grok plugin marketplace add GkhanKINAY/postqueen-agent`, then `grok plugin install postqueen --trust` |
 | Cursor | Clone this repository and link it into `~/.cursor/plugins/local/postqueen` (manifest in [`.cursor-plugin`](https://github.com/GkhanKINAY/postqueen-agent/blob/main/.cursor-plugin/plugin.json)) |
 | Gemini CLI | `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` |
+| Grok Build | `grok plugin marketplace add GkhanKINAY/postqueen-agent`, then `grok plugin install postqueen --trust` |
 | Qwen Code | `qwen extensions install GkhanKINAY/postqueen-agent:postqueen` |
-| OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
 | DeepSeek Harness | `dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"`. This one connects over MCP instead of the CLI; see [its README](https://github.com/GkhanKINAY/postqueen-agent/blob/main/plugins/dsh-postqueen/README.md) |
 
 Prefer tool calls to shell commands? Many agents connect to PostQueen over MCP instead, by signing in or with the API key. See the [MCP guide](https://docs.postqueen.ai/mcp/introduction) and the [agents overview](https://docs.postqueen.ai/agents/overview).
