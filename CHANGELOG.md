@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.27] - 2026-09-26
+
+### Changed
+
+- The skill (`SKILL.md`) lists every network PostQueen supports in one place, with the two conditions that come from the product: X connects once the workspace's 7-day trial ends, and Hashnode needs Hashnode Pro. The TikTok examples use `PUBLIC_TO_EVERYONE`, and the privacy note says to use what the account allows.
+- The npm page lists the AI agents in the homepage's order. No code changes.
+
 ## [2.0.26] - 2026-09-24
 
 ### Changed
