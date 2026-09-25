@@ -1,6 +1,6 @@
 {
   "name": "postqueen",
-  "version": "2.0.26",
+  "version": "2.0.27",
   "description": "PostQueen CLI: schedule posts, upload media and read analytics across 30+ networks from a terminal, a script or a coding agent.",
   "main": "dist/index.js",
   "bin": {

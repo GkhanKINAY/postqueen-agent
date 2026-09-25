@@ -1,5 +1,5 @@
 {
   "name": "postqueen",
-  "version": "2.0.26",
+  "version": "2.0.27",
   "description": "PostQueen social media automation: schedule, draft, and publish posts, manage connected channels, upload media, and track analytics across 30+ platforms including X, LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Reddit, Bluesky, Mastodon, Discord, Slack, and Telegram. Bundles the postqueen skill, which drives the postqueen CLI."
 }
