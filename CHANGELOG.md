@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.28] - 2026-10-15
+
 ### Added
 
 - `auth:login` signs in through the browser. It opens PostQueen's consent page, you approve the CLI, and the token goes straight into `~/.postqueen/credentials.json`. The CLI registers itself with PostQueen's OAuth server the way Claude Code and Cursor do: a loopback callback on `127.0.0.1` and PKCE, with the `state` and `iss` of the reply checked. Each sign-in adds its own entry under Connections > Approved Apps. `--no-browser` prints the link instead of opening it. On a self-hosted server without these OAuth routes, it says so and points to `POSTQUEEN_API_KEY`. `--auth-server` still runs the device flow against a server you name.
