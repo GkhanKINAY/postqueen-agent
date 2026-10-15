@@ -4,7 +4,8 @@ import { test, before, after, beforeEach } from 'node:test'
 import assert from 'node:assert/strict'
 import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
-import { mkdtempSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { mkdtempSync, existsSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
@@ -17,6 +18,8 @@ const date = '2026-10-01T10:00:00Z'
 let server
 let apiUrl
 let requests = []
+// The stand-in serves PostQueen's OAuth routes only when a test turns them on
+let oauth = null
 
 before(async () => {
   server = createServer((req, res) => {
@@ -26,7 +29,35 @@ before(async () => {
       const url = new URL(req.url, 'http://stub')
       requests.push({ method: req.method, path: url.pathname, query: url.searchParams, body })
       res.setHeader('Content-Type', 'application/json')
-      if (req.method === 'GET' && url.pathname === '/public/v1/posts') {
+      if (oauth && req.method === 'GET' && url.pathname === '/.well-known/oauth-authorization-server/mcp-oauth-dynamic') {
+        res.end(JSON.stringify({
+          issuer: `${apiUrl}/mcp-oauth-dynamic`,
+          authorization_endpoint: `${apiUrl}/oauth/authorize`,
+          token_endpoint: `${apiUrl}/oauth/token`,
+          registration_endpoint: `${apiUrl}/oauth/register`,
+          authorization_response_iss_parameter_supported: true,
+        }))
+      } else if (oauth && req.method === 'POST' && url.pathname === '/oauth/register') {
+        oauth.registration = JSON.parse(body)
+        res.statusCode = 201
+        res.end(JSON.stringify({ client_id: 'pcd_test' }))
+      } else if (oauth && req.method === 'POST' && url.pathname === '/oauth/token') {
+        const form = new URLSearchParams(body)
+        if (oauth.refuseToken) {
+          res.statusCode = 400
+          res.end(JSON.stringify({ error: 'invalid_grant', error_description: 'Code has expired' }))
+          return
+        }
+        const challenge = createHash('sha256').update(form.get('code_verifier') || '').digest('base64url')
+        const valid =
+          form.get('grant_type') === 'authorization_code' &&
+          form.get('code') === 'code-1' &&
+          form.get('client_id') === 'pcd_test' &&
+          form.get('redirect_uri') === oauth.redirectUri &&
+          challenge === oauth.challenge
+        res.statusCode = valid ? 200 : 400
+        res.end(JSON.stringify(valid ? { access_token: 'pos_test', token_type: 'bearer', id: 'org-1' } : { error: 'invalid_grant' }))
+      } else if (req.method === 'GET' && url.pathname === '/public/v1/posts') {
         res.end(JSON.stringify({ posts: [] }))
       } else if (req.method === 'POST' && url.pathname === '/public/v1/posts') {
         res.statusCode = 201
@@ -46,6 +77,7 @@ after(() => server.close())
 
 beforeEach(() => {
   requests = []
+  oauth = null
 })
 
 function run(args, extraEnv = {}) {
@@ -130,26 +162,112 @@ test('an empty integration ID is caught before the API call', async () => {
   assert.equal(requests.length, 0)
 })
 
-test('auth:login points to the API key and exits 1 without calling out', async () => {
-  const withoutKey = await run(['auth:login'], { POSTQUEEN_API_KEY: undefined })
-  assert.equal(withoutKey.code, 1)
-  assert.equal(
-    withoutKey.stderr,
-    '❌ PostQueen uses an API key: set POSTQUEEN_API_KEY to the key from PostQueen > Connections > API Keys, visible to workspace admins only.\n'
-  )
+// Runs auth:login in its own empty home, answers the consent page the way the
+// browser would once the user approves, and returns how the CLI finished.
+function signIn(reply) {
+  const loginHome = mkdtempSync(join(tmpdir(), 'postqueen-cli-login-'))
+  const child = spawn(process.execPath, [cli, 'auth:login', '--no-browser'], {
+    env: { PATH: process.env.PATH, HOME: loginHome, USERPROFILE: loginHome, POSTQUEEN_API_URL: apiUrl },
+  })
+  let stdout = ''
+  let stderr = ''
+  let replied
+  child.stderr.on('data', (chunk) => (stderr += chunk))
+  child.stdout.on('data', (chunk) => {
+    stdout += chunk
+    const link = /(http:\/\/127\.0\.0\.1:\d+\/oauth\/authorize\S+)/.exec(stdout)?.[1]
+    if (!link || replied || !stdout.includes('Waiting for approval')) return
+    const params = new URL(link).searchParams
+    oauth.redirectUri = params.get('redirect_uri')
+    oauth.challenge = params.get('code_challenge')
+    const callback = new URL(oauth.redirectUri)
+    // Like PostQueen, which names itself in every reply unless a test says otherwise
+    const answer = { iss: `${apiUrl}/mcp-oauth-dynamic`, ...reply(params) }
+    for (const [key, value] of Object.entries(answer)) if (value !== undefined) callback.searchParams.set(key, value)
+    replied = fetch(callback).then((response) => (oauth.callbackStatus = response.status))
+  })
+  const closed = new Promise((resolve) => child.on('close', resolve))
+  // Wait for the browser's request too: the CLI can exit before its reply lands
+  return closed.then(async (code) => {
+    await replied
+    const file = join(loginHome, '.postqueen', 'credentials.json')
+    return { code, stdout, stderr, credentials: existsSync(file) ? JSON.parse(readFileSync(file, 'utf-8')) : null }
+  })
+}
 
-  const withKey = await run(['auth:login'])
-  assert.equal(withKey.code, 1)
+test('auth:login signs in through the browser and stores the token', async () => {
+  oauth = {}
+  const { code, stdout, credentials } = await signIn((params) => ({ code: 'code-1', state: params.get('state') }))
+  assert.equal(code, 0)
+  assert.equal(oauth.callbackStatus, 200)
+  assert.deepEqual(oauth.registration.redirect_uris, [oauth.redirectUri])
+  assert.equal(oauth.registration.token_endpoint_auth_method, 'none')
+  assert.match(oauth.redirectUri, /^http:\/\/127\.0\.0\.1:\d+\/callback$/)
+  assert.deepEqual(credentials, { accessToken: 'pos_test', apiUrl, organizationId: 'org-1' })
+  assert.match(stdout, /✅ Successfully authenticated!/)
+  // The token is written to the file, never printed where an agent reads it
+  assert.doesNotMatch(stdout, /pos_test/)
+})
+
+test('auth:login refuses a reply that does not belong to its sign-in', async () => {
+  oauth = {}
+  const { code, stderr, credentials } = await signIn(() => ({ code: 'code-1', state: 'forged' }))
+  assert.equal(code, 1)
+  assert.equal(oauth.callbackStatus, 400)
+  assert.equal(stderr, '❌ Sign-in failed: the reply does not belong to this sign-in\n')
+  assert.equal(credentials, null)
+})
+
+test('auth:login refuses a reply that names another server', async () => {
+  oauth = {}
+  const { code, stderr, credentials } = await signIn((params) => ({
+    code: 'code-1',
+    state: params.get('state'),
+    iss: 'https://evil.example/mcp-oauth-dynamic',
+  }))
+  assert.equal(code, 1)
+  assert.equal(stderr, '❌ Sign-in failed: the reply came from another server\n')
+  assert.equal(credentials, null)
+})
+
+test('auth:login refuses an unnamed reply from a server that names itself', async () => {
+  oauth = {}
+  const { code, stderr, credentials } = await signIn((params) => ({ code: 'code-1', state: params.get('state'), iss: undefined }))
+  assert.equal(code, 1)
+  assert.equal(stderr, '❌ Sign-in failed: the reply came from another server\n')
+  assert.equal(credentials, null)
+})
+
+test('auth:login says so when the user denies access', async () => {
+  oauth = {}
+  const { code, stderr, credentials } = await signIn((params) => ({ error: 'access_denied', state: params.get('state') }))
+  assert.equal(code, 1)
+  assert.equal(oauth.callbackStatus, 400)
+  assert.equal(stderr, '❌ Sign-in failed: access was denied\n')
+  assert.equal(credentials, null)
+})
+
+test('auth:login reports a refused token exchange with its reason', async () => {
+  oauth = { refuseToken: true }
+  const { code, stderr, credentials } = await signIn((params) => ({ code: 'code-1', state: params.get('state') }))
+  assert.equal(code, 1)
+  assert.equal(stderr, '❌ Sign-in failed: PostQueen refused the token exchange (HTTP 400: Code has expired)\n')
+  assert.equal(credentials, null)
+})
+
+test('auth:login on a server without browser sign-in points to the API key', async () => {
+  const { code, stderr } = await run(['auth:login'])
+  assert.equal(code, 1)
   assert.equal(
-    withKey.stderr,
-    '❌ PostQueen uses an API key, and POSTQUEEN_API_KEY is already set: run "postqueen auth:status" to check it.\n'
+    stderr,
+    `❌ ${apiUrl} does not offer browser sign-in (HTTP 404).\n` +
+      '   Set POSTQUEEN_API_KEY yourself to the key from PostQueen > Connections > API Keys, visible to workspace admins only.\n'
   )
-  assert.equal(requests.length, 0)
 })
 
 test('auth:login --auth-server pointed at the API says no auth server answers', async () => {
   const { code, stderr } = await run(['auth:login', '--auth-server', apiUrl])
   assert.equal(code, 1)
   assert.match(stderr, /No auth server is answering at .* \(HTTP 404\)/)
-  assert.match(stderr, /export POSTQUEEN_API_KEY=/)
+  assert.match(stderr, /postqueen auth:login\n/)
 })

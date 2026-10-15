@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `auth:login` signs in through the browser. It opens PostQueen's consent page, you approve the CLI, and the token goes straight into `~/.postqueen/credentials.json`. The CLI registers itself with PostQueen's OAuth server the way Claude Code and Cursor do: a loopback callback on `127.0.0.1` and PKCE, with the `state` and `iss` of the reply checked. Each sign-in adds its own entry under Connections > Approved Apps. `--no-browser` prints the link instead of opening it. On a self-hosted server without these OAuth routes, it says so and points to `POSTQUEEN_API_KEY`. `--auth-server` still runs the device flow against a server you name.
+
+### Changed
+
+- The skill no longer tells an agent to ask for the API key and export it. A security scan (Snyk W007 on skills.sh) flagged that, because the key ended up in the conversation. The agent now runs `postqueen auth:login`, and where there is no browser it asks the user to set `POSTQUEEN_API_KEY` themselves. It never sets the key itself. `POSTQUEEN_API_URL` is described as self-hosted only, and the OpenClaw metadata no longer requires `POSTQUEEN_API_KEY`.
+- The browser is opened without a shell on macOS and Linux, so nothing in the sign-in link can reach one, and detached, so the CLI never waits for the browser to close.
+- `auth:logout` says that it only removes the login from this computer, and that the CLI stays under Connections > Approved Apps until it is revoked there.
+
 ## [2.0.27] - 2026-09-26
 
 ### Changed
