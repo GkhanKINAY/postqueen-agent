@@ -155,7 +155,7 @@ async function browserLogin(apiUrl: string, openInBrowser: boolean) {
     console.log('🔐 Sign in to PostQueen and approve the CLI in your browser.\n');
     console.log('  If the page does not open, visit this link on this computer:');
     console.log(`  ${authorizeUrl.href}\n`);
-    console.log('  If PostQueen asks you to sign in first, open the link again afterwards.\n');
+    console.log('  If PostQueen asks you to sign in first, it brings you back to this page afterwards.\n');
     console.log('  Waiting for approval...\n');
     if (openInBrowser) {
       openBrowser(authorizeUrl.href);
