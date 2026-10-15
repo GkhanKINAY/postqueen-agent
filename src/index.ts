@@ -393,16 +393,25 @@ yargs(hideBin(process.argv))
   )
   .command(
     'auth:login',
-    'Explain API key setup, or log in through your own auth server (device flow)',
+    'Sign in through your browser (or through your own device-flow auth server)',
     (yargs: Argv) => {
       return yargs
+        .option('browser', {
+          describe: 'Open the sign-in page in the browser. With --no-browser, only print the link',
+          type: 'boolean',
+          default: true,
+        })
         .option('auth-server', {
-          describe: 'URL of a device-flow auth server you run yourself (or set POSTQUEEN_AUTH_SERVER). PostQueen has none: the hosted service signs in with POSTQUEEN_API_KEY',
+          describe: 'URL of a device-flow auth server you run yourself (or set POSTQUEEN_AUTH_SERVER). Not needed for PostQueen itself',
           type: 'string',
         })
         .example(
           '$0 auth:login',
-          'Show how to set up an API key'
+          'Sign in through your browser'
+        )
+        .example(
+          '$0 auth:login --no-browser',
+          'Print the sign-in link instead of opening it'
         )
         .example(
           '$0 auth:login --auth-server https://auth.example.com',
@@ -459,6 +468,6 @@ yargs(hideBin(process.argv))
   .version()
   .alias('v', 'version')
   .epilogue(
-    `For more information, visit: https://postqueen.ai\n\nAuthentication:\n  API Key: export POSTQUEEN_API_KEY=your_api_key\n    (${API_KEY_LOCATION})\n  Your own auth server: postqueen auth:login --auth-server <url>`
+    `For more information, visit: https://postqueen.ai\n\nAuthentication:\n  Browser sign-in: postqueen auth:login\n  API Key: export POSTQUEEN_API_KEY=your_api_key\n    (${API_KEY_LOCATION})\n  Your own auth server: postqueen auth:login --auth-server <url>`
   )
   .parse();

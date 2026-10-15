@@ -57,11 +57,11 @@ Posts you create with the CLI land on the same calendar you see in the PostQueen
 
 ## Quick start
 
-You need Node.js 20.19 or newer (22.12 or newer on Node 22) and a PostQueen API key. In PostQueen, open Connections > API Keys to copy the key. Only workspace admins can see it, and each workspace has one.
+You need Node.js 20.19 or newer (22.12 or newer on Node 22) and a PostQueen account. `postqueen auth:login` opens PostQueen in your browser, a workspace admin approves the CLI, and it stores its own token. On a machine with no browser, set `POSTQUEEN_API_KEY` to the key from Connections > API Keys instead. Only workspace admins can see the key, and each workspace has one.
 
 ```bash
 npm install -g postqueen
-export POSTQUEEN_API_KEY=your_api_key
+postqueen auth:login
 
 postqueen integrations:list
 postqueen posts:create -c "Hello from the terminal" -s "2026-12-31T12:00:00Z" -i "<integration-id>"
@@ -90,7 +90,7 @@ No PostQueen account yet? [Start a 7-day trial, $0 due today](https://app.postqu
 | `analytics:post <id>` | Analytics for one post |
 | `upload <file>` | Upload an image or video and get its path |
 | `auth:status` | Check which credentials the CLI uses and whether they work |
-| `auth:login` | Say where to get the API key, and exit 1. With `--auth-server` or `POSTQUEEN_AUTH_SERVER`, log in through a device-flow auth server you run yourself |
+| `auth:login` | Sign in through your browser and store a token. `--no-browser` prints the link instead of opening it. With `--auth-server` or `POSTQUEEN_AUTH_SERVER`, log in through a device-flow auth server you run yourself |
 | `auth:logout` | Remove the credentials `auth:login` stored |
 
 Media goes in two steps: `upload` returns a `path`, and that path goes into `posts:create -m`. The [command reference](https://docs.postqueen.ai/cli/command-reference) has every flag.
@@ -107,12 +107,12 @@ postqueen integrations:list | tail -n +2 | jq -r '.[].id'
 
 ## Agent skill and plugins
 
-The skill in [`skills/postqueen`](skills/postqueen/SKILL.md) teaches an agent to run the CLI. Every route below needs `POSTQUEEN_API_KEY` set where the agent runs, and every route except DeepSeek Harness also needs the CLI installed.
+The skill in [`skills/postqueen`](skills/postqueen/SKILL.md) teaches an agent to run the CLI. Every route except DeepSeek Harness runs the CLI, so install it and sign it in once with `postqueen auth:login`, or set `POSTQUEEN_API_KEY` where the agent runs. DeepSeek Harness connects over MCP and needs `POSTQUEEN_API_KEY`.
 
 | Agent | Install |
 | --- | --- |
 | Any agent that reads the `skills` registry | `npx skills add GkhanKINAY/postqueen-agent` |
-| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/openclaw.svg" width="20" height="20" alt=""> OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then give OpenClaw the key as `POSTQUEEN_API_KEY` |
+| <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/openclaw.svg" width="20" height="20" alt=""> OpenClaw | `npm install -g postqueen`, `npx skills add GkhanKINAY/postqueen-agent`, then `postqueen auth:login` on that machine, or give OpenClaw the key as `POSTQUEEN_API_KEY` in its secret settings |
 | <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/claude-code.svg" width="20" height="20" alt=""> Claude Code | `/plugin marketplace add GkhanKINAY/postqueen-agent`, then `/plugin install postqueen@postqueen-agent` |
 | <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/cursor.svg" width="20" height="20" alt=""> Cursor | Clone this repository and link it into `~/.cursor/plugins/local/postqueen` (manifest in [`.cursor-plugin`](.cursor-plugin/plugin.json)) |
 | <img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/agents/gemini-cli.svg" width="20" height="20" alt=""> Gemini CLI | `gemini extensions install https://github.com/GkhanKINAY/postqueen-agent` |
@@ -126,9 +126,9 @@ Prefer tool calls to shell commands? Many agents connect to PostQueen over MCP i
 
 | Variable | What it does |
 | --- | --- |
-| `POSTQUEEN_API_KEY` | Your workspace API key. Required on the hosted service. |
+| `POSTQUEEN_API_KEY` | Your workspace API key, for machines where `auth:login` cannot open a browser. Not needed once `auth:login` has signed in. |
 | `POSTQUEEN_API_URL` | The API the CLI calls. It defaults to `https://api.postqueen.ai`; set it to your own backend if you self-host. |
-| `POSTQUEEN_AUTH_SERVER` | Not set by default. Set it, or pass `--auth-server`, to make `auth:login` log in through a device-flow auth server you run, such as the one in [`server/`](server/SERVER.md). The hosted service runs none, so use `POSTQUEEN_API_KEY` there. |
+| `POSTQUEEN_AUTH_SERVER` | Not set by default. Set it, or pass `--auth-server`, to make `auth:login` use a device-flow auth server you run, such as the one in [`server/`](server/SERVER.md), instead of the browser sign-in. |
 
 Stored `auth:login` credentials live in `~/.postqueen/credentials.json` and take priority over `POSTQUEEN_API_KEY`.
 
@@ -149,10 +149,10 @@ Publishing to npm uses `npm run publish:npm`, which swaps in [`NPM_README.md`](N
 - Channels connect through each network's official OAuth sign-in where the network offers one.
 - Some networks, such as Bluesky, Lemmy, WordPress and Nostr, need an app password, an account password or a key that you paste in.
 - PostQueen stores these credentials so it can post for you, and replaces them when you remove the channel.
-- Your API key gives full access to the workspace. Keep it in an environment variable, not in your code.
+- Your API key and the `auth:login` token give full access to the workspace. Keep the key in an environment variable, not in your code, and never paste either into an agent's chat.
 - Read the [privacy policy](https://postqueen.ai/privacy-policy), or [delete your account](https://postqueen.ai/delete-my-account).
 
-**No PostQueen account yet?** The CLI posts through PostQueen Cloud: start a trial, copy the key from Connections > API Keys, and your terminal or coding agent can post.
+**No PostQueen account yet?** The CLI posts through PostQueen Cloud: start a trial, run `postqueen auth:login`, and your terminal or coding agent can post.
 
 <p align="center">
   <a href="https://app.postqueen.ai/auth?utm_source=github&utm_medium=readme&utm_campaign=postqueen-agent&utm_content=closing-band"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/cta-dark.png"><img src="https://raw.githubusercontent.com/GkhanKINAY/postqueen-app/main/.github/assets/showcase/cta-light.png" width="100%" alt="Ready when you are: hand your next post to your agent. Start 7-day trial for $0. $0 due today, cancel in one click."></picture></a>
