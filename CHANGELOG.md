@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `auth:login` no longer tells you to open the link again after signing in to PostQueen. Since PostQueen v3.6.127 the sign-in returns to the approval page by itself. The skill says the same, and keeps "open the printed link again" as the fallback.
+
 ## [2.0.28] - 2026-10-15
 
 ### Added
