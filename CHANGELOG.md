@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The plugin logo (`assets/logo.svg`, shown by the Cursor and Grok plugins) and the README banners use PostQueen's new logo, the crown speech bubble.
 - `auth:login` no longer tells you to open the link again after signing in to PostQueen. Since PostQueen v3.6.127 the sign-in returns to the approval page by itself. The skill says the same, and keeps "open the printed link again" as the fallback.
 
 ## [2.0.28] - 2026-10-15
