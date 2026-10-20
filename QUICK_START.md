@@ -42,13 +42,21 @@ pnpm add -g postqueen
 
 ## Setup
 
-### 1. Get Your API Key
+### 1. Sign In
 
-1. Log in to your PostQueen account at https://postqueen.ai
-2. Open Connections > API Keys (only workspace admins can see it)
-3. Copy the key
+```bash
+postqueen auth:login
+```
 
-### 2. Set Environment Variable
+Your browser opens PostQueen. A workspace admin approves the CLI there, and the CLI saves its own token in `~/.postqueen/credentials.json`. No API key is needed after that.
+
+### 2. No Browser? Use the API Key Instead
+
+On a machine where `auth:login` cannot open a browser, such as a server or a CI job, use the workspace API key:
+
+1. Log in to PostQueen at https://app.postqueen.ai
+2. Open Connections > API key (only workspace admins can see it)
+3. Copy the key and set it as an environment variable:
 
 ```bash
 # Bash/Zsh
@@ -69,10 +77,13 @@ echo 'export POSTQUEEN_API_KEY=your_api_key_here' >> ~/.bashrc
 source ~/.bashrc
 ```
 
+A saved `auth:login` sign-in takes priority over `POSTQUEEN_API_KEY`.
+
 ### 3. Verify Installation
 
 ```bash
 postqueen --help
+postqueen auth:status
 ```
 
 ## Basic Commands
@@ -222,8 +233,8 @@ done
 ### Environment Variables
 
 ```bash
-# Custom API endpoint (for self-hosted)
-export POSTQUEEN_API_URL=https://your-instance.com
+# Custom API endpoint (for self-hosted): your backend URL, such as https://your-instance.com/api
+export POSTQUEEN_API_URL=https://your-instance.com/api
 
 # Use the CLI with custom endpoint
 postqueen posts:list
@@ -231,13 +242,18 @@ postqueen posts:list
 
 ## Troubleshooting
 
-### API Key Not Set
+### Not Signed In
 
 ```
 ❌ Error: No authentication found.
 ```
 
-**Solution:** Set the environment variable:
+**Solution:** Sign in through your browser:
+```bash
+postqueen auth:login
+```
+
+On a machine without a browser, set the API key instead:
 ```bash
 export POSTQUEEN_API_KEY=your_key
 ```
@@ -259,7 +275,7 @@ postqueen: command not found
 ❌ API Error (401): Unauthorized
 ```
 
-**Solution:** Check your API key is valid. `postqueen auth:status` tests it.
+**Solution:** Check your sign-in or API key. `postqueen auth:status` tests it, and `postqueen auth:login` signs in again.
 
 ```
 ❌ API Error (404): Not Found

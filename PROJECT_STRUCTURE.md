@@ -62,7 +62,7 @@ apps/cli/
 #### `src/config.ts`
 - Configuration management
 - Environment variable handling
-- Validates required settings (API key)
+- Uses the saved `auth:login` token, or `POSTQUEEN_API_KEY` when there is none
 - Provides default values
 
 #### `src/commands/posts.ts`
@@ -213,8 +213,8 @@ Output to console
 
 | Variable | Required | Default | Usage |
 |----------|----------|---------|-------|
-| `POSTQUEEN_API_KEY` | ✅ Yes | - | Authentication token |
-| `POSTQUEEN_API_URL` | ❌ No | `https://api.postqueen.ai` | Custom API endpoint |
+| `POSTQUEEN_API_KEY` | Only without `auth:login` | - | Workspace API key, for machines where `postqueen auth:login` cannot open a browser |
+| `POSTQUEEN_API_URL` | ❌ No | `https://api.postqueen.ai` | Your backend URL when you self-host, such as `https://your-instance.com/api` |
 
 ## Dependencies
 
