@@ -383,7 +383,7 @@ postqueen integrations:settings reddit-123
 # ❌ Error: No authentication found.
 # Options:
 #   1. API Key: export POSTQUEEN_API_KEY=your_api_key
-#      Get it from PostQueen > Connections > API Keys, visible to workspace admins only.
+#      Get it from PostQueen > Connections > API key, visible to workspace admins only.
 ```
 
 ## Tips

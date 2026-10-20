@@ -57,7 +57,7 @@ Posts you create with the CLI land on the same calendar you see in the PostQueen
 
 ## Quick start
 
-You need Node.js 20.19 or newer (22.12 or newer on Node 22) and a PostQueen account. `postqueen auth:login` opens PostQueen in your browser, a workspace admin approves the CLI, and it stores its own token. On a machine with no browser, set `POSTQUEEN_API_KEY` to the key from Connections > API Keys instead. Only workspace admins can see the key, and each workspace has one.
+You need Node.js 20.19 or newer (22.12 or newer on Node 22) and a PostQueen account. `postqueen auth:login` opens PostQueen in your browser, a workspace admin approves the CLI, and it stores its own token. On a machine with no browser, set `POSTQUEEN_API_KEY` to the key from Connections > API key instead. Only workspace admins can see the key, and each workspace has one.
 
 ```bash
 npm install -g postqueen
