@@ -202,7 +202,7 @@ postqueen posts:create \
 Two independent axes decide whether a TikTok setting applies. A setting sent on the wrong axis is **silently discarded** — the API still reports success:
 
 1. **Posting method** — every setting below except `title` requires `content_posting_method: "DIRECT_POST"`. With `"UPLOAD"`, TikTok keeps only the title/content and discards everything else.
-2. **Media type** — `duet`, `stitch`, and `video_made_with_ai` apply to **video posts only**; `autoAddMusic` applies to **photo posts only**; the rest apply to both.
+2. **Media type** — `duet` and `stitch` apply to **video posts only**; `autoAddMusic` applies to **photo posts only**; `video_made_with_ai` applies to both on TikTok but to **video posts only** on TikTok Business; the rest apply to both.
 
 - `title` (optional): Video title (max 90 characters) — the only setting that survives `"UPLOAD"`
 - `privacy_level` (required, DIRECT_POST only, video + photo): Privacy level
@@ -216,7 +216,7 @@ Two independent axes decide whether a TikTok setting applies. A setting sent on 
 - `autoAddMusic` (required, DIRECT_POST only, **photo posts only**): `"yes"` or `"no"`. Automatically adds music to photo posts. The API still requires it on video posts, where TikTok ignores it, so send `"no"` there
 - `brand_content_toggle` (boolean, DIRECT_POST only, video + photo): Brand content toggle
 - `brand_organic_toggle` (boolean, DIRECT_POST only, video + photo): Brand organic toggle
-- `video_made_with_ai` (optional boolean, DIRECT_POST only, **video posts only**): Label the video as AI-generated
+- `video_made_with_ai` (optional boolean, DIRECT_POST only, video + photo): Label the post as AI-generated. Set it whenever the media is AI generated. On TikTok Business it labels **video posts only**: TikTok's Business photo API has no AI label, so for AI photos there, tell the user and offer a disclosure in the caption, or `"UPLOAD"` so they turn the label on in the TikTok app
 - `content_posting_method` (required): `"DIRECT_POST"` or `"UPLOAD"`
   - **Use `"DIRECT_POST"`.** It publishes the post to TikTok.
   - `"UPLOAD"` does **not** publish. It sends the media to the account's TikTok app inbox, where the user must manually finish and publish it within 24 hours or it is discarded. The PostQueen API still reports the post as successfully published.

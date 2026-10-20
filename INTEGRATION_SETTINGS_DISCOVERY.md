@@ -205,7 +205,7 @@ Returns:
 - Required settings: privacy_level, duet, stitch, comment, brand_content_toggle, brand_organic_toggle, content_posting_method
 - Optional: title, video_made_with_ai, autoAddMusic
 - Posting method: every setting except title requires `content_posting_method: "DIRECT_POST"` — with `"UPLOAD"` only the title/content is kept
-- Media type: duet, stitch, video_made_with_ai are video-only; autoAddMusic is photo-only; see [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md)
+- Media type: duet, stitch are video-only; autoAddMusic is photo-only; video_made_with_ai labels videos and photos on TikTok, videos only on TikTok Business; see [PROVIDER_SETTINGS.md](./PROVIDER_SETTINGS.md)
 
 ### Instagram
 
