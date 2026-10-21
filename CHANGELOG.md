@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.30] - 2026-10-21
+
 ### Changed
 
 - The skill counts PostQueen's MCP tools as 22 with OAuth sign-in and 23 with the API key, now that the server has `uploadLinkTool` for agents that upload local files with `curl`.
