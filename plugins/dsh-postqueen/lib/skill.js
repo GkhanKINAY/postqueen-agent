@@ -85,7 +85,7 @@ been published yet.
 ## Setup
 
 The tools are missing when no API key is configured. The key comes from the
-\`POSTQUEEN_API_KEY\` environment variable (PostQueen > Connections > API Keys;
+\`POSTQUEEN_API_KEY\` environment variable (PostQueen > Connections > API key;
 only workspace admins can see it).
 Self-hosted instances set \`baseUrl\` on the \`postqueen\` row in the profile's
 \`cordis.patch.yml\`.

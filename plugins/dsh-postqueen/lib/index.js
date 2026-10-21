@@ -72,7 +72,7 @@ export function apply(ctx, config) {
     log.info?.(`dsh-postqueen: PostQueen MCP endpoint ${conn.url} (key from ${conn.source})`)
   } else {
     log.warn?.(
-      `dsh-postqueen: no PostQueen API key found. Set ${cfg.apiKeyEnv} (PostQueen → Settings → API Keys) ` +
+      `dsh-postqueen: no PostQueen API key found. Set ${cfg.apiKeyEnv} (PostQueen > Connections > API key) ` +
         `or \`apiKey\` on the \`postqueen\` row; the postqueen-mcp row will connect to ${conn.url} without credentials and register no tools.`,
     )
   }
