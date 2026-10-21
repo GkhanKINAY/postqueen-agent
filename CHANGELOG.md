@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The skill counts PostQueen's MCP tools as 22 with OAuth sign-in and 23 with the API key, now that the server has `uploadLinkTool` for agents that upload local files with `curl`.
+
 ## [2.0.29] - 2026-10-21
 
 ### Changed
 
 - The CLI's API key hint says Connections > API key, the name of the menu entry in the app. It said API Keys, which is the Settings tab's name.
-
 - The plugin logo (`assets/logo.svg`, shown by the Cursor and Grok plugins) and the README banners use PostQueen's new logo, the crown speech bubble.
 - `auth:login` no longer tells you to open the link again after signing in to PostQueen. Since PostQueen v3.6.127 the sign-in returns to the approval page by itself. The skill says the same, and keeps "open the printed link again" as the fallback.
 
