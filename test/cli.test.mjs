@@ -261,7 +261,7 @@ test('auth:login on a server without browser sign-in points to the API key', asy
   assert.equal(
     stderr,
     `❌ ${apiUrl} does not offer browser sign-in (HTTP 404).\n` +
-      '   Set POSTQUEEN_API_KEY yourself to the key from PostQueen > Connections > API Keys, visible to workspace admins only.\n'
+      '   Set POSTQUEEN_API_KEY yourself to the key from PostQueen > Connections > API key, visible to workspace admins only.\n'
   )
 })
 

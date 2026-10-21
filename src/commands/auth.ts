@@ -15,7 +15,7 @@ const OAUTH_METADATA_PATH = '/.well-known/oauth-authorization-server/mcp-oauth-d
 const LOGIN_TIMEOUT_MS = 10 * 60 * 1000;
 
 // Where the API key lives in the PostQueen app, for every message that asks for one.
-export const API_KEY_LOCATION = 'PostQueen > Connections > API Keys, visible to workspace admins only';
+export const API_KEY_LOCATION = 'PostQueen > Connections > API key, visible to workspace admins only';
 
 interface StoredCredentials {
   accessToken: string;
