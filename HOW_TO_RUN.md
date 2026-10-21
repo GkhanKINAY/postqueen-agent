@@ -69,7 +69,15 @@ npx postqueen posts:list
 pnpm run build:cli
 ```
 
-### Step 2: Set Your API Key
+### Step 2: Sign In
+
+```bash
+postqueen auth:login
+```
+
+Your browser opens PostQueen, a workspace admin approves the CLI, and the CLI saves its own token in `~/.postqueen/credentials.json`.
+
+On a machine without a browser, set the workspace API key instead (Connections > API key at https://app.postqueen.ai, visible to workspace admins only):
 
 ```bash
 export POSTQUEEN_API_KEY=your_api_key_here
@@ -111,7 +119,15 @@ pnpm link --global
 echo $PATH
 ```
 
-### "POSTQUEEN_API_KEY is not set"
+### "No authentication found"
+
+Sign in through your browser:
+
+```bash
+postqueen auth:login
+```
+
+Or, on a machine without a browser, set the API key:
 
 ```bash
 export POSTQUEEN_API_KEY=your_key
@@ -151,10 +167,11 @@ postqueen --help
 postqueen posts:create --help
 ```
 
-### Test with Sample Command (requires API key)
+### Test with Sample Command (requires a sign-in or an API key)
 
 ```bash
-export POSTQUEEN_API_KEY=your_key
+postqueen auth:login
+# or, without a browser: export POSTQUEEN_API_KEY=your_key
 
 # List integrations
 postqueen integrations:list
@@ -199,20 +216,21 @@ postqueen --help
 
 ## Environment Variables
 
-### Required
+### Authentication
 
-- `POSTQUEEN_API_KEY` - Your PostQueen API key (required for all operations)
+- `postqueen auth:login` - Signs in through the browser; a workspace admin approves it. No environment variable is needed after that.
+- `POSTQUEEN_API_KEY` - Your PostQueen API key, for machines where `auth:login` cannot open a browser. A saved `auth:login` sign-in takes priority over it.
 
 ### Optional
 
-- `POSTQUEEN_API_URL` - Custom API endpoint (default: `https://api.postqueen.ai`)
+- `POSTQUEEN_API_URL` - Your backend URL when you self-host, such as `https://your-instance.com/api` (default: `https://api.postqueen.ai`)
 
 ### Setting Environment Variables
 
 **Temporary (current session):**
 ```bash
 export POSTQUEEN_API_KEY=your_key
-export POSTQUEEN_API_URL=https://custom-api.com
+export POSTQUEEN_API_URL=https://your-instance.com/api
 ```
 
 **Permanent (add to shell profile):**
@@ -286,8 +304,8 @@ pnpm run build:cli
 cd apps/cli
 pnpm link --global
 
-# 3. Set API key
-export POSTQUEEN_API_KEY=your_key
+# 3. Sign in (or export POSTQUEEN_API_KEY on a machine without a browser)
+postqueen auth:login
 
 # 4. Test
 postqueen --help

@@ -17,7 +17,7 @@ From the repository:
 dsh plugin --profile web add "github:GkhanKINAY/postqueen-agent#path:/plugins/dsh-postqueen"
 ```
 
-Then give it a PostQueen API key. Copy it from **PostQueen > Connections > API Keys** (only workspace
+Then give it a PostQueen API key. Copy it from **PostQueen > Connections > API key** (only workspace
 admins can see it) and export it before starting dsh, or put it in `$DSH_HOME/.env`:
 
 ```bash
