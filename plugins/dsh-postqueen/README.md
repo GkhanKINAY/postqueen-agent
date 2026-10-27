@@ -48,6 +48,8 @@ The model sees the PostQueen MCP tools under the `mcp__postqueen__` namespace, a
 | `mcp__postqueen__integrationSchedulePostTool` | Schedule, draft, or immediately publish posts |
 | `mcp__postqueen__postsListTool` | List posts scheduled between two dates |
 | `mcp__postqueen__postSettingsTool` | Update settings of an unpublished post |
+| `mcp__postqueen__deletePostTool` | Delete a post, after the user confirms which one. A published post stays on the network |
+| `mcp__postqueen__mediaStatusTool` | Whether a video uploaded from a link is ready to attach |
 | `mcp__postqueen__generateImageTool` | Generate an image for a post |
 | `mcp__postqueen__generateVideoOptions` / `videoFunctionTool` / `generateVideoTool` / `videoStatusTool` | Video generation options, generation, and the status of a video that is still rendering |
 

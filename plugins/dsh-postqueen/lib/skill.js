@@ -45,7 +45,11 @@ channels, search subreddits, list Pinterest boards). Run helpers with
 - \`postsAndComments\` is an array. On thread platforms (X, Threads, Bluesky)
   each item is a new post in the thread; on comment platforms (LinkedIn,
   Facebook) the first item is the post and the rest are comments.
-- \`attachments\` are media URLs. To generate media first, use
+- \`attachments\` are media URLs, or objects
+  \`{ path, alt, thumbnail, thumbnailTimestamp }\`: \`alt\` is alt text (up to
+  1000 characters), \`thumbnail\` the path of an uploaded .jpg or .png used as a
+  video's cover, and \`thumbnailTimestamp\` the cover frame in milliseconds. To
+  generate media first, use
   \`mcp__postqueen__generateImageTool\` or \`mcp__postqueen__generateVideoTool\`
   (check \`generateVideoOptions\` and \`videoFunctionTool\` for settings). A video
   takes a few minutes: \`generateVideoTool\` returns a \`jobId\`, and
@@ -80,7 +84,9 @@ Each item:
 
 \`mcp__postqueen__postsListTool\` lists posts between two dates.
 \`mcp__postqueen__postSettingsTool\` updates the settings of a post that has not
-been published yet.
+been published yet. \`mcp__postqueen__deletePostTool\` deletes a post by its id:
+show the user the channel, date and text first and wait for an explicit yes. A
+post that was already published stays live on the network.
 
 ## Setup
 

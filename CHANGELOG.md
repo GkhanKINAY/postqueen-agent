@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.31] - 2026-10-27
+
+### Changed
+
+- The skill counts PostQueen's MCP tools as 24 with OAuth sign-in and 25 with the API key. PostQueen v3.6.166 added `deletePostTool`, which deletes a post once the user confirms which one, and `mediaStatusTool`, which says when an uploaded video is ready.
+- The DeepSeek Harness plugin's skill says that attachments can carry alt text and a video cover, and that `deletePostTool` deletes a post only after the user confirms it. Its README lists both new tools.
+
 ## [2.0.30] - 2026-10-21
 
 ### Changed
