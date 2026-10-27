@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.32] - 2026-10-27
+
+### Removed
+
+- The retired network is gone from the skill, the guides, the CLI's `--help` examples, the example JSON files, the npm keywords, the README and npm page, the Claude Code, Cursor, Grok Build and Gemini CLI manifests, and the DeepSeek Harness skill. They list the 30 networks PostQueen supports. Commands and flags are unchanged.
+
+### Changed
+
+- The worked examples now use Lemmy (search communities with the `subreddits` tool, then post to them), Pinterest (pick a board with the `boards` tool) and Whop (`experiences` takes the ID that `companies` returns). They show the same steps as before: read the channel's settings, run its helper tool, and put the result in the post's settings. `examples/lemmy-post.json` replaces the old example file.
+
 ## [2.0.31] - 2026-10-27
 
 ### Changed
@@ -67,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `npm test` builds the CLI and runs it against a local stand-in for the API (`test/cli.test.mjs`).
 
 ### Changed
-- The GitHub-only guides use real flags, which the strict parser now requires. `PROVIDER_SETTINGS.md`, `INTEGRATION_SETTINGS_DISCOVERY.md`, `QUICK_START.md`, `examples/EXAMPLES.md`, `examples/COMMAND_LINE_GUIDE.md` and the two example scripts no longer use `-p`, `--image`, `--comments` or `posts:list -l/-p/-s`, which the CLI never had. Every `posts:create` example now passes the required `-s` date and `-i` ID. Delays are in minutes, and Reddit takes a `/r/...` subreddit with type `self`, `link` or `media`. The example JSON files match.
+- The GitHub-only guides use real flags, which the strict parser now requires. `PROVIDER_SETTINGS.md`, `INTEGRATION_SETTINGS_DISCOVERY.md`, `QUICK_START.md`, `examples/EXAMPLES.md`, `examples/COMMAND_LINE_GUIDE.md` and the two example scripts no longer use `-p`, `--image`, `--comments` or `posts:list -l/-p/-s`, which the CLI never had. Every `posts:create` example now passes the required `-s` date and `-i` ID, and delays are in minutes. The example JSON files match.
 - Removed `SYNTAX_UPGRADE.md`, `FEATURES.md` and `PROVIDER_SETTINGS_SUMMARY.md`. They described flags the CLI never had and repeated the guides above.
 
 ## [2.0.24] - 2026-09-23
@@ -93,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - README MCP copy: the schedule tool's wire name is `integrationSchedulePostTool` (not `schedulePostTool`). The Claude README mock now shows that name.
-- The skill (`SKILL.md`, `skills/postqueen/SKILL.md`), `INTEGRATION_TOOLS_WORKFLOW.md` and the CLI's `--help` examples named helper tools and settings that do not exist. They now use only the tools the API has (Reddit `subreddits` and `restrictions`, Pinterest `boards`, Discord and Slack `channels`, and the rest in one table) and only real settings: Reddit `subreddit` as a `/r/...` path with `type` `self`, `link` or `media` (never `text`); no YouTube playlist or LinkedIn company setting (neither exists; a LinkedIn Page is its own channel); every required TikTok field; X `who_can_reply_post` on X examples; Instagram `post_type` `post`, `reel` or `story`. The invented tool names and the nonexistent `-p` flag are gone.
+- The skill (`SKILL.md`, `skills/postqueen/SKILL.md`), `INTEGRATION_TOOLS_WORKFLOW.md` and the CLI's `--help` examples named helper tools and settings that do not exist. They now use only the tools the API has (Pinterest `boards`, Discord and Slack `channels`, and the rest in one table) and only real settings: no YouTube playlist or LinkedIn company setting (neither exists; a LinkedIn Page is its own channel); every required TikTok field; X `who_can_reply_post` on X examples; Instagram `post_type` `post`, `reel` or `story`. The invented tool names and the nonexistent `-p` flag are gone.
 - The skill's `jq` pipelines drop the status line first (`tail -n +2`), the `--json` example uses the API's request shape, and the thread delay is in minutes (`-d 2`, not `-d 2000`).
 - The skill now gives the API key location (Connections > API Keys, admins only), lists the networks marked Soon on the hosted service, lists the accepted upload formats, and describes MCP as 21 tools with a key or 20 with OAuth. The DeepSeek Harness skill and README give the same key location and no longer offer a LinkedIn pages helper.
 
