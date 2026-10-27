@@ -7,36 +7,31 @@
   ],
   "posts": [
     {
-      "integration": { "id": "reddit-integration-id" },
+      "integration": { "id": "pinterest-integration-id" },
       "value": [{
-        "content": "We're launching our new CLI tool today!\n\nIt's designed to make social media scheduling effortless for developers and AI agents. Built with TypeScript, supports 28+ platforms, and has a clean, intuitive API.\n\nFeatures:\n- Multi-platform posting\n- Thread creation\n- Scheduled posts\n- Comments with media\n- Provider-specific settings\n\nTry it out and let us know what you think!",
+        "content": "We're launching our new CLI tool today!\n\nIt's designed to make social media scheduling effortless for developers and AI agents. Built with TypeScript, supports 30+ platforms, and has a clean, intuitive API.\n\nFeatures:\n- Multi-platform posting\n- Thread creation\n- Scheduled posts\n- Comments with media\n- Provider-specific settings\n\nTry it out and let us know what you think!",
         "image": [
-          { "id": "r1", "path": "https://cdn.example.com/reddit-screenshot.jpg" }
+          { "id": "p1", "path": "https://cdn.example.com/pinterest-pin.jpg" }
         ]
       }],
       "settings": {
-        "__type": "reddit",
-        "subreddit": [{
-          "value": {
-            "subreddit": "/r/programming",
-            "title": "Launching PostQueen CLI - Social Media Automation for Developers",
-            "type": "self",
-            "is_flair_required": false
-          }
-        }]
+        "__type": "pinterest",
+        "board": "your-numeric-board-id",
+        "title": "Launching PostQueen CLI - Social Media Automation for Developers",
+        "link": "https://github.com/yourrepo"
       }
     },
     {
       "integration": { "id": "twitter-integration-id" },
       "value": [
         {
-          "content": "🚀 Launching PostQueen CLI today!\n\nFinally, a developer-friendly way to automate social media. Built with TypeScript, supports 28+ platforms.\n\n✨ Features in thread below 👇",
+          "content": "🚀 Launching PostQueen CLI today!\n\nFinally, a developer-friendly way to automate social media. Built with TypeScript, supports 30+ platforms.\n\n✨ Features in thread below 👇",
           "image": [
             { "id": "t1", "path": "https://cdn.example.com/twitter-banner.jpg" }
           ]
         },
         {
-          "content": "1️⃣ Multi-platform posting\nPost to Twitter, LinkedIn, Reddit, TikTok, YouTube, and 23 more platforms with a single command",
+          "content": "1️⃣ Multi-platform posting\nPost to Twitter, LinkedIn, Pinterest, TikTok, YouTube, and 25 more platforms with a single command",
           "image": [
             { "id": "t2", "path": "https://cdn.example.com/multi-platform.jpg" }
           ],
@@ -50,7 +45,7 @@
           "delay": 3
         },
         {
-          "content": "3️⃣ Provider-specific settings\nReddit subreddits, YouTube visibility, TikTok privacy - all configurable\n\nGet started: https://github.com/yourrepo",
+          "content": "3️⃣ Provider-specific settings\nPinterest boards, YouTube visibility, TikTok privacy - all configurable\n\nGet started: https://github.com/yourrepo",
           "image": [],
           "delay": 3
         }
@@ -63,7 +58,7 @@
     {
       "integration": { "id": "linkedin-integration-id" },
       "value": [{
-        "content": "Excited to announce the launch of PostQueen CLI! 🎉\n\nAs developers, we know how time-consuming social media management can be. That's why we built a powerful CLI tool that makes scheduling posts across 28+ platforms effortless.\n\nKey features:\n• Multi-platform support (Twitter, LinkedIn, Reddit, TikTok, YouTube, and more)\n• Thread and carousel creation\n• Scheduled posting with precise timing\n• Provider-specific settings and customization\n• Built for AI agents and automation\n\nWhether you're managing a personal brand, running marketing campaigns, or building AI-powered social media tools, PostQueen CLI has you covered.\n\nCheck it out and let us know your thoughts!",
+        "content": "Excited to announce the launch of PostQueen CLI! 🎉\n\nAs developers, we know how time-consuming social media management can be. That's why we built a powerful CLI tool that makes scheduling posts across 30+ platforms effortless.\n\nKey features:\n• Multi-platform support (Twitter, LinkedIn, Pinterest, TikTok, YouTube, and more)\n• Thread and carousel creation\n• Scheduled posting with precise timing\n• Provider-specific settings and customization\n• Built for AI agents and automation\n\nWhether you're managing a personal brand, running marketing campaigns, or building AI-powered social media tools, PostQueen CLI has you covered.\n\nCheck it out and let us know your thoughts!",
         "image": [
           { "id": "l1", "path": "https://cdn.example.com/linkedin-slide1.jpg" },
           { "id": "l2", "path": "https://cdn.example.com/linkedin-slide2.jpg" },
@@ -79,7 +74,7 @@
     {
       "integration": { "id": "instagram-integration-id" },
       "value": [{
-        "content": "🚀 New launch alert!\n\nPostQueen CLI is here - automate your social media like a pro.\n\n✨ 28+ platforms\n📅 Scheduled posting\n🧵 Thread creation\n⚙️ Full customization\n\nLink in bio! #developer #automation #socialmedia #tech",
+        "content": "🚀 New launch alert!\n\nPostQueen CLI is here - automate your social media like a pro.\n\n✨ 30+ platforms\n📅 Scheduled posting\n🧵 Thread creation\n⚙️ Full customization\n\nLink in bio! #developer #automation #socialmedia #tech",
         "image": [
           { "id": "i1", "path": "https://cdn.example.com/instagram-post.jpg" }
         ]

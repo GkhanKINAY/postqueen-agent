@@ -37,17 +37,12 @@ In the JSON file, specify settings per integration:
   "shortLink": true,
   "tags": [],
   "posts": [{
-    "integration": { "id": "reddit-123" },
-    "value": [{ "content": "Post content", "image": [] }],
+    "integration": { "id": "pinterest-123" },
+    "value": [{ "content": "Pin description", "image": [{ "id": "<upload id>", "path": "<upload path>" }] }],
     "settings": {
-      "subreddit": [{
-        "value": {
-          "subreddit": "/r/programming",
-          "title": "My Post Title",
-          "type": "self",
-          "is_flair_required": false
-        }
-      }]
+      "board": "<board id>",
+      "title": "My Pin Title",
+      "link": "https://example.com"
     }
   }]
 }
@@ -55,15 +50,16 @@ In the JSON file, specify settings per integration:
 
 ## Supported Platforms & Settings
 
-### Reddit (`reddit`)
+### Lemmy (`lemmy`)
 
 **Settings:**
-- `subreddit` (required): The subreddit as a `/r/...` path (the `name` that `integrations:trigger <id> subreddits` returns)
-- `title` (required): Post title
-- `type` (required): `"self"` (text), `"link"` or `"media"` (the post's first image or MP4). `integrations:trigger <id> restrictions` says which ones a subreddit allows
-- `url` (required for links): URL if type is "link"
-- `is_flair_required` (boolean): Whether flair is required
-- `flair` (optional): Flair object with `id` and `name`
+- `subreddit` (required): The communities to post to, a list of at least one. Each item is `{"value": {...}}` with:
+  - `id` (required): The community ID, as a string. `integrations:trigger <id> subreddits -d '{"word":"..."}'` searches communities and returns it as a number
+  - `subreddit` (required): The community's name, at least 2 characters (the `name` of that search result)
+  - `title` (required): Post title, 3 to 200 characters
+  - `url` (optional): A link to add to the post
+
+The post goes to every community in the list, each with its own `title` and `url`.
 
 **Example:**
 ```bash
@@ -73,14 +69,13 @@ postqueen posts:create \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "/r/programming",
-        "title": "Check out this cool project",
-        "type": "self",
-        "is_flair_required": false
+        "id": "<community id>",
+        "subreddit": "<community name>",
+        "title": "Check out this cool project"
       }
     }]
   }' \
-  -i "reddit-123"
+  -i "lemmy-123"
 ```
 
 ### YouTube (`youtube`)
@@ -264,9 +259,9 @@ For these, leave out `--settings`.
 
 For complex settings, it's easier to use JSON files:
 
-### Reddit Example
+### Lemmy Example
 
-**reddit-post.json:**
+**lemmy-post.json** posts to two communities, the second one with a link:
 ```json
 {
   "type": "now",
@@ -274,31 +269,36 @@ For complex settings, it's easier to use JSON files:
   "shortLink": true,
   "tags": [],
   "posts": [{
-    "integration": { "id": "reddit-123" },
+    "integration": { "id": "lemmy-123" },
     "value": [{
       "content": "Check out this cool project!",
       "image": []
     }],
     "settings": {
-      "subreddit": [{
-        "value": {
-          "subreddit": "/r/programming",
-          "title": "My Cool Project - Built with TypeScript",
-          "type": "self",
-          "is_flair_required": true,
-          "flair": {
-            "id": "flair-123",
-            "name": "Project"
+      "subreddit": [
+        {
+          "value": {
+            "id": "<community id>",
+            "subreddit": "<community name>",
+            "title": "My Cool Project - Built with TypeScript"
+          }
+        },
+        {
+          "value": {
+            "id": "<another community id>",
+            "subreddit": "<another community name>",
+            "title": "My Cool Project - Built with TypeScript",
+            "url": "https://github.com/yourrepo"
           }
         }
-      }]
+      ]
     }
   }]
 }
 ```
 
 ```bash
-postqueen posts:create --json reddit-post.json
+postqueen posts:create --json lemmy-post.json
 ```
 
 ### YouTube Example
@@ -348,17 +348,11 @@ postqueen posts:create --json youtube-video.json
   "tags": [],
   "posts": [
     {
-      "integration": { "id": "reddit-123" },
-      "value": [{ "content": "Reddit-specific content", "image": [] }],
+      "integration": { "id": "pinterest-123" },
+      "value": [{ "content": "Pinterest-specific content", "image": [{ "id": "1", "path": "pin.jpg" }] }],
       "settings": {
-        "subreddit": [{
-          "value": {
-            "subreddit": "/r/programming",
-            "title": "Post Title",
-            "type": "self",
-            "is_flair_required": false
-          }
-        }]
+        "board": "<board id>",
+        "title": "Pin Title"
       }
     },
     {
@@ -404,7 +398,7 @@ To find the correct provider type for your integration:
 postqueen integrations:list
 ```
 
-Each integration's `identifier` field names its platform, such as `x`, `reddit` or `linkedin-page`. The backend turns it into the settings `__type` for you.
+Each integration's `identifier` field names its platform, such as `x`, `pinterest` or `linkedin-page`. The backend turns it into the settings `__type` for you.
 
 ## Common Errors
 
@@ -414,7 +408,7 @@ Leave `__type` out of `settings`. The backend sets it from the integration, so a
 
 ### Settings for the wrong platform
 
-`--settings` go to every integration in `-i`. Posting X settings to a Reddit integration fails validation, so post to each platform separately, or use a JSON file with settings per integration.
+`--settings` go to every integration in `-i`. Posting X settings to a Pinterest integration fails validation, so post to each platform separately, or use a JSON file with settings per integration.
 
 ### Invalid Settings for Platform
 

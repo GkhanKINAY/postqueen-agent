@@ -51,9 +51,9 @@ Output (after the status line):
 ```json
 [
   {
-    "id": "reddit-abc123",
-    "name": "My Reddit Account",
-    "identifier": "reddit"
+    "id": "pinterest-abc123",
+    "name": "My Pinterest Account",
+    "identifier": "pinterest"
   },
   {
     "id": "youtube-def456",
@@ -71,96 +71,84 @@ Output (after the status line):
 ### 2. Get Settings for Specific Integration
 
 ```bash
-postqueen integrations:settings reddit-abc123
+postqueen integrations:settings pinterest-abc123
 ```
 
 Output:
 ```json
 {
   "output": {
-    "maxLength": 40000,
+    "rules": "Pinterest requires at least one media, if posting a video, you must have two attachment, one for video, one for the cover picture, When posting a video, there can be only one, if posting images, there can be maximum 5",
+    "maxLength": 800,
     "settings": {
       "properties": {
-        "subreddit": {
-          "type": "array",
-          "items": {
-            "properties": {
-              "value": {
-                "properties": {
-                  "subreddit": {
-                    "type": "string",
-                    "minLength": 2,
-                    "description": "Subreddit name"
-                  },
-                  "title": {
-                    "type": "string",
-                    "minLength": 2,
-                    "description": "Post title"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Post type (self, link or media)"
-                  },
-                  "url": {
-                    "type": "string",
-                    "description": "URL for link posts"
-                  },
-                  "is_flair_required": {
-                    "type": "boolean",
-                    "description": "Whether flair is required"
-                  },
-                  "flair": {
-                    "properties": {
-                      "id": "string",
-                      "name": "string"
-                    }
-                  }
-                },
-                "required": ["subreddit", "title", "type", "is_flair_required"]
-              }
-            }
-          }
+        "title": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "link": {
+          "format": "url",
+          "type": "string"
+        },
+        "dominant_color": {
+          "type": "string"
+        },
+        "board": {
+          "pattern": "^\\d+$",
+          "type": "string",
+          "minLength": 1,
+          "not": { "type": "null" },
+          "description": "The numeric id of the board (from the boards list of the channel), not the board name"
         }
       },
-      "required": ["subreddit"]
-    }
+      "type": "object",
+      "required": ["board"]
+    },
+    "tools": [
+      {
+        "methodName": "boards",
+        "description": "List of boards",
+        "dataSchema": []
+      }
+    ]
   }
 }
 ```
 
 ### 3. Use the Settings in Your Post
 
-Now you know what settings are available and required!
+Now you know what settings are available and required! `board` takes the numeric ID of a board, which the `boards` tool returns, and the `rules` ask for at least one image or video:
 
 ```bash
+postqueen integrations:trigger pinterest-abc123 boards
+# The output lists the boards as [{ "name": "<board name>", "id": "<board id>" }]
+
+PIN=$(postqueen upload pin.jpg | tail -n +2 | jq -r '.path')
+
 postqueen posts:create \
-  -c "My post content" \
+  -c "My pin description" \
   -s "2026-12-31T12:00:00Z" \
+  -m "$PIN" \
   --settings '{
-    "subreddit": [{
-      "value": {
-        "subreddit": "/r/programming",
-        "title": "Check this out!",
-        "type": "self",
-        "is_flair_required": false
-      }
-    }]
+    "board": "<board id>",
+    "title": "Check this out!"
   }' \
-  -i "reddit-abc123"
+  -i "pinterest-abc123"
 ```
 
 ## Examples by Platform
 
-### Reddit
+### Pinterest
 
 ```bash
-postqueen integrations:settings reddit-abc123
+postqueen integrations:settings pinterest-abc123
 ```
 
 Returns:
-- Max length: 40,000 characters
-- Required settings: subreddit (a `/r/...` path), title, type (self, link or media), is_flair_required
-- Optional: url (for link posts), flair
+- Max length: 800 characters
+- Required settings: board (the numeric board ID from the `boards` tool, not the board name)
+- Optional: title (up to 100 characters), link, dominant_color
+- Media: at least one, either up to 5 images or one video with its cover image
 
 ### YouTube
 
@@ -254,8 +242,8 @@ Find out what settings are available before posting:
 # What settings does YouTube support?
 postqueen integrations:settings youtube-123
 
-# What settings does Reddit support?
-postqueen integrations:settings reddit-456
+# What settings does Pinterest support?
+postqueen integrations:settings pinterest-456
 ```
 
 ### 2. Validation
@@ -298,16 +286,16 @@ Use the schema to generate UI forms:
 
 ```bash
 # Inspect the settings schema for form generation
-postqueen integrations:settings reddit-123 | tail -n +2 | jq '.output.settings'
+postqueen integrations:settings pinterest-123 | tail -n +2 | jq '.output.settings'
 
 # Extract specific field properties
-postqueen integrations:settings reddit-123 \
+postqueen integrations:settings pinterest-123 \
   | tail -n +2 \
-  | jq '.output.settings.properties.subreddit.items.properties.value.properties'
-# → subreddit (text, minLength: 2)
-# → title (text, minLength: 2)
-# → type (select: self/link/media)
-# → etc.
+  | jq '.output.settings.properties'
+# → title (text, maxLength: 100)
+# → link (URL)
+# → dominant_color (text)
+# → board (text, digits only, required)
 ```
 
 ## Combined Workflow
@@ -322,30 +310,26 @@ export POSTQUEEN_API_KEY=your_key
 echo "📋 Available integrations:"
 postqueen integrations:list
 
-# 2. Get settings for Reddit
+# 2. Get settings for Pinterest
 echo ""
-echo "⚙️  Reddit settings:"
-SETTINGS=$(postqueen integrations:settings reddit-123 | tail -n +2)
+echo "⚙️  Pinterest settings:"
+SETTINGS=$(postqueen integrations:settings pinterest-123 | tail -n +2)
 echo "$SETTINGS" | jq '.output.maxLength'
 echo "$SETTINGS" | jq '.output.settings'
 
-# 3. Create post with correct settings
+# 3. Pick a board and upload the image
+BOARD_ID=$(postqueen integrations:trigger pinterest-123 boards | tail -n +2 | jq -r '.output[0].id')
+PIN=$(postqueen upload pin.jpg | tail -n +2 | jq -r '.path')
+
+# 4. Create post with correct settings
 echo ""
 echo "📝 Creating post..."
 postqueen posts:create \
-  -c "My post content" \
+  -c "My pin description" \
   -s "2026-12-31T12:00:00Z" \
-  --settings '{
-    "subreddit": [{
-      "value": {
-        "subreddit": "/r/programming",
-        "title": "Interesting post",
-        "type": "self",
-        "is_flair_required": false
-      }
-    }]
-  }' \
-  -i "reddit-123"
+  -m "$PIN" \
+  --settings "{\"board\":\"$BOARD_ID\",\"title\":\"Interesting pin\"}" \
+  -i "pinterest-123"
 ```
 
 ## API Endpoint
@@ -379,7 +363,7 @@ postqueen integrations:settings invalid-id
 ### API Key Not Set
 
 ```bash
-postqueen integrations:settings reddit-123
+postqueen integrations:settings pinterest-123
 # ❌ Error: No authentication found.
 # Options:
 #   1. API Key: export POSTQUEEN_API_KEY=your_api_key
@@ -408,7 +392,7 @@ postqueen integrations:settings reddit-123
 
 ```bash
 # Discover settings programmatically
-postqueen integrations:settings reddit-123
+postqueen integrations:settings pinterest-123
 
 # See exactly what's required and optional
 # Know the exact character limits

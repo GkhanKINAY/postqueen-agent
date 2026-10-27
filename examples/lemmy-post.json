@@ -5,20 +5,19 @@
   "tags": [],
   "posts": [{
     "integration": {
-      "id": "your-reddit-integration-id"
+      "id": "your-lemmy-integration-id"
     },
     "value": [{
       "content": "I built a CLI tool for PostQueen that makes social media scheduling super easy!\n\nYou can create posts, schedule them, and even post to multiple platforms at once. It supports comments with their own media, threads, and much more.\n\nCheck it out and let me know what you think!",
       "image": []
     }],
     "settings": {
-      "__type": "reddit",
+      "__type": "lemmy",
       "subreddit": [{
         "value": {
-          "subreddit": "/r/programming",
-          "title": "Built a CLI tool for social media scheduling with TypeScript",
-          "type": "self",
-          "is_flair_required": false
+          "id": "your-community-id",
+          "subreddit": "your-community-name",
+          "title": "Built a CLI tool for social media scheduling with TypeScript"
         }
       }]
     }

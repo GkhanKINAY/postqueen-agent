@@ -1,6 +1,6 @@
 # Integration Tools Workflow
 
-Some integrations need data that only the network knows (a subreddit's flairs, a Pinterest board, a Discord channel) before you can post. The CLI supports a complete workflow to discover and use these tools.
+Some integrations need data that only the network knows (a Lemmy community, a Pinterest board, a Discord channel) before you can post. The CLI supports a complete workflow to discover and use these tools.
 
 Most commands print one status line before their JSON, so the examples below drop it with `tail -n +2` before `jq`.
 
@@ -12,7 +12,7 @@ Most commands print one status line before their JSON, so the examples below dro
 postqueen integrations:list
 ```
 
-Get your integration IDs. Each entry also has an `identifier`, such as `reddit` or `pinterest`.
+Get your integration IDs. Each entry also has an `identifier`, such as `lemmy` or `pinterest`.
 
 ### Step 2: Get Integration Settings
 
@@ -40,12 +40,12 @@ The result comes back as `{"output": ...}`.
 
 Use the data from Step 3 in your post settings.
 
-## Real-World Example: Reddit
+## Real-World Example: Lemmy Communities
 
-### 1. Get Reddit Integration Settings
+### 1. Get Lemmy Integration Settings
 
 ```bash
-postqueen integrations:settings reddit-abc123
+postqueen integrations:settings lemmy-abc123
 ```
 
 **The `tools` part of the output:**
@@ -55,23 +55,12 @@ postqueen integrations:settings reddit-abc123
     "tools": [
       {
         "methodName": "subreddits",
-        "description": "Get list of subreddits with information",
+        "description": "Search for Lemmy communities by keyword",
         "dataSchema": [
           {
             "key": "word",
             "type": "string",
-            "description": "Search subreddit by string"
-          }
-        ]
-      },
-      {
-        "methodName": "restrictions",
-        "description": "Get list of flairs and restrictions for a subreddit",
-        "dataSchema": [
-          {
-            "key": "subreddit",
-            "type": "string",
-            "description": "Search flairs and restrictions by subreddit key should be \"/r/[name]\""
+            "description": "Keyword to search for"
           }
         ]
       }
@@ -80,37 +69,26 @@ postqueen integrations:settings reddit-abc123
 }
 ```
 
-### 2. Find the Subreddit
+The tool is called `subreddits` and the setting it fills is called `subreddit`. Both hold Lemmy communities.
+
+### 2. Find the Community
 
 ```bash
-postqueen integrations:trigger reddit-abc123 subreddits -d '{"word":"programming"}'
-```
-
-Each result has a `title`, an `id` and a `name`. The `name` is the subreddit's `/r/...` path, which is what the `subreddit` setting takes.
-
-### 3. Get Its Post Types and Flairs
-
-```bash
-postqueen integrations:trigger reddit-abc123 restrictions -d '{"subreddit":"/r/programming"}'
+postqueen integrations:trigger lemmy-abc123 subreddits -d '{"word":"selfhosted"}'
 ```
 
 **Output shape:**
 ```json
 {
-  "output": {
-    "subreddit": "/r/programming",
-    "allow": ["self", "link"],
-    "is_flair_required": true,
-    "flairs": [
-      { "id": "<flair id>", "name": "<flair name>" }
-    ]
-  }
+  "output": [
+    { "title": "<community name>", "name": "<community name>", "id": 12345 }
+  ]
 }
 ```
 
-`allow` lists the post types the subreddit accepts, out of `self`, `link` and `media`.
+The `name` goes into the setting's `subreddit` field, and the `id` into its `id` field. The tool returns the `id` as a number, and the setting takes it as a string.
 
-### 4. Create Post with the Flair
+### 3. Create the Post
 
 ```bash
 postqueen posts:create \
@@ -119,21 +97,16 @@ postqueen posts:create \
   --settings '{
     "subreddit": [{
       "value": {
-        "subreddit": "/r/programming",
-        "title": "My Cool Project",
-        "type": "self",
-        "is_flair_required": true,
-        "flair": {
-          "id": "<flair id>",
-          "name": "<flair name>"
-        }
+        "id": "12345",
+        "subreddit": "<community name>",
+        "title": "My Cool Project"
       }
     }]
   }' \
-  -i "reddit-abc123"
+  -i "lemmy-abc123"
 ```
 
-`type` must be `self` (a text post), `link` (also needs `url`) or `media` (posts the first attached image or MP4 video). `flair` is only needed when `is_flair_required` is true.
+`title` is required and takes 3 to 200 characters. `url` is optional and adds a link to the post. `subreddit` is a list, so add one item per community to post to several at once, each with its own `title`.
 
 ## Example: Pinterest Boards
 
@@ -191,17 +164,19 @@ postqueen posts:create \
 
 ```json
 {
-  "methodName": "restrictions",
-  "description": "Get list of flairs and restrictions for a subreddit",
+  "methodName": "experiences",
+  "description": "Experiences",
   "dataSchema": [
     {
-      "key": "subreddit",
+      "key": "id",
       "type": "string",
-      "description": "Search flairs and restrictions by subreddit key should be \"/r/[name]\""
+      "description": "Whop company id, from the companies tool"
     }
   ]
 }
 ```
+
+This is Whop's `experiences` tool, which lists a company's forums. Its input is an ID that another tool, `companies`, returns, so run that one first.
 
 - **methodName** - Use this in `integrations:trigger`
 - **description** - What the tool does
@@ -223,12 +198,10 @@ These are all the tools the PostQueen API has, by network (`identifier` from `in
 
 | Network | Tools (`methodName`) | Input (`-d`) | Setting it helps fill |
 |---|---|---|---|
-| Reddit (`reddit`) | `subreddits` | `{"word":"programming"}` | `subreddit[].value.subreddit` |
-| Reddit (`reddit`) | `restrictions` | `{"subreddit":"/r/programming"}` | `type`, `is_flair_required`, `flair` |
 | Pinterest (`pinterest`) | `boards` | none | `board` |
 | Discord (`discord`) | `channels` | none | `channel` |
 | Slack (`slack`) | `channels` | none | `channel` |
-| Lemmy (`lemmy`) | `subreddits` (communities) | `{"word":"..."}` | `subreddit[].value` |
+| Lemmy (`lemmy`) | `subreddits` (communities) | `{"word":"..."}` | `subreddit[].value` (`id` and `subreddit`) |
 | Farcaster (`wrapcast`) | `subreddits` (channels) | `{"word":"..."}` | `subreddit[].value.id` |
 | DEV (`devto`) | `tags`, `organizations` | none | `tags`, `organization` |
 | Hashnode (`hashnode`) | `tagsList`, `publications` | none | `tags`, `publication` |
@@ -272,14 +245,14 @@ postqueen posts:create \
 ### Tool Not Found
 
 ```bash
-postqueen integrations:trigger reddit-123 invalidMethod
+postqueen integrations:trigger pinterest-123 invalidMethod
 # ❌ Failed to trigger tool: Request failed: API Error (404): {"msg":"Tool not found"}
 ```
 
 ### Integration Not Found
 
 ```bash
-postqueen integrations:trigger invalid-id subreddits -d '{"word":"programming"}'
+postqueen integrations:trigger invalid-id boards
 # ❌ Failed to trigger tool: Request failed: API Error (404): {"msg":"Integration not found"}
 ```
 
@@ -296,33 +269,28 @@ postqueen integrations:trigger invalid-id subreddits -d '{"word":"programming"}'
 ```bash
 #!/bin/bash
 export POSTQUEEN_API_KEY=your_key
-INTEGRATION_ID="reddit-abc123"
-SUBREDDIT="/r/programming"
+INTEGRATION_ID="lemmy-abc123"
 
 # 1. Get settings
 echo "📋 Getting settings..."
 postqueen integrations:settings "$INTEGRATION_ID" | tail -n +2 | jq '.output.tools'
 
-# 2. Get the subreddit's post types and flairs
+# 2. Find a community
 echo ""
-echo "🏷️  Getting flairs..."
-RULES=$(postqueen integrations:trigger "$INTEGRATION_ID" restrictions -d "{\"subreddit\":\"$SUBREDDIT\"}" | tail -n +2)
-FLAIR_REQUIRED=$(echo "$RULES" | jq '.output.is_flair_required')
-FLAIR_ID=$(echo "$RULES" | jq -r '.output.flairs[0].id')
-FLAIR_NAME=$(echo "$RULES" | jq -r '.output.flairs[0].name')
+echo "🔎 Searching communities..."
+COMMUNITY=$(postqueen integrations:trigger "$INTEGRATION_ID" subreddits -d '{"word":"selfhosted"}' | tail -n +2 | jq -c '.output[0]')
+COMMUNITY_ID=$(echo "$COMMUNITY" | jq -r '.id')
+COMMUNITY_NAME=$(echo "$COMMUNITY" | jq -r '.name')
 
-echo "Allowed types: $(echo "$RULES" | jq -c '.output.allow')"
-echo "Selected flair: $FLAIR_NAME ($FLAIR_ID)"
+echo "Selected community: $COMMUNITY_NAME ($COMMUNITY_ID)"
 
-# 3. Create post
+# 3. Create post (--arg passes the ID as the string the setting needs)
 echo ""
 echo "📝 Creating post..."
 SETTINGS=$(jq -cn \
-  --arg subreddit "$SUBREDDIT" \
-  --argjson required "$FLAIR_REQUIRED" \
-  --arg id "$FLAIR_ID" \
-  --arg name "$FLAIR_NAME" \
-  '{subreddit: [{value: {subreddit: $subreddit, title: "My Post Title", type: "self", is_flair_required: $required, flair: {id: $id, name: $name}}}]}')
+  --arg id "$COMMUNITY_ID" \
+  --arg name "$COMMUNITY_NAME" \
+  '{subreddit: [{value: {id: $id, subreddit: $name, title: "My Post Title"}}]}')
 
 postqueen posts:create \
   -c "My post content" \
