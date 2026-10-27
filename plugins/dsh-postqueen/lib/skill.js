@@ -9,7 +9,7 @@
 export const SKILL_NAME = 'postqueen'
 
 export const SKILL_DESCRIPTION =
-  'Schedule, draft, or publish social media posts through PostQueen (X, LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Reddit, Bluesky, Mastodon, Discord, Slack, Telegram and more). Use when the user wants to post to social media, list connected channels, or plan a content calendar.'
+  'Schedule, draft, or publish social media posts through PostQueen (X, LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Bluesky, Mastodon, Discord, Slack, Telegram and more). Use when the user wants to post to social media, list connected channels, or plan a content calendar.'
 
 export const SKILL_CONTENT = `# PostQueen
 
@@ -21,7 +21,7 @@ the user's PostQueen account. Always follow this order:
 Call \`mcp__postqueen__integrationList\` to get connected accounts. Each entry
 has an \`id\` (the integration ID), a \`name\`, and a \`platform\` such as \`x\`,
 \`linkedin\`, \`instagram\`, \`facebook\`, \`threads\`, \`tiktok\`, \`youtube\`,
-\`reddit\`, \`bluesky\`, \`mastodon\`, \`discord\`, \`slack\`, \`telegram\`.
+\`pinterest\`, \`bluesky\`, \`mastodon\`, \`discord\`, \`slack\`, \`telegram\`.
 If the account has customer groups, \`mcp__postqueen__groupList\` lists them and
 \`integrationList\` accepts a \`group\` filter.
 
@@ -33,7 +33,7 @@ list, say so and stop.
 Call \`mcp__postqueen__integrationSchema\` with \`{ platform, isPremium }\` before
 composing. It returns \`maxLength\`, \`rules\`, a \`settings\` JSON schema of
 required per-platform settings, and helper \`tools\` (for example: list Discord
-channels, search subreddits, list Pinterest boards). Run helpers with
+channels, search Lemmy communities, list Pinterest boards). Run helpers with
 \`mcp__postqueen__triggerTool\` when a setting needs an ID you do not have.
 
 ## 3. Compose the content

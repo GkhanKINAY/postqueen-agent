@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "postqueen",
-      "description": "PostQueen social media automation. Schedule posts, manage integrations, upload media, and track analytics across 30+ platforms including X, LinkedIn, Reddit, YouTube, TikTok, and Instagram.",
+      "description": "PostQueen social media automation. Schedule posts, manage integrations, upload media, and track analytics across 30+ platforms including X, LinkedIn, YouTube, TikTok, and Instagram.",
       "category": "productivity",
       "source": {
         "type": "local",

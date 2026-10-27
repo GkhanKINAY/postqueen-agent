@@ -52,7 +52,7 @@ Posts you create with the CLI land on the same calendar you see in the PostQueen
 - Creates, lists, deletes and reschedules posts on the channels connected to your PostQueen workspace.
 - Uploads images and videos and returns the path to use in a post.
 - Reads channel analytics and post analytics.
-- Shows each channel's settings schema and runs its helper tools, such as Reddit subreddit search or Pinterest boards.
+- Shows each channel's settings schema and runs its helper tools, such as Lemmy community search or Pinterest boards.
 - Ships a skill and plugins, so coding agents such as Claude Code, Cursor and Grok Build can run it for you.
 
 ## Quick start

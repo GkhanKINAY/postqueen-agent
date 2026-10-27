@@ -6,8 +6,8 @@
 [PostQueen](https://postqueen.ai), the open-source social media scheduler. It connects the
 agent to the PostQueen MCP server so it can list your connected channels, fetch each
 platform's posting rules, and schedule, draft, or publish posts across 30+ platforms (X,
-LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Reddit, Pinterest, Bluesky,
-Mastodon, Discord, Slack, Telegram, and more).
+LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Pinterest, Bluesky, Mastodon,
+Discord, Slack, Telegram, and more).
 
 ## Install
 
@@ -44,7 +44,7 @@ The model sees the PostQueen MCP tools under the `mcp__postqueen__` namespace, a
 | `mcp__postqueen__integrationList` | List connected channels (optionally filtered by group) |
 | `mcp__postqueen__groupList` | List customer groups |
 | `mcp__postqueen__integrationSchema` | Posting rules, character limits, and required settings for a platform |
-| `mcp__postqueen__triggerTool` | Platform helpers (list Discord channels, search subreddits, list Pinterest boards) |
+| `mcp__postqueen__triggerTool` | Platform helpers (list Discord channels, search Lemmy communities, list Pinterest boards) |
 | `mcp__postqueen__integrationSchedulePostTool` | Schedule, draft, or immediately publish posts |
 | `mcp__postqueen__postsListTool` | List posts scheduled between two dates |
 | `mcp__postqueen__postSettingsTool` | Update settings of an unpublished post |
