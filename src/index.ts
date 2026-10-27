@@ -105,8 +105,8 @@ yargs(hideBin(process.argv))
           'Complex post from JSON file'
         )
         .example(
-          '$0 posts:create -c "Post to subreddit" -s "2024-12-31T12:00:00Z" --settings \'{"subreddit":[{"value":{"subreddit":"/r/programming","title":"My Title","type":"self","is_flair_required":false}}]}\' -i "reddit-123"',
-          'Reddit text post (type is self, link or media)'
+          '$0 posts:create -c "Pin description" -m "$IMAGE" -s "2024-12-31T12:00:00Z" --settings \'{"board":"<board id>","title":"My Pin"}\' -i "pinterest-123"',
+          'Pinterest Pin (image uploaded first) on a board from the boards tool'
         )
         .example(
           '$0 posts:create -c "Video description" -m "$VIDEO" -s "2024-12-31T12:00:00Z" --settings \'{"title":"My Video","type":"public","tags":[{"value":"tech","label":"Tech"}]}\' -i "youtube-123"',
@@ -223,8 +223,8 @@ yargs(hideBin(process.argv))
           'Switch a TikTok draft to direct publishing'
         )
         .example(
-          '$0 posts:settings post-123 --settings \'{"subreddit":[{"value":{"subreddit":"/r/selfhosted","title":"My title","type":"self","is_flair_required":true}}]}\'',
-          'Set a Reddit post\'s subreddit'
+          '$0 posts:settings post-123 --settings \'{"type":"unlisted"}\'',
+          'Make a YouTube draft unlisted'
         );
     },
     updatePostSettings as any
@@ -283,8 +283,8 @@ yargs(hideBin(process.argv))
           type: 'string',
         })
         .example(
-          '$0 integrations:settings reddit-123',
-          'Get settings schema for Reddit integration'
+          '$0 integrations:settings pinterest-123',
+          'Get settings schema for Pinterest integration'
         )
         .example(
           '$0 integrations:settings youtube-456',
@@ -312,12 +312,12 @@ yargs(hideBin(process.argv))
           type: 'string',
         })
         .example(
-          '$0 integrations:trigger reddit-123 subreddits -d \'{"word":"programming"}\'',
-          'Search for subreddits'
+          '$0 integrations:trigger lemmy-123 subreddits -d \'{"word":"selfhosted"}\'',
+          'Search Lemmy communities'
         )
         .example(
-          '$0 integrations:trigger reddit-123 restrictions -d \'{"subreddit":"/r/programming"}\'',
-          'Get a subreddit\'s allowed post types and flairs'
+          '$0 integrations:trigger whop-123 experiences -d \'{"id":"<company id>"}\'',
+          'List a Whop company\'s forums (the ID comes from the companies tool)'
         )
         .example(
           '$0 integrations:trigger pinterest-123 boards',
