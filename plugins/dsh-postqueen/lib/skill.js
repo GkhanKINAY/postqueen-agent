@@ -30,8 +30,9 @@ list, say so. To add it, \`mcp__postqueen__integrationConnectTool\` with
 \`{ platform }\` returns a link to a PostQueen page where the user signs in to the
 network and connects the channel. Give the user the link, wait until they say it
 is done, then call \`integrationList\` again. The link works for one hour and
-one channel. It cannot reconnect an existing channel, and networks that need an
-API key or an instance URL are added in the PostQueen app instead.
+one channel. It cannot reconnect an existing channel, and networks that connect
+with a handle, key, password, server address, bot code, wallet or the browser
+extension are added in the PostQueen app instead.
 
 ## 2. Learn the platform rules
 
