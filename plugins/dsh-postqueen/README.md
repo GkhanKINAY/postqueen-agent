@@ -43,13 +43,16 @@ The model sees the PostQueen MCP tools under the `mcp__postqueen__` namespace, a
 |---|---|
 | `mcp__postqueen__integrationList` | List connected channels (optionally filtered by group) |
 | `mcp__postqueen__groupList` | List customer groups |
+| `mcp__postqueen__integrationConnectTool` | A link where the user connects a new channel (one channel, one hour) |
 | `mcp__postqueen__integrationSchema` | Posting rules, character limits, and required settings for a platform |
 | `mcp__postqueen__triggerTool` | Platform helpers (list Discord channels, search Lemmy communities, list Pinterest boards) |
 | `mcp__postqueen__integrationSchedulePostTool` | Schedule, draft, or immediately publish posts |
 | `mcp__postqueen__postsListTool` | List posts scheduled between two dates |
 | `mcp__postqueen__postSettingsTool` | Update settings of an unpublished post |
+| `mcp__postqueen__postAttachmentsTool` | Replace the media of an unpublished post |
 | `mcp__postqueen__deletePostTool` | Delete a post. The agent is told to show the user which one and ask first. A published post stays on the network |
 | `mcp__postqueen__mediaStatusTool` | Whether a video uploaded from a link is ready to attach |
+| `mcp__postqueen__integrationAnalyticsTool` | A channel's own numbers per day, such as followers and impressions |
 | `mcp__postqueen__generateImageTool` | Generate an image for a post |
 | `mcp__postqueen__generateVideoOptions` / `videoFunctionTool` / `generateVideoTool` / `videoStatusTool` | Video generation options, generation, and the status of a video that is still rendering |
 

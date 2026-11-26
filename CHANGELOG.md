@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.33] - 2026-11-26
+
+### Changed
+
+- The skill counts PostQueen's MCP tools as 27 with OAuth sign-in and 28 with the API key. PostQueen v3.6.176 added `integrationConnectTool`, which returns a link where the user connects a new channel, `postAttachmentsTool`, which replaces the media of a post that has not gone out, and `integrationAnalyticsTool`, which reads one channel's numbers per day.
+- The DeepSeek Harness plugin's skill tells the agent to offer a connect link when the user names a network that is not connected, to replace a post's media with `postAttachmentsTool`, and to read a channel's numbers with `integrationAnalyticsTool`. Its README lists the three new tools.
+
 ## [2.0.32] - 2026-10-27
 
 ### Removed

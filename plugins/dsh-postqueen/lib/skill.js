@@ -26,7 +26,12 @@ If the account has customer groups, \`mcp__postqueen__groupList\` lists them and
 \`integrationList\` accepts a \`group\` filter.
 
 Never guess an integration ID. If the user names a platform that is not in the
-list, say so and stop.
+list, say so. To add it, \`mcp__postqueen__integrationConnectTool\` with
+\`{ platform }\` returns a link to a PostQueen page where the user signs in to the
+network and connects the channel. Give the user the link, wait until they say it
+is done, then call \`integrationList\` again. The link works for one hour and
+one channel. It cannot reconnect an existing channel, and networks that need an
+API key or an instance URL are added in the PostQueen app instead.
 
 ## 2. Learn the platform rules
 
@@ -84,9 +89,18 @@ Each item:
 
 \`mcp__postqueen__postsListTool\` lists posts between two dates.
 \`mcp__postqueen__postSettingsTool\` updates the settings of a post that has not
-been published yet. \`mcp__postqueen__deletePostTool\` deletes a post by its id:
+been published yet. \`mcp__postqueen__postAttachmentsTool\` replaces the media of
+such a post: pass the full list it should have, because anything left out is
+removed. \`mcp__postqueen__deletePostTool\` deletes a post by its id:
 show the user the channel, date and text first and wait for an explicit yes. A
 post that was already published stays live on the network.
+
+## 6. Read the results
+
+\`mcp__postqueen__analyticsSummaryTool\`, \`analyticsPostsTool\` and
+\`analyticsPostTool\` read the numbers of published posts.
+\`mcp__postqueen__integrationAnalyticsTool\` reads one channel's own numbers per
+day, such as followers and impressions, for up to 90 days.
 
 ## Setup
 
